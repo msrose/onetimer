@@ -1,9 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import Timer from './Timer';
 
-const Timer = () => <div>Timer</div>;
-const Solves = () => <div>Solves</div>;
-const Graphs = () => <div>Graphs</div>;
+import AppBarMargin from './AppBarMargin';
+
+const Solves = () => <AppBarMargin>Solves</AppBarMargin>;
+const Graphs = () => <AppBarMargin>Graphs</AppBarMargin>;
 
 const AppContent = () => (
   <div className="AppContent">

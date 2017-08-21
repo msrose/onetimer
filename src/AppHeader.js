@@ -7,8 +7,8 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 
 const AppHeader = ({ onMenuClick }) => (
-  <div className="App-header">
-    <AppBar position="static" color="default">
+  <div className="AppHeader">
+    <AppBar position="fixed" color="default">
       <Toolbar>
         <IconButton onClick={onMenuClick}><MenuIcon /></IconButton>
         <Typography type="title">One Timer</Typography>
