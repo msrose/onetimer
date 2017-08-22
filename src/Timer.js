@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 import SwapIcon from 'material-ui-icons/SwapVert';
 import PuzzleMenu from './PuzzleMenu';
 import { enterTimer, leaveTimer } from './actions';
+import { getLastSolveDuration } from './reducers';
 
-const Timer = ({ puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing, isReady, isTiming }) => (
+const Timer = ({ puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing, isReady, isTiming, lastSolveDuration, displayCounter }) => (
   <div
     className="Timer"
     onTouchStart={onTimerStart}
@@ -14,14 +15,13 @@ const Timer = ({ puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing, 
     onTouchEnd={onTimerEnd}
     onMouseUp={onTimerEnd}
   >
-    <div className="Timer-display">
-      00:00.000
+    <div className={'Timer-display' + (isPreparing ? ' Timer-display-preparing' : '')}>
+      {!isReady && !isTiming && lastSolveDuration}
+      {isReady && 'Ready'}
+      {isTiming && (displayCounter === 0 ? 'Go!' : displayCounter)}
     </div>
     <div className="Timer-puzzle">
       {puzzle}
-    </div>
-    <div>
-      {isPreparing ? 'Preparing' : isReady ? 'Ready' : isTiming ? 'Timing' : 'Waiting'}
     </div>
     <div className="Timer-swap">
       <Button fab={true} onClick={onSwitchPuzzle}><SwapIcon /></Button>
@@ -35,7 +35,9 @@ const mapStateToProps = state => {
     puzzle: state.timer.puzzle,
     isPreparing: !!state.timer.preparationTimeoutId,
     isReady: state.timer.isReady,
-    isTiming: !!state.timer.startTime
+    isTiming: !!state.timer.startTime,
+    lastSolveDuration: getLastSolveDuration(state),
+    displayCounter: state.timer.displayCounter
   };
 };
 

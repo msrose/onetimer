@@ -20,7 +20,9 @@ const initialTimerState = {
   puzzle: '3x3x3',
   preparationTimeoutId: null,
   isReady: false,
-  startTime: null
+  startTime: null,
+  displayCounter: 0,
+  displayCounterIntervalId: null
 };
 
 function timer(state = initialTimerState, action) {
@@ -32,7 +34,9 @@ function timer(state = initialTimerState, action) {
     case 'SET_TIMER_READY':
       return { ...state, isReady: action.ready };
     case 'SET_TIMER_TIMING':
-      return { ...state, startTime: action.time };
+      return { ...state, startTime: action.time, displayCounterIntervalId: action.intervalId, displayCounter: 0 };
+    case 'INCREMENT_DISPLAY_COUNTER':
+      return { ...state, displayCounter: state.displayCounter + 1000 };
     default:
       return state;
   }
@@ -46,6 +50,16 @@ const initialEntityState = {
 export const getSolves = state => {
   const { solves, solvesByRecordedAt } = state.entities;
   return solvesByRecordedAt.map(recordedAt => solves[recordedAt]);
+};
+
+export const getLastSolve = state => {
+  const { solves, solvesByRecordedAt } = state.entities;
+  return solves[solvesByRecordedAt[0]] || null;
+};
+
+export const getLastSolveDuration = state => {
+  const lastSolve = getLastSolve(state);
+  return lastSolve ? lastSolve.duration : 0;
 };
 
 function entities(state = initialEntityState, action) {

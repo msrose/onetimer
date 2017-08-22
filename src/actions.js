@@ -1,6 +1,6 @@
 export const enterTimer = () => {
   return (dispatch, getState) => {
-    const { startTime, puzzle } = getState().timer;
+    const { startTime, puzzle, displayCounterIntervalId } = getState().timer;
     if(!startTime) {
       const readyTimeout = setTimeout(() => {
         dispatch({ type: 'SET_TIMER_PREPARING', id: null });
@@ -9,7 +9,8 @@ export const enterTimer = () => {
       dispatch({ type: 'SET_TIMER_PREPARING', id: readyTimeout });
     } else {
       const endTime = Date.now();
-      dispatch({ type: 'SET_TIMER_TIMING', time: null });
+      clearInterval(displayCounterIntervalId);
+      dispatch({ type: 'SET_TIMER_TIMING', time: null, displayCounterIntervalId: null });
       dispatch({
         type: 'ADD_SOLVE',
         recordedAt: endTime,
@@ -25,7 +26,10 @@ export const leaveTimer = () => {
     const { isReady, preparationTimeoutId } = getState().timer;
     if(isReady) {
       dispatch({ type: 'SET_TIMER_READY', ready: false });
-      dispatch({ type: 'SET_TIMER_TIMING', time: Date.now() });
+      const intervalId = setInterval(() => {
+        dispatch({ type: 'INCREMENT_DISPLAY_COUNTER' });
+      }, 1000);
+      dispatch({ type: 'SET_TIMER_TIMING', time: Date.now(), intervalId });
     }
     if(preparationTimeoutId) {
       clearTimeout(preparationTimeoutId);

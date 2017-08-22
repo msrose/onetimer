@@ -11,6 +11,10 @@
   font-size: 3em;
 }
 
+.Timer-display-preparing {
+  color: green;
+}
+
 .Timer-swap {
   position: fixed;
   bottom: 35px;
