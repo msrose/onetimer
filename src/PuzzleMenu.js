@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { MenuItem, MenuList } from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
+import './PuzzleMenu.css';
 
 class PuzzleMenuItem extends Component {
   handleClick = () => {
@@ -15,12 +16,14 @@ class PuzzleMenuItem extends Component {
 }
 
 const puzzles = [
-  '2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7'
+  '2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7',
+  '3x3x3 OH', '3x3x3 BLD', 'Skewb', 'Clock', '3x3x3 Multi BLD',
+  'Pyraminx', 'Megaminx'
 ];
 
 const PuzzleMenu = ({ open, onRequestClose, puzzle, onChange }) => (
   <Drawer open={open} anchor="bottom" onRequestClose={onRequestClose}>
-    <MenuList>
+    <MenuList className="PuzzleMenu-menu-list">
       {puzzles.map(name => (
         <PuzzleMenuItem onClick={onChange} name={name} selected={name === puzzle} key={name} />
       ))}
