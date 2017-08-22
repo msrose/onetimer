@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import Timer from './Timer';
+import Solves from './Solves';
 
 import AppBarMargin from './AppBarMargin';
 
-const Solves = () => <AppBarMargin>Solves</AppBarMargin>;
 const Graphs = () => <AppBarMargin>Graphs</AppBarMargin>;
 
 const AppContent = () => (
