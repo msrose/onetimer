@@ -3,6 +3,7 @@ import { MenuItem, MenuList } from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import './PuzzleMenu.css';
+import { getPuzzleNames } from './reducers';
 
 class PuzzleMenuItem extends Component {
   handleClick = () => {
@@ -15,17 +16,11 @@ class PuzzleMenuItem extends Component {
   }
 }
 
-const puzzles = [
-  '2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7',
-  '3x3x3 OH', '3x3x3 BLD', 'Skewb', 'Clock', '3x3x3 Multi BLD',
-  'Pyraminx', 'Megaminx'
-];
-
-const PuzzleMenu = ({ open, onRequestClose, puzzle, onChange }) => (
+const PuzzleMenu = ({ open, onRequestClose, activePuzzle, onChange, puzzles }) => (
   <Drawer open={open} anchor="bottom" onRequestClose={onRequestClose}>
     <MenuList className="PuzzleMenu-menu-list">
       {puzzles.map(name => (
-        <PuzzleMenuItem onClick={onChange} name={name} selected={name === puzzle} key={name} />
+        <PuzzleMenuItem onClick={onChange} name={name} selected={name === activePuzzle} key={name} />
       ))}
     </MenuList>
   </Drawer>
@@ -34,7 +29,8 @@ const PuzzleMenu = ({ open, onRequestClose, puzzle, onChange }) => (
 const mapStateToProps = state => {
   return {
     open: state.ui.isSwitchPuzzleOpen,
-    puzzle: state.entities.activePuzzle
+    activePuzzle: state.entities.activePuzzle,
+    puzzles: getPuzzleNames(state)
   };
 };
 

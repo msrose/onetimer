@@ -2,9 +2,12 @@ import React from 'react';
 import './Timer.css';
 import { connect } from 'react-redux';
 import { enterTimer, leaveTimer } from './actions';
-import { getLastSolveDuration } from './reducers';
+import { getLastActivePuzzleSolveDuration } from './reducers';
 
-const Timer = ({ puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing, isReady, isTiming, lastSolveDuration, displayCounter }) => (
+const Timer = ({
+  puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing,
+  isReady, isTiming, lastSolveDuration, displayCounter
+}) => (
   <div
     className="Timer"
     onTouchStart={onTimerStart}
@@ -25,7 +28,7 @@ const mapStateToProps = state => {
     isPreparing: !!state.timer.preparationTimeoutId,
     isReady: state.timer.isReady,
     isTiming: !!state.timer.startTime,
-    lastSolveDuration: getLastSolveDuration(state),
+    lastSolveDuration: getLastActivePuzzleSolveDuration(state),
     displayCounter: state.timer.displayCounter
   };
 };

@@ -13,7 +13,12 @@ function timer(state = initialTimerState, action) {
     case 'SET_TIMER_READY':
       return { ...state, isReady: action.ready };
     case 'SET_TIMER_TIMING':
-      return { ...state, startTime: action.time, displayCounterIntervalId: action.intervalId, displayCounter: 0 };
+      return {
+        ...state,
+        startTime: action.time,
+        displayCounterIntervalId: action.intervalId,
+        displayCounter: 0
+      };
     case 'INCREMENT_DISPLAY_COUNTER':
       return { ...state, displayCounter: state.displayCounter + 1000 };
     default:
