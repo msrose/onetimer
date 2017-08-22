@@ -3,7 +3,6 @@ import Button from 'material-ui/Button';
 import './Timer.css';
 import { connect } from 'react-redux';
 import SwapIcon from 'material-ui-icons/SwapVert';
-import PuzzleMenu from './PuzzleMenu';
 import { enterTimer, leaveTimer } from './actions';
 import { getLastSolveDuration } from './reducers';
 
@@ -23,10 +22,11 @@ const Timer = ({ puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing, 
     <div className="Timer-puzzle">
       {puzzle}
     </div>
-    <div className="Timer-swap">
-      <Button fab={true} onClick={onSwitchPuzzle}><SwapIcon /></Button>
-    </div>
-    <PuzzleMenu />
+    {!isTiming && !isReady &&
+      <div className="Timer-swap">
+        <Button fab={true} onClick={onSwitchPuzzle}><SwapIcon /></Button>
+      </div>
+    }
   </div>
 );
 
