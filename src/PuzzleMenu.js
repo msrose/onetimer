@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import { MenuItem, MenuList } from 'material-ui/Menu';
+import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 
 class PuzzleMenuItem extends Component {
@@ -18,11 +19,13 @@ const puzzles = [
 ];
 
 const PuzzleMenu = ({ open, onRequestClose, puzzle, onChange }) => (
-  <Menu open={open} onRequestClose={onRequestClose}>
-    {puzzles.map(name => (
-      <PuzzleMenuItem onClick={onChange} name={name} selected={name === puzzle} key={name} />
-    ))}
-  </Menu>
+  <Drawer open={open} anchor="bottom" onRequestClose={onRequestClose}>
+    <MenuList>
+      {puzzles.map(name => (
+        <PuzzleMenuItem onClick={onChange} name={name} selected={name === puzzle} key={name} />
+      ))}
+    </MenuList>
+  </Drawer>
 );
 
 const mapStateToProps = state => {
