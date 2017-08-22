@@ -34,7 +34,7 @@ const PuzzleMenu = ({ open, onRequestClose, puzzle, onChange }) => (
 const mapStateToProps = state => {
   return {
     open: state.ui.isSwitchPuzzleOpen,
-    puzzle: state.timer.puzzle
+    puzzle: state.entities.activePuzzle
   };
 };
 
