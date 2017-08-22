@@ -17,7 +17,6 @@ function ui(state = initialUIState, action) {
 }
 
 const initialTimerState = {
-  puzzle: '3x3x3',
   preparationTimeoutId: null,
   isReady: false,
   startTime: null,
@@ -27,8 +26,6 @@ const initialTimerState = {
 
 function timer(state = initialTimerState, action) {
   switch(action.type) {
-    case 'SET_PUZZLE':
-      return { ...state, puzzle: action.puzzle };
     case 'SET_TIMER_PREPARING':
       return { ...state, preparationTimeoutId: action.id };
     case 'SET_TIMER_READY':
@@ -44,12 +41,13 @@ function timer(state = initialTimerState, action) {
 
 const initialEntityState = {
   solves: {},
-  solvesByRecordedAt: []
+  solvesByRecordedAt: [],
+  activePuzzle: '3x3x3'
 };
 
-export const getSolves = state => {
-  const { solves, solvesByRecordedAt } = state.entities;
-  return solvesByRecordedAt.map(recordedAt => solves[recordedAt]);
+export const getActivePuzzleSolves = state => {
+  const { solves, solvesByRecordedAt, activePuzzle } = state.entities;
+  return solvesByRecordedAt.map(recordedAt => solves[recordedAt]).filter(solve => solve.puzzle === activePuzzle);
 };
 
 export const getLastSolve = state => {
@@ -77,6 +75,8 @@ function entities(state = initialEntityState, action) {
         },
         solvesByRecordedAt: [action.recordedAt].concat(state.solvesByRecordedAt)
       }
+    case 'SET_ACTIVE_PUZZLE':
+      return { ...state, activePuzzle: action.puzzle };
     default:
       return state;
   }

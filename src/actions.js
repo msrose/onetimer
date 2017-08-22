@@ -1,6 +1,6 @@
 export const enterTimer = () => {
   return (dispatch, getState) => {
-    const { startTime, puzzle, displayCounterIntervalId } = getState().timer;
+    const { timer: { startTime, displayCounterIntervalId }, entities: { activePuzzle: puzzle } } = getState();
     if(!startTime) {
       const readyTimeout = setTimeout(() => {
         dispatch({ type: 'SET_TIMER_PREPARING', id: null });

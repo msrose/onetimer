@@ -1,20 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppBarMargin from './AppBarMargin';
-import { getSolves } from './reducers';
+import { getActivePuzzleSolves } from './reducers';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 
 const Solves = ({ solves }) => (
   <AppBarMargin>
-    <ul>
+    <List>
       {solves.map(({ duration, recordedAt, puzzle }) => (
-        <li key={recordedAt}>{puzzle}: {duration} ({recordedAt})</li>
+        <ListItem key={recordedAt} divider={true} dense={true}>
+          <ListItemText primary={duration} secondary={recordedAt} />
+        </ListItem>
       ))}
-    </ul>
+    </List>
   </AppBarMargin>
 );
 
 const mapStateToProps = state => ({
-  solves: getSolves(state)
-})
+  solves: getActivePuzzleSolves(state)
+});
 
 export default connect(mapStateToProps)(Solves);

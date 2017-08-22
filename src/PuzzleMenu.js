@@ -41,7 +41,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onRequestClose: () => dispatch({ type: 'TOGGLE_SWITCH_PUZZLE' }),
   onChange: puzzle => {
-    dispatch({ type: 'SET_PUZZLE', puzzle });
+    dispatch({ type: 'SET_ACTIVE_PUZZLE', puzzle });
     dispatch({ type: 'TOGGLE_SWITCH_PUZZLE' });
   }
 });
