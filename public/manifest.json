@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "One Timer",
+  "name": "One Timer: A mobile-first, fully-offline capable Rubik's cube timer for the web.",
   "icons": [
     {
       "src": "favicon.ico",
