@@ -13,9 +13,9 @@ export const formatTime = (value, { showSubSecond = true } = {}) => {
   value = Math.floor(value / 60);
   let min = String(value % 60);
   value = Math.floor(value / 60);
-  const hours = String(value % 60);
-  if(min > 0) sec = sec.padStart(2, '0');
+  const hours = String(value);
+  if(min > 0 || hours > 0) sec = sec.padStart(2, '0');
   if(hours > 0) min = min.padStart(2, '0');
   return (hours > 0 ? `${hours}:` : '') +
-    (min > 0 ? `${min}:` : '') + sec + (showSubSecond ? `.${ms}` : '');
+    (min > 0 || hours > 0 ? `${min}:` : '') + sec + (showSubSecond ? `.${ms}` : '');
 };
