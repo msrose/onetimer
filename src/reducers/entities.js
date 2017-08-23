@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { ADD_SOLVE } from '../actions';
 
 const puzzleNames = [
   '2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7',
@@ -38,7 +39,7 @@ const initialSolveState = {};
 
 function solves(state = initialSolveState, action) {
   switch(action.type) {
-    case 'ADD_SOLVE':
+    case ADD_SOLVE:
       return {
         ...state,
         [action.recordedAt]: {
@@ -62,7 +63,7 @@ const initialPuzzleState = puzzleNames.reduce((map, name) => {
 
 function puzzles(state = initialPuzzleState, action) {
   switch(action.type) {
-    case 'ADD_SOLVE':
+    case ADD_SOLVE:
       return {
         ...state,
         [action.puzzle]: {

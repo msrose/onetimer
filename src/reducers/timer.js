@@ -1,3 +1,7 @@
+import {
+  SET_TIMER_PREPARING, SET_TIMER_READY, SET_TIMER_TIMING, INCREMENT_DISPLAY_COUNTER
+} from '../actions';
+
 const initialTimerState = {
   preparationTimeoutId: null,
   isReady: false,
@@ -8,18 +12,18 @@ const initialTimerState = {
 
 function timer(state = initialTimerState, action) {
   switch(action.type) {
-    case 'SET_TIMER_PREPARING':
+    case SET_TIMER_PREPARING:
       return { ...state, preparationTimeoutId: action.id };
-    case 'SET_TIMER_READY':
+    case SET_TIMER_READY:
       return { ...state, isReady: action.ready };
-    case 'SET_TIMER_TIMING':
+    case SET_TIMER_TIMING:
       return {
         ...state,
         startTime: action.time,
         displayCounterIntervalId: action.intervalId,
         displayCounter: 0
       };
-    case 'INCREMENT_DISPLAY_COUNTER':
+    case INCREMENT_DISPLAY_COUNTER:
       return { ...state, displayCounter: state.displayCounter + 1000 };
     default:
       return state;
