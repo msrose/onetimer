@@ -13,8 +13,7 @@ const AppHeader = ({ onMenuClick, puzzle }) => (
     <AppBar position="fixed" color="default">
       <Toolbar>
         <IconButton onClick={onMenuClick}><MenuIcon /></IconButton>
-        <Typography type="title" className="AppHeader-title">One Timer</Typography>
-        <Typography type="subheading">{puzzle}</Typography>
+        <Typography type="headline" className="AppHeader-title">{puzzle}</Typography>
       </Toolbar>
     </AppBar>
   </div>

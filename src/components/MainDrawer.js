@@ -1,5 +1,5 @@
 import React from 'react';
-import List, { ListItemIcon, ListItemText } from 'material-ui/List';
+import List, { ListItemIcon, ListItemText, ListItem } from 'material-ui/List';
 import AlarmIcon from 'material-ui-icons/Alarm';
 import ViewListIcon from 'material-ui-icons/ViewList';
 import ShowChartIcon from 'material-ui-icons/ShowChart';
@@ -7,6 +7,7 @@ import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import ListItemLink from './ListItemLink';
 import { toggleDrawer } from '../actions';
+import Typography from 'material-ui/Typography';
 
 const MainDrawer = ({ dispatch, isDrawerOpen, onRequestClose }) => (
   <Drawer
@@ -14,6 +15,11 @@ const MainDrawer = ({ dispatch, isDrawerOpen, onRequestClose }) => (
     onRequestClose={onRequestClose}
   >
     <List>
+      <ListItem divider={true}>
+        <Typography type="headline">
+          <ListItemText primary="One Timer" disableTypography={true} />
+        </Typography>
+      </ListItem>
       <ListItemLink path="/timer" onNavigate={onRequestClose}>
         <ListItemIcon><AlarmIcon /></ListItemIcon>
         <ListItemText primary="Timer" />
