@@ -60,14 +60,16 @@ const initialPuzzleState = puzzleNames.reduce((map, name) => {
   return map;
 }, {});
 
-
 function puzzles(state = initialPuzzleState, action) {
   switch(action.type) {
     case ADD_SOLVE:
       return {
         ...state,
         [action.puzzle]: {
-          solvesByRecordedAt: [action.recordedAt].concat(state[action.puzzle].solvesByRecordedAt)
+          solvesByRecordedAt: [
+            action.recordedAt,
+            ...state[action.puzzle].solvesByRecordedAt
+          ]
         }
       };
     default:
