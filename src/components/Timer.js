@@ -1,8 +1,8 @@
 import React from 'react';
 import './Timer.css';
 import { connect } from 'react-redux';
-import { enterTimer, leaveTimer } from './actions';
-import { getLastActivePuzzleSolveDuration } from './reducers';
+import { enterTimer, leaveTimer } from '../actions';
+import { getLastActivePuzzleSolveDuration } from '../reducers';
 
 const Timer = ({
   puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing,

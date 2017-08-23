@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppBarMargin from './AppBarMargin';
-import { getActivePuzzleSolves } from './reducers';
+import { getActivePuzzleSolves } from '../reducers';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 
 const Solves = ({ solves }) => (

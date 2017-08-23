@@ -6,7 +6,7 @@ import ShowChartIcon from 'material-ui-icons/ShowChart';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import ListItemLink from './ListItemLink';
-import { toggleDrawer } from './actions';
+import { toggleDrawer } from '../actions';
 
 const MainDrawer = ({ dispatch, isDrawerOpen, onRequestClose }) => (
   <Drawer

@@ -6,7 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import './AppHeader.css';
-import { toggleDrawer } from './actions';
+import { toggleDrawer } from '../actions';
 
 const AppHeader = ({ onMenuClick, puzzle }) => (
   <div className="AppHeader">
