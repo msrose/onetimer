@@ -3,6 +3,7 @@ import './Timer.css';
 import { connect } from 'react-redux';
 import { enterTimer, leaveTimer } from '../actions';
 import { getLastActivePuzzleSolveDuration } from '../reducers';
+import { formatTime } from './helpers';
 
 const Timer = ({
   puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing,
@@ -16,9 +17,12 @@ const Timer = ({
     onMouseUp={onTimerEnd}
   >
     <div className={'Timer-display' + (isPreparing ? ' Timer-display-preparing' : '')}>
-      {!isReady && !isTiming && lastSolveDuration}
+      {!isReady && !isTiming && formatTime(lastSolveDuration)}
       {isReady && 'Ready'}
-      {isTiming && (displayCounter === 0 ? 'Go!' : displayCounter)}
+      {isTiming && (displayCounter === 0 ?
+        'Solve' :
+        formatTime(displayCounter, { showSubSecond: false }))
+      }
     </div>
   </div>
 );

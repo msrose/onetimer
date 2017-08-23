@@ -1,21 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
-import configureStore from './configure-store';
-import { Provider } from 'react-redux';
 import 'typeface-roboto';
-import { BrowserRouter as Router } from 'react-router-dom';
+import Root from './components/Root';
+import configureStore from './configure-store';
 
 const store = configureStore();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>,
+  <Root store={store} />,
   document.getElementById('root')
 );
 
