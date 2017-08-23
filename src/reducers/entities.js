@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ADD_SOLVE } from '../actions';
+import { ADD_SOLVE, SET_ACTIVE_PUZZLE } from '../actions';
 
 const puzzleNames = [
   '2x2x2', '3x3x3', '4x4x4', '5x5x5', '6x6x6', '7x7x7',
@@ -28,7 +28,7 @@ export const getPuzzleNames = state => {
 
 function activePuzzle(state = '3x3x3', action) {
   switch(action.type) {
-    case 'SET_ACTIVE_PUZZLE':
+    case SET_ACTIVE_PUZZLE:
       return action.puzzle;
     default:
       return state;

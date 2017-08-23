@@ -4,6 +4,7 @@ import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import './PuzzleMenu.css';
 import { getPuzzleNames } from './reducers';
+import { toggleSwitchPuzzle, setActivePuzzle } from './actions';
 
 class PuzzleMenuItem extends Component {
   handleClick = () => {
@@ -35,10 +36,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onRequestClose: () => dispatch({ type: 'TOGGLE_SWITCH_PUZZLE' }),
+  onRequestClose: () => dispatch(toggleSwitchPuzzle()),
   onChange: puzzle => {
-    dispatch({ type: 'SET_ACTIVE_PUZZLE', puzzle });
-    dispatch({ type: 'TOGGLE_SWITCH_PUZZLE' });
+    dispatch(setActivePuzzle(puzzle));
+    dispatch(toggleSwitchPuzzle());
   }
 });
 

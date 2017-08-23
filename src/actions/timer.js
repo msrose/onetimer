@@ -1,3 +1,5 @@
+import { addSolve } from './index';
+
 export const SET_TIMER_PREPARING = 'SET_TIMER_PREPARING';
 
 export const setTimerPreparing = timeoutId => ({
@@ -24,15 +26,6 @@ export const INCREMENT_DISPLAY_COUNTER = 'INCREMENT_DISPLAY_COUNTER';
 
 export const incrementDisplayCounter = () => ({
   type: INCREMENT_DISPLAY_COUNTER
-});
-
-export const ADD_SOLVE = 'ADD_SOLVE';
-
-export const addSolve = (recordedAt, duration, puzzle) => ({
-  type: ADD_SOLVE,
-  recordedAt,
-  duration,
-  puzzle
 });
 
 export const enterTimer = () => {
