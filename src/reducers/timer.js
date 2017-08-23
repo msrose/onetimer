@@ -10,6 +10,12 @@ const initialTimerState = {
   displayCounterIntervalId: null
 };
 
+export const getIsPreparing = state => !!state.timer.preparationTimeoutId;
+
+export const getIsReady = state => state.timer.isReady;
+
+export const getIsTiming = state => !!state.timer.startTime;
+
 function timer(state = initialTimerState, action) {
   switch(action.type) {
     case SET_TIMER_PREPARING:

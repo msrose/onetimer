@@ -2,8 +2,11 @@ import React from 'react';
 import './Timer.css';
 import { connect } from 'react-redux';
 import { enterTimer, leaveTimer } from '../actions';
-import { getLastActivePuzzleSolveDuration } from '../reducers';
 import { formatTime } from './helpers';
+import {
+  getLastActivePuzzleSolveDuration,
+  getIsPreparing, getIsReady, getIsTiming
+} from '../reducers';
 
 const Timer = ({
   puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing,
@@ -29,9 +32,9 @@ const Timer = ({
 
 const mapStateToProps = state => {
   return {
-    isPreparing: !!state.timer.preparationTimeoutId,
-    isReady: state.timer.isReady,
-    isTiming: !!state.timer.startTime,
+    isPreparing: getIsPreparing(state),
+    isReady: getIsReady(state),
+    isTiming: getIsTiming(state),
     lastSolveDuration: getLastActivePuzzleSolveDuration(state),
     displayCounter: state.timer.displayCounter
   };

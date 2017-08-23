@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PuzzleMenu from './PuzzleMenu';
 import SwitchPuzzleButton from './SwitchPuzzleButton';
+import { getIsTiming, getIsReady } from '../reducers';
 
 const App = ({ showGlobalControls }) => (
   <div className="App">
@@ -18,7 +19,7 @@ const App = ({ showGlobalControls }) => (
 );
 
 const mapStateToProps = state => ({
-  showGlobalControls: !state.timer.startTime && !state.timer.isReady
+  showGlobalControls: !getIsTiming(state) && !getIsReady(state)
 });
 
 // wrap in withRouter to get around lost updates
