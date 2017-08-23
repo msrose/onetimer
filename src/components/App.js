@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import MainDrawer from './MainDrawer';
 import AppHeader from './AppHeader';
 import AppContent from './AppContent';
@@ -7,22 +7,15 @@ import { connect } from 'react-redux';
 import PuzzleMenu from './PuzzleMenu';
 import SwitchPuzzleButton from './SwitchPuzzleButton';
 
-class App extends Component {
-  render() {
-    const { showGlobalControls } = this.props;
-    return (
-      <div className="App">
-        {showGlobalControls && <AppHeader />}
-        <AppContent />
-        <MainDrawer />
-        {showGlobalControls &&
-          <SwitchPuzzleButton />
-        }
-        <PuzzleMenu />
-      </div>
-    );
-  }
-}
+const App = ({ showGlobalControls }) => (
+  <div className="App">
+    {showGlobalControls && <AppHeader />}
+    <AppContent />
+    <MainDrawer />
+    {showGlobalControls && <SwitchPuzzleButton />}
+    <PuzzleMenu />
+  </div>
+);
 
 const mapStateToProps = state => ({
   showGlobalControls: !state.timer.startTime && !state.timer.isReady
