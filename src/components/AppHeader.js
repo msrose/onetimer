@@ -12,7 +12,7 @@ import { getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
 import DeleteSolvesButton from './DeleteSolvesButton';
 import { withRouter } from 'react-router-dom';
 
-const AppHeader = ({ onMenuClick, puzzle, showSolveControls, onDeleteClick }) => (
+const AppHeader = ({ onMenuClick, puzzle, showSolveControls }) => (
   <div className="AppHeader">
     <AppBar position="fixed" color="default">
       <Toolbar>

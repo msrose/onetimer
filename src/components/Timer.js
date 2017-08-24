@@ -9,7 +9,7 @@ import {
 } from '../reducers';
 
 const Timer = ({
-  puzzle, onSwitchPuzzle, onTimerStart, onTimerEnd, isPreparing,
+  onTimerStart, onTimerEnd, isPreparing,
   isReady, isTiming, lastSolveDuration, displayCounter
 }) => (
   <div

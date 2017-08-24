@@ -31,7 +31,7 @@ export const deleteSolves = recordedAtValues => ({
   }, {})
 });
 
-export const undoLastSolveDelete = solves => {
+export const undoLastSolveDelete = () => {
   return (dispatch, getState) => {
     const lastDeleted = getLastDeletedSolves(getState());
     // TODO: bulk add?

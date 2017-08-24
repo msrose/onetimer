@@ -9,7 +9,7 @@ import ListItemLink from './ListItemLink';
 import { toggleDrawer } from '../actions';
 import Typography from 'material-ui/Typography';
 
-const MainDrawer = ({ dispatch, isDrawerOpen, onRequestClose }) => (
+const MainDrawer = ({ isDrawerOpen, onRequestClose }) => (
   <Drawer
     open={isDrawerOpen}
     onRequestClose={onRequestClose}
