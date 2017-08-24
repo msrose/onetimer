@@ -5,7 +5,9 @@ import { getActivePuzzleSolves, getHasActiveSelectedSolves } from '../reducers';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { formatDate, formatTime } from './helpers';
 import Checkbox from 'material-ui/Checkbox';
-import { toggleSolveSelected } from '../actions';
+import { toggleSolveSelected, toggleDeleteSolveMessage, undoLastSolveDelete } from '../actions';
+import Snackbar from 'material-ui/Snackbar';
+import Button from 'material-ui/Button';
 
 class Solve extends Component {
   handleClick = () => {
@@ -33,7 +35,9 @@ class Solve extends Component {
   }
 }
 
-const Solves = ({ solves, onSolveClick, showCheckboxes }) => (
+const Solves = ({
+  solves, onSolveClick, showCheckboxes, showDeleteMessage, onToggleDeleteSolveMessage, onUndoLastSolveDelete
+}) => (
   <AppBarMargin>
     <List>
       {solves.map(({ duration, recordedAt, selected }) => (
@@ -46,16 +50,32 @@ const Solves = ({ solves, onSolveClick, showCheckboxes }) => (
         />
       ))}
     </List>
+    <Snackbar
+      open={showDeleteMessage}
+      message="Deleted some solves"
+      autoHideDuration={5000}
+      onRequestClose={onToggleDeleteSolveMessage}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'left'
+      }}
+      action={[
+        <Button key="undo" color="accent" onClick={onUndoLastSolveDelete}>UNDO</Button>
+      ]}
+    />
   </AppBarMargin>
 );
 
 const mapStateToProps = state => ({
   solves: getActivePuzzleSolves(state),
-  showCheckboxes: getHasActiveSelectedSolves(state)
+  showCheckboxes: getHasActiveSelectedSolves(state),
+  showDeleteMessage: state.ui.isDeleteSolveMessageOpen
 });
 
 const mapDispatchToProps = {
-  onSolveClick: toggleSolveSelected
-}
+  onSolveClick: toggleSolveSelected,
+  onToggleDeleteSolveMessage: toggleDeleteSolveMessage,
+  onUndoLastSolveDelete: undoLastSolveDelete
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Solves);

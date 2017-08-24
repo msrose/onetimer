@@ -1,3 +1,6 @@
+import { getLastDeletedSolves } from '../reducers';
+import { toggleDeleteSolveMessage } from '../actions';
+
 export const ADD_SOLVE = 'ADD_SOLVE';
 
 export const addSolve = (recordedAt, duration, puzzle) => ({
@@ -27,3 +30,14 @@ export const deleteSolves = recordedAtValues => ({
     return map;
   }, {})
 });
+
+export const undoLastSolveDelete = solves => {
+  return (dispatch, getState) => {
+    const lastDeleted = getLastDeletedSolves(getState());
+    // TODO: bulk add?
+    lastDeleted.forEach(solve =>
+      dispatch(addSolve(solve.recordedAt, solve.duration, solve.puzzle))
+    );
+    dispatch(toggleDeleteSolveMessage());
+  };
+};

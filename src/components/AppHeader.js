@@ -6,7 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import './AppHeader.css';
-import { toggleDrawer, deleteSolves } from '../actions';
+import { toggleDrawer, deleteSolves, toggleDeleteSolveMessage } from '../actions';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { Route } from 'react-router-dom';
 import {
@@ -16,6 +16,7 @@ import {
 class AppHeader extends Component {
   handleDeleteClick = () => {
     this.props.onDeleteClick(this.props.selectedSolves);
+    this.props.onToggleDeleteSolveMessage();
   };
 
   render() {
@@ -49,7 +50,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   onMenuClick: toggleDrawer,
-  onDeleteClick: deleteSolves
+  onDeleteClick: deleteSolves,
+  onToggleDeleteSolveMessage: toggleDeleteSolveMessage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);
