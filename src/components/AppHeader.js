@@ -10,6 +10,7 @@ import { toggleDrawer } from '../actions';
 import { Route } from 'react-router-dom';
 import { getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
 import DeleteSolvesButton from './DeleteSolvesButton';
+import { withRouter } from 'react-router-dom';
 
 const AppHeader = ({ onMenuClick, puzzle, showSolveControls, onDeleteClick }) => (
   <div className="AppHeader">
@@ -34,4 +35,4 @@ const mapDispatchToProps = {
   onMenuClick: toggleDrawer
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AppHeader));
