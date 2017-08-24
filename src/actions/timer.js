@@ -28,6 +28,8 @@ export const incrementDisplayCounter = () => ({
   type: INCREMENT_DISPLAY_COUNTER
 });
 
+export const MS_TO_READY = 500;
+
 export const enterTimer = () => {
   return (dispatch, getState) => {
     const {
@@ -38,7 +40,7 @@ export const enterTimer = () => {
       const readyTimeout = setTimeout(() => {
         dispatch(setTimerPreparing(null));
         dispatch(setTimerReady(true));
-      }, 500);
+      }, MS_TO_READY);
       dispatch(setTimerPreparing(readyTimeout));
     } else {
       const endTime = Date.now();
