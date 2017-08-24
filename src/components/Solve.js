@@ -22,7 +22,7 @@ class Solve extends Component {
         />
         {showCheckbox &&
           // Force checkbox to be no higher than list item to prevent jank
-          <Checkbox checked={selected} disableRipple={true} style={{ height: '44px' }}/>
+          <Checkbox checked={selected} disableRipple={true} style={{ height: '44px' }} />
         }
       </ListItem>
     );

@@ -11,7 +11,8 @@ const Solves = ({ solves, onSolveClick, showCheckboxes }) => (
   <AppBarMargin>
     <List>
       {solves.map(({ duration, recordedAt, selected }) => (
-        <Solve key={recordedAt}
+        <Solve
+          key={recordedAt}
           recordedAt={recordedAt}
           duration={duration}
           selected={selected}

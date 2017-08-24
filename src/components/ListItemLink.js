@@ -9,9 +9,11 @@ class ListItemLink extends Component {
   };
 
   render() {
-    return <ListItem button={true} onClick={this.handleClick}>
-      {this.props.children}
-    </ListItem>
+    return (
+      <ListItem button={true} onClick={this.handleClick}>
+        {this.props.children}
+      </ListItem>
+    );
   }
 }
 

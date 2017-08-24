@@ -11,4 +11,4 @@ export default function configureStore() {
   }
   const store = createStore(rootReducer, applyMiddleware(...middleware));
   return store;
-};
+}

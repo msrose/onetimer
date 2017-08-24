@@ -41,7 +41,7 @@ export const getActivePuzzle = state => {
 
 export const getHasActiveSelectedSolves = state => {
   return getActivePuzzleSolves(state).some(solve => solve.selected);
-}
+};
 
 function activePuzzle(state = '3x3x3', action) {
   switch(action.type) {
@@ -88,7 +88,7 @@ function solves(state = initialSolveState, action) {
           return solves;
         }, {}),
         lastDeleted: Object.values(state.byRecordedAt).filter(solve => {
-          return action.recordedAtMap[solve.recordedAt]
+          return action.recordedAtMap[solve.recordedAt];
         })
       };
     default:
@@ -112,7 +112,7 @@ function recordedAtValues(state = initialRecordedAtValuesState, action) {
       return state.concat(action.solve.recordedAt);
     }
     case DELETE_SOLVES:
-      return state.filter(recordedAt => !action.recordedAtMap[recordedAt])
+      return state.filter(recordedAt => !action.recordedAtMap[recordedAt]);
     default:
       return state;
   }
@@ -135,5 +135,5 @@ export default combineReducers({
   solves,
   recordedAtValues,
   puzzles,
-  activePuzzle,
+  activePuzzle
 });

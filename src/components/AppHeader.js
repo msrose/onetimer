@@ -6,10 +6,10 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import './AppHeader.css';
-import { toggleDrawer, deleteSelectedSolves } from '../actions';
-import DeleteIcon from 'material-ui-icons/Delete';
+import { toggleDrawer } from '../actions';
 import { Route } from 'react-router-dom';
 import { getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
+import DeleteSolvesButton from './DeleteSolvesButton';
 
 const AppHeader = ({ onMenuClick, puzzle, showSolveControls, onDeleteClick }) => (
   <div className="AppHeader">
@@ -18,12 +18,7 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls, onDeleteClick }) =>
         <IconButton onClick={onMenuClick}><MenuIcon /></IconButton>
         <Typography type="headline" className="AppHeader-title">{puzzle}</Typography>
         {showSolveControls &&
-          <Route
-            path="/solves"
-            component={() =>
-              <IconButton onClick={onDeleteClick}><DeleteIcon /></IconButton>
-            }
-          />
+          <Route path="/solves" component={DeleteSolvesButton} />
         }
       </Toolbar>
     </AppBar>
@@ -36,8 +31,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onMenuClick: toggleDrawer,
-  onDeleteClick: deleteSelectedSolves
+  onMenuClick: toggleDrawer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

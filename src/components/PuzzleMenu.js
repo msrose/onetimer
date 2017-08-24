@@ -13,7 +13,7 @@ class PuzzleMenuItem extends Component {
 
   render() {
     const { selected, name } = this.props;
-    return <MenuItem onClick={this.handleClick} selected={selected}>{name}</MenuItem>
+    return <MenuItem onClick={this.handleClick} selected={selected}>{name}</MenuItem>;
   }
 }
 
