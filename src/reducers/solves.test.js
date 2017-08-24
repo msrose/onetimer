@@ -1,15 +1,20 @@
 import configureStore from '../configure-store';
-import { addSolve, deleteSolves, undoLastSolveDelete } from '../actions';
-import { getActivePuzzleSolves, getActivePuzzle, getSolvesByRecordedAt } from '../reducers';
+import {
+  addSolve, deleteSolves, undoLastSolveDelete, toggleSolveSelected, deleteSelectedSolves
+} from '../actions';
+import {
+  getActivePuzzleSolves, getActivePuzzle, getSolvesByRecordedAt, getSelectedActivePuzzleSolves
+} from '../reducers';
 
 describe('Solves reducer', () => {
-  let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt;
+  let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt, selectedActivePuzzleSolves;
 
   beforeEach(() => {
     store = configureStore();
     activePuzzle = () => getActivePuzzle(store.getState());
     activePuzzleSolves = () => getActivePuzzleSolves(store.getState());
     solvesByRecordedAt = () => getSolvesByRecordedAt(store.getState());
+    selectedActivePuzzleSolves = () => getSelectedActivePuzzleSolves(store.getState());
   });
 
   it('adds a solve when addSolve is dispatched', () => {
@@ -55,5 +60,20 @@ describe('Solves reducer', () => {
     store.dispatch(deleteSolves([1, 3]));
     store.dispatch(undoLastSolveDelete());
     expect(activePuzzleSolves().map(solve => solve.recordedAt)).toEqual([3, 2, 1]);
+  });
+
+  it('toggles the selected state of a solve when toggleSolveSelected is dispatched', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(toggleSolveSelected(1));
+    expect(selectedActivePuzzleSolves()).toEqual([
+      expect.objectContaining({ recordedAt: 1 })
+    ]);
+  });
+
+  it('deletes the selected puzzles when deleteSelectedSolves is dispatched', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(toggleSolveSelected(1));
+    store.dispatch(deleteSelectedSolves());
+    expect(selectedActivePuzzleSolves()).toEqual([]);
   });
 });

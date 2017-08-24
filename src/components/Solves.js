@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AppBarMargin from './AppBarMargin';
-import { getActivePuzzleSolves, getHasActiveSelectedSolves } from '../reducers';
+import {
+  getActivePuzzleSolves, getHasActiveSelectedSolves, getLastDeletedSolves
+} from '../reducers';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import { formatDate, formatTime } from './helpers';
 import Checkbox from 'material-ui/Checkbox';
-import { toggleSolveSelected, toggleDeleteSolveMessage, undoLastSolveDelete } from '../actions';
+import {
+  toggleSolveSelected, toggleDeleteSolveMessage, undoLastSolveDelete
+} from '../actions';
 import Snackbar from 'material-ui/Snackbar';
 import Button from 'material-ui/Button';
 
@@ -36,7 +40,7 @@ class Solve extends Component {
 }
 
 const Solves = ({
-  solves, onSolveClick, showCheckboxes, showDeleteMessage, onToggleDeleteSolveMessage, onUndoLastSolveDelete
+  solves, onSolveClick, showCheckboxes, showDeleteMessage, onToggleDeleteSolveMessage, onUndoLastSolveDelete, deletedCount
 }) => (
   <AppBarMargin>
     <List>
@@ -52,7 +56,7 @@ const Solves = ({
     </List>
     <Snackbar
       open={showDeleteMessage}
-      message="Deleted some solves"
+      message={`Deleted ${deletedCount} ${deletedCount === 1 ? 'solve' : 'solves'}`}
       autoHideDuration={5000}
       onRequestClose={onToggleDeleteSolveMessage}
       anchorOrigin={{
@@ -69,7 +73,8 @@ const Solves = ({
 const mapStateToProps = state => ({
   solves: getActivePuzzleSolves(state),
   showCheckboxes: getHasActiveSelectedSolves(state),
-  showDeleteMessage: state.ui.isDeleteSolveMessageOpen
+  showDeleteMessage: state.ui.isDeleteSolveMessageOpen,
+  deletedCount: getLastDeletedSolves(state).length
 });
 
 const mapDispatchToProps = {

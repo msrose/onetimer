@@ -19,8 +19,7 @@ export const getActivePuzzleSolves = state => {
 };
 
 export const getSelectedActivePuzzleSolves = state => {
-  return getActivePuzzleSolves(state).filter(solve => solve.selected)
-    .map(solve => solve.recordedAt);
+  return getActivePuzzleSolves(state).filter(solve => solve.selected);
 };
 
 export const getLastActivePuzzleSolve = state => {

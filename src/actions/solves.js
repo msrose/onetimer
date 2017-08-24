@@ -1,4 +1,4 @@
-import { getLastDeletedSolves } from '../reducers';
+import { getLastDeletedSolves, getSelectedActivePuzzleSolves } from '../reducers';
 import { toggleDeleteSolveMessage } from '../actions';
 
 export const ADD_SOLVE = 'ADD_SOLVE';
@@ -38,6 +38,14 @@ export const undoLastSolveDelete = solves => {
     lastDeleted.forEach(solve =>
       dispatch(addSolve(solve.recordedAt, solve.duration, solve.puzzle))
     );
+    dispatch(toggleDeleteSolveMessage());
+  };
+};
+
+export const deleteSelectedSolves = () => {
+  return (dispatch, getState) => {
+    const selectedSolves = getSelectedActivePuzzleSolves(getState());
+    dispatch(deleteSolves(selectedSolves.map(solve => solve.recordedAt)));
     dispatch(toggleDeleteSolveMessage());
   };
 };
