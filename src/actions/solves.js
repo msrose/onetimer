@@ -21,5 +21,9 @@ export const DELETE_SOLVES = 'DELETE_SOLVES';
 
 export const deleteSolves = recordedAtValues => ({
   type: DELETE_SOLVES,
-  recordedAtValues
+  // Create a map here since it saves a search in reducers
+  recordedAtMap: recordedAtValues.reduce((map, value) => {
+    map[value] = true;
+    return map;
+  }, {})
 });

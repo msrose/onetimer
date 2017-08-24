@@ -27,6 +27,10 @@ export const getPuzzleNames = state => {
   return state.entities.puzzles;
 };
 
+export const getActivePuzzle = state => {
+  return state.entities.activePuzzle;
+};
+
 export const getHasActiveSelectedSolves = state => {
   return getActivePuzzleSolves(state).some(solve => solve.selected);
 }
@@ -59,7 +63,7 @@ function solves(state = initialSolveState, action) {
       };
     case DELETE_SOLVES:
       return Object.values(state).filter(recordedAt => {
-        return !action.recordedAtValues.includes(recordedAt);
+        return !action.recordedAtMap[recordedAt];
       }).reduce((solves, solve) => {
         solves[solve.recordedAt] = solve;
         return solves;
@@ -76,7 +80,7 @@ function recordedAtValues(state = initialRecordedAtValuesState, action) {
     case ADD_SOLVE:
       return [action.solve.recordedAt].concat(state);
     case DELETE_SOLVES:
-      return state.filter(recordedAt => !action.recordedAtValues.includes(recordedAt))
+      return state.filter(recordedAt => !action.recordedAtMap[recordedAt])
     default:
       return state;
   }

@@ -9,7 +9,9 @@ import './AppHeader.css';
 import { toggleDrawer, deleteSolves } from '../actions';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { Route } from 'react-router-dom';
-import { getHasActiveSelectedSolves, getSelectedActivePuzzleSolves } from '../reducers';
+import {
+  getHasActiveSelectedSolves, getSelectedActivePuzzleSolves, getActivePuzzle
+} from '../reducers';
 
 class AppHeader extends Component {
   handleDeleteClick = () => {
@@ -17,17 +19,20 @@ class AppHeader extends Component {
   };
 
   render() {
-    const { onMenuClick, puzzle, showDelete } = this.props;
+    const { onMenuClick, puzzle, showSolveControls } = this.props;
     return (
       <div className="AppHeader">
         <AppBar position="fixed" color="default">
           <Toolbar>
             <IconButton onClick={onMenuClick}><MenuIcon /></IconButton>
             <Typography type="headline" className="AppHeader-title">{puzzle}</Typography>
-            {showDelete &&
-              <Route path="/solves">
-                <IconButton onClick={this.handleDeleteClick}><DeleteIcon /></IconButton>
-              </Route>
+            {showSolveControls &&
+              <Route
+                path="/solves"
+                component={() =>
+                  <IconButton onClick={this.handleDeleteClick}><DeleteIcon /></IconButton>
+                }
+              />
             }
           </Toolbar>
         </AppBar>
@@ -37,8 +42,8 @@ class AppHeader extends Component {
 }
 
 const mapStateToProps = state => ({
-  puzzle: state.entities.activePuzzle,
-  showDelete: getHasActiveSelectedSolves(state),
+  puzzle: getActivePuzzle(state),
+  showSolveControls: getHasActiveSelectedSolves(state),
   selectedSolves: getSelectedActivePuzzleSolves(state)
 });
 
