@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import ListItemLink from './ListItemLink';
 import { toggleDrawer } from '../actions';
 import Typography from 'material-ui/Typography';
+import SettingsIcon from 'material-ui-icons/Settings';
 
 const MainDrawer = ({ isDrawerOpen, onRequestClose }) => (
   <Drawer
@@ -31,6 +32,10 @@ const MainDrawer = ({ isDrawerOpen, onRequestClose }) => (
       <ListItemLink path="/graphs" onNavigate={onRequestClose}>
         <ListItemIcon><ShowChartIcon /></ListItemIcon>
         <ListItemText primary="Graphs" />
+      </ListItemLink>
+      <ListItemLink path="/settings" onNavigate={onRequestClose}>
+        <ListItemIcon><SettingsIcon /></ListItemIcon>
+        <ListItemText primary="Settings" />
       </ListItemLink>
     </List>
   </Drawer>

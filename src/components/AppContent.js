@@ -2,6 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import Timer from './Timer';
 import Solves from './Solves';
+import Settings from './Settings';
 
 import AppBarMargin from './AppBarMargin';
 
@@ -13,6 +14,7 @@ const AppContent = () => (
     <Route path="/timer" component={Timer} />
     <Route path="/solves" component={Solves} />
     <Route path="/graphs" component={Graphs} />
+    <Route path="/settings" component={Settings} />
   </div>
 );
 

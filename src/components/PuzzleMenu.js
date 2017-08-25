@@ -3,7 +3,7 @@ import { MenuItem, MenuList } from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import './PuzzleMenu.css';
-import { getPuzzleNames, getActivePuzzle } from '../reducers';
+import { getVisiblePuzzleNames, getActivePuzzle } from '../reducers';
 import { toggleSwitchPuzzle, setActivePuzzle } from '../actions';
 
 class PuzzleMenuItem extends Component {
@@ -31,7 +31,7 @@ const mapStateToProps = state => {
   return {
     open: state.ui.isSwitchPuzzleOpen,
     activePuzzle: getActivePuzzle(state),
-    puzzles: getPuzzleNames(state)
+    puzzles: getVisiblePuzzleNames(state)
   };
 };
 

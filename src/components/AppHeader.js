@@ -7,7 +7,7 @@ import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import './AppHeader.css';
 import { toggleDrawer } from '../actions';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
 import DeleteSolvesButton from './DeleteSolvesButton';
 import { withRouter } from 'react-router-dom';
@@ -17,7 +17,14 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls }) => (
     <AppBar position="fixed" color="default">
       <Toolbar>
         <IconButton onClick={onMenuClick}><MenuIcon /></IconButton>
-        <Typography type="headline" className="AppHeader-title">{puzzle}</Typography>
+        <Typography type="headline" className="AppHeader-title">
+          <Switch>
+            {/* eslint-disable react/jsx-no-bind */}
+            <Route path="/settings" render={() => <span>Settings</span>} />
+            <Route render={() => <span>{puzzle}</span>} />
+            {/* eslint-enable react/jsx-no-bind */}
+          </Switch>
+        </Typography>
         {showSolveControls &&
           <Route path="/solves" component={DeleteSolvesButton} />
         }
