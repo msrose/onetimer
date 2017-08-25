@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { activePuzzle, puzzles, puzzlesByName } from './puzzles';
+import { activePuzzle, puzzles, puzzlesByName, puzzleToReorder } from './puzzles';
 import { solves, recordedAtValues } from './solves';
 
 export * from './solves';
@@ -10,5 +10,6 @@ export default combineReducers({
   recordedAtValues,
   puzzles,
   activePuzzle,
-  puzzlesByName
+  puzzlesByName,
+  puzzleToReorder
 });

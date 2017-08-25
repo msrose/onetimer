@@ -1,33 +1,61 @@
 import React, { Component } from 'react';
-import List, { ListItem, ListItemText, ListSubheader, ListItemSecondaryAction } from 'material-ui/List';
+import List, {
+  ListItem, ListItemText, ListSubheader, ListItemSecondaryAction
+} from 'material-ui/List';
 import Switch from 'material-ui/Switch';
 import { connect } from 'react-redux';
-import { getPuzzles } from '../reducers';
-import { togglePuzzleVisible } from '../actions';
+import { getPuzzles, getPuzzleToReorder } from '../reducers';
+import { togglePuzzleVisible, startPuzzleReorder, chooseNewPuzleOrder } from '../actions';
 import AppBarMargin from './AppBarMargin';
+import IconButton from 'material-ui/IconButton';
+import ReorderIcon from 'material-ui-icons/Reorder';
 
 class PuzzleSettingsItem extends Component {
   handleTogglePuzzleVisible = () => {
     this.props.onTogglePuzzleVisible(this.props.name);
   };
 
+  handleStartReorder = () => {
+    this.props.onStartReorder(this.props.name);
+  };
+
+  handleChooseNewOrder = () => {
+    if(this.props.puzzleToReorder) {
+      this.props.onChooseNewOrder(this.props.puzzleToReorder, this.props.name);
+    }
+  };
+
   render() {
-    const { visible, name } = this.props;
+    const { visible, name, puzzleToReorder } = this.props;
     return (
-      <ListItem>
-        <ListItemText primary={name} />
-        <ListItemSecondaryAction>
-          <Switch
-            checked={visible}
-            onClick={this.handleTogglePuzzleVisible}
-          />
-        </ListItemSecondaryAction>
+      <ListItem
+        button={!!puzzleToReorder}
+        disabled={name === puzzleToReorder}
+        onClick={this.handleChooseNewOrder}
+      >
+        <ListItemText
+          primary={name}
+          secondary={puzzleToReorder === name && `Select new location for ${name}`}
+        />
+        {!puzzleToReorder &&
+          <ListItemSecondaryAction>
+            <IconButton onClick={this.handleStartReorder}>
+              <ReorderIcon />
+            </IconButton>
+            <Switch
+              checked={visible}
+              onClick={this.handleTogglePuzzleVisible}
+            />
+          </ListItemSecondaryAction>
+        }
       </ListItem>
     );
   }
 }
 
-const Settings = ({ puzzles, onTogglePuzzleVisible }) => (
+const Settings = ({
+  puzzles, onTogglePuzzleVisible, onStartPuzzleReorder, puzzleToReorder, onChooseNewPuzzleOrder
+}) => (
   <AppBarMargin>
     <List subheader={<ListSubheader>Puzzles</ListSubheader>}>
       {puzzles.map(({ name, visible }) => (
@@ -36,6 +64,9 @@ const Settings = ({ puzzles, onTogglePuzzleVisible }) => (
           visible={visible}
           name={name}
           onTogglePuzzleVisible={onTogglePuzzleVisible}
+          onStartReorder={onStartPuzzleReorder}
+          puzzleToReorder={puzzleToReorder}
+          onChooseNewOrder={onChooseNewPuzzleOrder}
         />
       ))}
     </List>
@@ -43,11 +74,14 @@ const Settings = ({ puzzles, onTogglePuzzleVisible }) => (
 );
 
 const mapStateToProps = state => ({
-  puzzles: getPuzzles(state)
+  puzzles: getPuzzles(state),
+  puzzleToReorder: getPuzzleToReorder(state)
 });
 
 const mapDispatchToProps = {
-  onTogglePuzzleVisible: togglePuzzleVisible
+  onTogglePuzzleVisible: togglePuzzleVisible,
+  onStartPuzzleReorder: startPuzzleReorder,
+  onChooseNewPuzzleOrder: chooseNewPuzleOrder
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
