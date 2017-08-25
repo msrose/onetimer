@@ -1,6 +1,8 @@
 import React from 'react';
 import Snackbar from 'material-ui/Snackbar';
 import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import CloseIcon from 'material-ui-icons/Close';
 import { getLastDeletedSolves } from '../reducers';
 import { toggleDeleteSolveMessage, undoLastSolveDelete } from '../actions';
 import { connect } from 'react-redux';
@@ -16,7 +18,21 @@ const DeletedSolveMessage = ({ open, deletedCount, onUndoLastSolveDelete, onTogg
       horizontal: 'left'
     }}
     action={[
-      <Button key="undo" color="accent" onClick={onUndoLastSolveDelete}>UNDO</Button>
+      <Button
+        key="undo"
+        color="accent"
+        onClick={onUndoLastSolveDelete}
+        dense={true}
+      >
+        UNDO
+      </Button>,
+      <IconButton
+        key="close"
+        color="inherit"
+        onClick={onToggleDeleteSolveMessage}
+      >
+        <CloseIcon />
+      </IconButton>
     ]}
   />
 );
