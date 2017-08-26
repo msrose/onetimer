@@ -1,4 +1,4 @@
-const loadScript = src => new Promise(resolve => {
+const loadScriptIntoDOM = src => new Promise(resolve => {
   // https://developers.google.com/drive/v3/web/quickstart/js
   const script = document.createElement('script');
   script.async = true;
@@ -16,19 +16,17 @@ const loadScript = src => new Promise(resolve => {
   document.body.appendChild(script);
 });
 
-// googleApiLoader.inject().then(gapi => {
-//   gapi.load('client:auth2', () => console.log(gapi));
-// }).catch(err => {
-//   console.log(err);
-// });
-const inject = () => {
-  const { gapi } = window;
-  if(gapi) {
-    return Promise.resolve(gapi);
+let loadPromise = null;
+
+const get = () => {
+  if(!loadPromise) {
+    throw new Error('gapi must be injected before calling `get`');
   }
-  return loadScript('https://apis.google.com/js/api.js').then(() => {
-    return window.gapi;
-  });
+  return loadPromise.then(() => window.gapi);
 };
 
-export default { inject };
+const inject = () => {
+  loadPromise = loadPromise || loadScriptIntoDOM('https://apis.google.com/js/api.js');
+};
+
+export default { inject, get };
