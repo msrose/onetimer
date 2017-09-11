@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "eslint-config-msrose": "^1.0.0",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.6",
     "material-ui-icons": "^1.0.0-beta.5",
@@ -22,7 +21,13 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "predeploy": "npm test && npm run build",
+    "deploy": "gh-pages -d build -b master"
   },
-  "homepage": "https://msrose.github.io/onetimer"
+  "homepage": "https://msrose.github.io/onetimer",
+  "devDependencies": {
+    "eslint-config-msrose": "^1.0.0",
+    "gh-pages": "^1.0.0"
+  }
 }
