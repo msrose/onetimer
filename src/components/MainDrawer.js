@@ -2,7 +2,7 @@ import React from 'react';
 import List, { ListItemIcon, ListItemText, ListItem } from 'material-ui/List';
 import AlarmIcon from 'material-ui-icons/Alarm';
 import ViewListIcon from 'material-ui-icons/ViewList';
-import ShowChartIcon from 'material-ui-icons/ShowChart';
+// import ShowChartIcon from 'material-ui-icons/ShowChart';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import ListItemLink from './ListItemLink';
@@ -30,10 +30,10 @@ const MainDrawer = ({ isDrawerOpen, onRequestClose }) => (
         <ListItemIcon><ViewListIcon /></ListItemIcon>
         <ListItemText primary="Solves" />
       </ListItemLink>
-      <ListItemLink path="/graphs" onNavigate={onRequestClose}>
-        <ListItemIcon><ShowChartIcon /></ListItemIcon>
-        <ListItemText primary="Graphs" />
-      </ListItemLink>
+      {/* <ListItemLink path="/graphs" onNavigate={onRequestClose}> */}
+      {/*   <ListItemIcon><ShowChartIcon /></ListItemIcon> */}
+      {/*   <ListItemText primary="Graphs" /> */}
+      {/* </ListItemLink> */}
       <ListItemLink path="/settings" onNavigate={onRequestClose}>
         <ListItemIcon><SettingsIcon /></ListItemIcon>
         <ListItemText primary="Settings" />

@@ -1,10 +1,10 @@
 import React from 'react';
 import AppBarMargin from './AppBarMargin';
-import GoogleDrive from './GoogleDrive';
+// import GoogleDrive from './GoogleDrive';
 
 const Sync = () => (
   <AppBarMargin>
-    <GoogleDrive />
+    {/* <GoogleDrive /> */}
   </AppBarMargin>
 );
 
