@@ -13,7 +13,7 @@ export default function configureStore() {
   }
 
   const storedEntities = localStorage.getItem('entities');
-  const entities = storedEntities && JSON.parse(storedEntities);
+  const entities = storedEntities ? JSON.parse(storedEntities) : {};
 
   const preloadedState = { entities };
 

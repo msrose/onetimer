@@ -22,7 +22,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "predeploy": "npm test && npm run build",
+    "predeploy": "CI=true npm test && npm run lint && npm run build",
     "deploy": "gh-pages -d build -b master"
   },
   "homepage": "https://msrose.github.io/onetimer",
