@@ -23,5 +23,6 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint ."
-  }
+  },
+  "homepage": "https://msrose.github.io/onetimer"
 }
