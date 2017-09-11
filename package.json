@@ -24,7 +24,7 @@
     "lint": "eslint .",
     "predeploy": "CI=true npm test && npm run lint && npm run build",
     "deploy": "gh-pages -d build -b master",
-    "postdeploy": "echo 'Enter version increment: ' && read versionIncrement && npm version $versionIncrement && git push origin --tags"
+    "postdeploy": "echo -n 'Enter version increment: ' && read versionIncrement && npm version $versionIncrement && git push origin develop --tags"
   },
   "homepage": "https://msrose.github.io/onetimer",
   "devDependencies": {
