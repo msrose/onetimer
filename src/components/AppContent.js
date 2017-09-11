@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Timer from './Timer';
 import Solves from './Solves';
 import Settings from './Settings';
@@ -11,12 +11,14 @@ import Sync from './Sync';
 
 const AppContent = () => (
   <div className="AppContent">
-    <Route exact={true} path="/" component={Timer} />
-    <Route path="/timer" component={Timer} />
-    <Route path="/solves" component={Solves} />
-    {/* <Route path="/graphs" component={Graphs} /> */}
-    <Route path="/settings" component={Settings} />
-    <Route path="/sync" component={Sync} />
+    <Switch>
+      <Route path="/timer" component={Timer} />
+      <Route path="/solves" component={Solves} />
+      {/* <Route path="/graphs" component={Graphs} /> */}
+      <Route path="/settings" component={Settings} />
+      <Route path="/sync" component={Sync} />
+      <Route path="/" component={Timer} />
+    </Switch>
   </div>
 );
 

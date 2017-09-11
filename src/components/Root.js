@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 const Root = ({ store }) => (
   <Provider store={store}>
-    <Router>
+    <Router basename="/onetimer">
       <App />
     </Router>
   </Provider>
