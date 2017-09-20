@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import './Timer.css';
 import { connect } from 'react-redux';
 import { enterTimer, leaveTimer } from '../actions';
@@ -7,28 +7,48 @@ import {
   getLastActivePuzzleSolveDuration,
   getIsPreparing, getIsReady, getIsTiming
 } from '../reducers';
+import NoSleep from 'nosleep.js';
 
-const Timer = ({
-  onTimerStart, onTimerEnd, isPreparing,
-  isReady, isTiming, lastSolveDuration, displayCounter
-}) => (
-  <div
-    className="Timer"
-    onTouchStart={onTimerStart}
-    onMouseDown={onTimerStart}
-    onTouchEnd={onTimerEnd}
-    onMouseUp={onTimerEnd}
-  >
-    <div className={'Timer-display' + (isPreparing ? ' Timer-display-preparing' : '')}>
-      {!isReady && !isTiming && formatTime(lastSolveDuration)}
-      {isReady && 'Ready'}
-      {isTiming && (displayCounter === 0 ?
-        'Solve' :
-        formatTime(displayCounter, { showSubSecond: false }))
-      }
-    </div>
-  </div>
-);
+export class Timer extends PureComponent {
+  constructor(props) {
+    super(props);
+    this._noSleep = new NoSleep();
+  }
+
+  componentDidUpdate(prevProps) {
+    if(!prevProps.isTiming && this.props.isTiming) {
+      this._noSleep.enable();
+    }
+    if(prevProps.isTiming && !this.props.isTiming) {
+      this._noSleep.disable();
+    }
+  }
+
+  render() {
+    const {
+      onTimerEnter, onTimerLeave, isPreparing,
+      isReady, isTiming, lastSolveDuration, displayCounter
+    } = this.props;
+    return (
+      <div
+        className="Timer"
+        onTouchStart={onTimerEnter}
+        onMouseDown={onTimerEnter}
+        onTouchEnd={onTimerLeave}
+        onMouseUp={onTimerLeave}
+      >
+        <div className={'Timer-display' + (isPreparing ? ' Timer-display-preparing' : '')}>
+          {!isReady && !isTiming && formatTime(lastSolveDuration)}
+          {isReady && 'Ready'}
+          {isTiming && (displayCounter === 0 ?
+            'Solve' :
+            formatTime(displayCounter, { showSubSecond: false }))
+          }
+        </div>
+      </div>
+    );
+  }
+}
 
 const mapStateToProps = state => {
   return {
@@ -41,8 +61,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  onTimerStart: enterTimer,
-  onTimerEnd: leaveTimer
+  onTimerEnter: enterTimer,
+  onTimerLeave: leaveTimer
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Timer);
