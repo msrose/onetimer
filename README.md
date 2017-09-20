@@ -1,5 +1,7 @@
 # One Timer
 
+[![Build Status](https://travis-ci.org/msrose/onetimer.svg?branch=develop)](https://travis-ci.org/msrose/onetimer) [![codecov](https://codecov.io/gh/msrose/onetimer/branch/develop/graph/badge.svg)](https://codecov.io/gh/msrose/onetimer)
+
 (Work in progress)
 
 One Timer is a mobile-first, fully offline-capable Rubik's cube timer for the web. Free and open-source with no sign-up required: https://msrose.github.io/onetimer.
