@@ -1,7 +1,9 @@
 import React from 'react';
 import { Timer } from './Timer';
 import { mount } from 'enzyme';
-import NoSleep from 'nosleep.js';
+import NoSleep from '../no-sleep';
+
+jest.mock('../no-sleep');
 
 describe('Timer component', () => {
   let tree;

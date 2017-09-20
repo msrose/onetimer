@@ -7,7 +7,7 @@ import {
   getLastActivePuzzleSolveDuration,
   getIsPreparing, getIsReady, getIsTiming
 } from '../reducers';
-import NoSleep from 'nosleep.js';
+import NoSleep from '../no-sleep';
 
 export class Timer extends PureComponent {
   constructor(props) {
