@@ -1,3 +1,15 @@
 .PuzzleMenu-menu-list {
   max-height: 50vh;
 }
+
+.PuzzleMenuItem-count {
+  opacity: 0.5;
+  font-size: 0.8em;
+}
+
+.PuzzleMenuItem-inner-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}

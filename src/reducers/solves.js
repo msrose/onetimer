@@ -11,7 +11,8 @@ export const getLastDeletedSolves = state => {
 export const getActivePuzzleSolves = state => {
   const { recordedAtValues, activePuzzle } = state.entities;
   const solves = getSolvesByRecordedAt(state);
-  return recordedAtValues.map(recordedAt => solves[recordedAt])
+  return recordedAtValues
+    .map(recordedAt => solves[recordedAt])
     .filter(solve => solve.puzzle === activePuzzle);
 };
 
@@ -30,6 +31,19 @@ export const getLastActivePuzzleSolveDuration = state => {
 
 export const getHasActiveSelectedSolves = state => {
   return getActivePuzzleSolves(state).some(solve => solve.selected);
+};
+
+export const getSolveCounts = state => {
+  const solvesByRecordedAt = getSolvesByRecordedAt(state);
+  return state.entities.recordedAtValues
+    .map(recordedAt => solvesByRecordedAt[recordedAt])
+    .reduce((countMap, solve) => {
+      if(!countMap[solve.puzzle]) {
+        countMap[solve.puzzle] = 0;
+      }
+      countMap[solve.puzzle]++;
+      return countMap;
+    }, {});
 };
 
 const initialSolveState = {
