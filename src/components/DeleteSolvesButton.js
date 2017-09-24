@@ -2,14 +2,11 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import { connect } from 'react-redux';
-import { deleteSelectedSolves } from '../actions';
+import { deleteSelectedSolves, deleteLastSolve } from '../actions';
 
 const DeleteSolvesButton = ({ onClick }) => (
   <IconButton onClick={onClick}><DeleteIcon /></IconButton>
 );
 
-const mapDispatchToProps = {
-  onClick: deleteSelectedSolves
-};
-
-export default connect(null, mapDispatchToProps)(DeleteSolvesButton);
+export const DeleteSelectedSolvesButton = connect(null, { onClick: deleteSelectedSolves })(DeleteSolvesButton);
+export const DeleteLastSolveButton = connect(null, { onClick: deleteLastSolve })(DeleteSolvesButton);

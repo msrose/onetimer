@@ -8,11 +8,13 @@ import Typography from 'material-ui/Typography';
 import './AppHeader.css';
 import { toggleDrawer } from '../actions';
 import { Route, Switch } from 'react-router-dom';
-import { getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
-import DeleteSolvesButton from './DeleteSolvesButton';
+import {
+  getHasActiveSelectedSolves, getActivePuzzle, getLastActivePuzzleSolve
+} from '../reducers';
+import { DeleteSelectedSolvesButton, DeleteLastSolveButton } from './DeleteSolvesButton';
 import { withRouter } from 'react-router-dom';
 
-const AppHeader = ({ onMenuClick, puzzle, showSolveControls }) => (
+const AppHeader = ({ onMenuClick, puzzle, showSolveControls, hasActiveLastSolve }) => (
   <div className="AppHeader">
     <AppBar position="fixed" color="default">
       <Toolbar>
@@ -26,7 +28,10 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls }) => (
           </Switch>
         </Typography>
         {showSolveControls &&
-          <Route path="/solves" component={DeleteSolvesButton} />
+          <Route path="/solves" component={DeleteSelectedSolvesButton} />
+        }
+        {hasActiveLastSolve &&
+          <Route path="/timer" component={DeleteLastSolveButton} />
         }
       </Toolbar>
     </AppBar>
@@ -35,7 +40,8 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls }) => (
 
 const mapStateToProps = state => ({
   puzzle: getActivePuzzle(state),
-  showSolveControls: getHasActiveSelectedSolves(state)
+  showSolveControls: getHasActiveSelectedSolves(state),
+  hasActiveLastSolve: !!getLastActivePuzzleSolve(state)
 });
 
 const mapDispatchToProps = {

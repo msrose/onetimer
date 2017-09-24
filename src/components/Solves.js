@@ -4,7 +4,6 @@ import AppBarMargin from './AppBarMargin';
 import { getActivePuzzleSolves, getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
 import List from 'material-ui/List';
 import { toggleSolveSelected } from '../actions';
-import DeletedSolveMessage from './DeletedSolveMessage';
 import Solve from './Solve';
 import './Solves.css';
 
@@ -27,7 +26,6 @@ const Solves = ({ solves, onSolveClick, showCheckboxes, activePuzzle }) => (
       </AppBarMargin> :
       <div className="Solves-empty">No {activePuzzle} solves</div>
     }
-    <DeletedSolveMessage />
   </div>
 );
 

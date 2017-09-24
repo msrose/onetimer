@@ -4,6 +4,7 @@ import Timer from './Timer';
 import Solves from './Solves';
 import Settings from './Settings';
 import Sync from './Sync';
+import DeletedSolveMessage from './DeletedSolveMessage';
 
 // import AppBarMargin from './AppBarMargin';
 
@@ -19,6 +20,7 @@ const AppContent = () => (
       <Route path="/sync" component={Sync} />
       <Route path="/" component={Timer} />
     </Switch>
+    <DeletedSolveMessage />
   </div>
 );
 

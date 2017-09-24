@@ -1,13 +1,13 @@
 import configureStore from '../configure-store';
 import {
-  addSolve, deleteSolves, undoLastSolveDelete, toggleSolveSelected, deleteSelectedSolves
+  addSolve, deleteSolves, undoLastSolveDelete, toggleSolveSelected, deleteSelectedSolves, deleteLastSolve
 } from '../actions';
 import {
-  getActivePuzzleSolves, getActivePuzzle, getSolvesByRecordedAt, getSelectedActivePuzzleSolves
+  getActivePuzzleSolves, getActivePuzzle, getSolvesByRecordedAt, getSelectedActivePuzzleSolves, getLastActivePuzzleSolve
 } from '../reducers';
 
 describe('Solves reducer', () => {
-  let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt, selectedActivePuzzleSolves;
+  let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt, selectedActivePuzzleSolves, lastActivePuzzleSolve;
 
   beforeEach(() => {
     store = configureStore();
@@ -15,6 +15,7 @@ describe('Solves reducer', () => {
     activePuzzleSolves = () => getActivePuzzleSolves(store.getState());
     solvesByRecordedAt = () => getSolvesByRecordedAt(store.getState());
     selectedActivePuzzleSolves = () => getSelectedActivePuzzleSolves(store.getState());
+    lastActivePuzzleSolve = () => getLastActivePuzzleSolve(store.getState());
   });
 
   it('adds a solve when addSolve is dispatched', () => {
@@ -75,5 +76,13 @@ describe('Solves reducer', () => {
     store.dispatch(toggleSolveSelected(1));
     store.dispatch(deleteSelectedSolves());
     expect(selectedActivePuzzleSolves()).toEqual([]);
+  });
+
+  it('deletes the last solve when deleteLastSolve is dispatched', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(addSolve(2, 1000, activePuzzle()));
+    expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: 2 }));
+    store.dispatch(deleteLastSolve());
+    expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: 1 }));
   });
 });
