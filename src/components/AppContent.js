@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Timer from './Timer';
 import Solves from './Solves';
 import Settings from './Settings';
@@ -18,7 +18,7 @@ const AppContent = () => (
       {/* <Route path="/graphs" component={Graphs} /> */}
       <Route path="/settings" component={Settings} />
       <Route path="/sync" component={Sync} />
-      <Route path="/" component={Timer} />
+      <Redirect to="/timer" />
     </Switch>
     <DeletedSolveMessage />
   </div>
