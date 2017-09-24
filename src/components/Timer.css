@@ -5,6 +5,13 @@
   justify-content: center;
   align-items: center;
   user-select: none;
+  text-align: center;
+}
+
+.Timer-solve-summary {
+  font-size: 0.35em;
+  opacity: 0.5;
+  margin-top: 10px;
 }
 
 .Timer-display {

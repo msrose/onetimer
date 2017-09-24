@@ -5,7 +5,8 @@ import { enterTimer, leaveTimer } from '../actions';
 import { formatTime } from './helpers';
 import {
   getLastActivePuzzleSolveDuration,
-  getIsPreparing, getIsReady, getIsTiming
+  getIsPreparing, getIsReady, getIsTiming,
+  getActiveSolveSummary
 } from '../reducers';
 import NoSleep from '../no-sleep';
 
@@ -27,7 +28,8 @@ export class Timer extends PureComponent {
   render() {
     const {
       onTimerEnter, onTimerLeave, isPreparing,
-      isReady, isTiming, lastSolveDuration, displayCounter
+      isReady, isTiming, lastSolveDuration, displayCounter,
+      solveSummaryTime
     } = this.props;
     return (
       <div
@@ -38,12 +40,22 @@ export class Timer extends PureComponent {
         onMouseUp={onTimerLeave}
       >
         <div className={'Timer-display' + (isPreparing ? ' Timer-display-preparing' : '')}>
-          {!isReady && !isTiming && formatTime(lastSolveDuration)}
-          {isReady && 'Ready'}
-          {isTiming && (displayCounter === 0 ?
-            'Solve' :
-            formatTime(displayCounter, { showSubSecond: false }))
+          {!isReady && !isTiming &&
+            <div>
+              <div>{formatTime(lastSolveDuration)}</div>
+              {solveSummaryTime > 0 &&
+                <div className="Timer-solve-summary">
+                  Avg. of 5: {formatTime(solveSummaryTime)}
+                </div>
+              }
+            </div>
           }
+          {isReady && 'Ready'}
+          {isTiming && (
+            displayCounter === 0 ?
+              'Solve' :
+              formatTime(displayCounter, { showSubSecond: false })
+          )}
         </div>
       </div>
     );
@@ -56,7 +68,8 @@ const mapStateToProps = state => {
     isReady: getIsReady(state),
     isTiming: getIsTiming(state),
     lastSolveDuration: getLastActivePuzzleSolveDuration(state),
-    displayCounter: state.timer.displayCounter
+    displayCounter: state.timer.displayCounter,
+    solveSummaryTime: getActiveSolveSummary(state)
   };
 };
 

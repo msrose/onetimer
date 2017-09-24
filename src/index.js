@@ -5,11 +5,11 @@ import registerServiceWorker from './registerServiceWorker';
 import 'typeface-roboto';
 import Root from './components/Root';
 import configureStore from './configure-store';
-import googleApi from './google-api-loader';
+// import googleApi from './google-api-loader';
 
 const store = configureStore();
 
-googleApi.inject();
+// googleApi.inject();
 
 ReactDOM.render(
   <Root store={store} />,

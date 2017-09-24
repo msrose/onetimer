@@ -46,6 +46,21 @@ export const getSolveCounts = state => {
     }, {});
 };
 
+export const getActiveSolveSummary = state => {
+  const activePuzzleSolves = getActivePuzzleSolves(state);
+  const val = activePuzzleSolves.length < 5 ?
+    0 :
+    Math.round(
+      activePuzzleSolves
+        .map(solve => solve.duration)
+        .slice(0, 5)
+        .sort((a, b) => a - b)
+        .slice(1, 4)
+        .reduce((sum, value) => sum + value) / 3
+    );
+  return val;
+};
+
 const initialSolveState = {
   byRecordedAt: {},
   lastDeleted: []
