@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import googleApi from '../google-api-loader';
 import Button from 'material-ui/Button';
 
-class Sync extends Component {
+class GoogleDrive extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,4 +71,4 @@ class Sync extends Component {
   }
 }
 
-export default Sync;
+export default GoogleDrive;

@@ -9,7 +9,7 @@ import ListItemLink from './ListItemLink';
 import { toggleDrawer } from '../actions';
 import Typography from 'material-ui/Typography';
 import SettingsIcon from 'material-ui-icons/Settings';
-import SyncIcon from 'material-ui-icons/Sync';
+// import SyncIcon from 'material-ui-icons/Sync';
 
 const MainDrawer = ({ isDrawerOpen, onRequestClose }) => (
   <Drawer
@@ -38,10 +38,10 @@ const MainDrawer = ({ isDrawerOpen, onRequestClose }) => (
         <ListItemIcon><SettingsIcon /></ListItemIcon>
         <ListItemText primary="Settings" />
       </ListItemLink>
-      <ListItemLink path="/sync" onNavigate={onRequestClose}>
-        <ListItemIcon><SyncIcon /></ListItemIcon>
-        <ListItemText primary="Sync" />
-      </ListItemLink>
+      {/* <ListItemLink path="/sync" onNavigate={onRequestClose}> */}
+      {/*   <ListItemIcon><SyncIcon /></ListItemIcon> */}
+      {/*   <ListItemText primary="Sync" /> */}
+      {/* </ListItemLink> */}
     </List>
   </Drawer>
 );
