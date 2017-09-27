@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import rootReducer from './reducers';
 
