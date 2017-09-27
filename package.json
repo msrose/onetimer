@@ -2,20 +2,7 @@
   "name": "onetimer",
   "version": "0.3.1",
   "private": true,
-  "dependencies": {
-    "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.12",
-    "material-ui-icons": "^1.0.0-beta.5",
-    "nosleep.js": "^0.7.0",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "react-router-dom": "^4.1.2",
-    "redux": "^3.7.2",
-    "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.2.0",
-    "typeface-roboto": "0.0.35"
-  },
+  "homepage": "https://msrose.github.io/onetimer",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -26,14 +13,27 @@
     "deploy": "gh-pages -d build -b master",
     "postdeploy": "echo -n 'Enter version increment: ' && read versionIncrement && npm version $versionIncrement && git push origin develop --tags"
   },
-  "homepage": "https://msrose.github.io/onetimer",
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "material-ui": "^1.0.0-beta.12",
+    "material-ui-icons": "^1.0.0-beta.10",
+    "nosleep.js": "^0.7.0",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-redux": "^5.0.6",
+    "react-router-dom": "^4.1.2",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "typeface-roboto": "0.0.35"
+  },
   "devDependencies": {
     "enzyme": "^3.0.0",
     "enzyme-adapter-react-16": "^1.0.0",
     "eslint-config-msrose": "^1.0.0",
     "gh-pages": "^1.0.0",
     "raf": "^3.3.2",
-    "react-scripts": "1.0.11",
+    "react-scripts": "1.0.14",
     "react-test-renderer": "^16.0.0"
   }
 }
