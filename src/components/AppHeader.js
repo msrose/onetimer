@@ -13,6 +13,7 @@ import {
 } from '../reducers';
 import { DeleteSelectedSolvesButton, DeleteLastSolveButton } from './DeleteSolvesButton';
 import { withRouter } from 'react-router-dom';
+import LastSolveOptionsMenu from './LastSolveOptionsMenu';
 
 const AppHeader = ({ onMenuClick, puzzle, showSolveControls, hasActiveLastSolve }) => (
   <div className="AppHeader">
@@ -30,9 +31,10 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls, hasActiveLastSolve 
         {showSolveControls &&
           <Route path="/solves" component={DeleteSelectedSolvesButton} />
         }
-        {hasActiveLastSolve &&
-          <Route path="/timer" component={DeleteLastSolveButton} />
-        }
+        {hasActiveLastSolve && [
+          <Route key="delete" path="/timer" component={DeleteLastSolveButton} />,
+          <Route key="more" path="/timer" component={LastSolveOptionsMenu} />
+        ]}
       </Toolbar>
     </AppBar>
   </div>

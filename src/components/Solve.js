@@ -9,7 +9,7 @@ class Solve extends Component {
   };
 
   render() {
-    const { duration, recordedAt, selected, showCheckbox } = this.props;
+    const { duration, recordedAt, selected, showCheckbox, isDNF, hasPenalty } = this.props;
     return (
       <ListItem
         divider={true}
@@ -17,8 +17,9 @@ class Solve extends Component {
         onClick={this.handleClick}
       >
         <ListItemText
-          primary={formatTime(duration)}
+          primary={formatTime(duration) + (hasPenalty ? ' +2' : '')}
           secondary={formatDate(recordedAt)}
+          className={isDNF ? 'Solve-dnf' : ''}
         />
         {showCheckbox &&
           // Force checkbox to be no higher than list item to prevent jank

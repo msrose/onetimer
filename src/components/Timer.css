@@ -21,3 +21,12 @@
 .Timer-display-preparing {
   color: green;
 }
+
+.Timer-solve-dnf {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.Timer-solve-penalty {
+  color: red;
+}

@@ -1,4 +1,10 @@
-import { ADD_SOLVE, TOGGLE_SOLVE_SELECTED, DELETE_SOLVES } from '../actions';
+import {
+  ADD_SOLVE,
+  TOGGLE_SOLVE_SELECTED,
+  DELETE_SOLVES,
+  TOGGLE_SOLVE_DNF,
+  TOGGLE_SOLVE_PENALTY
+} from '../actions';
 
 export const getSolvesByRecordedAt = state => {
   return state.entities.solves.byRecordedAt;
@@ -24,11 +30,6 @@ export const getLastActivePuzzleSolve = state => {
   return getActivePuzzleSolves(state)[0] || null;
 };
 
-export const getLastActivePuzzleSolveDuration = state => {
-  const lastSolve = getLastActivePuzzleSolve(state);
-  return lastSolve ? lastSolve.duration : 0;
-};
-
 export const getHasActiveSelectedSolves = state => {
   return getActivePuzzleSolves(state).some(solve => solve.selected);
 };
@@ -52,7 +53,7 @@ export const getActiveSolveSummary = state => {
     0 :
     Math.round(
       activePuzzleSolves
-        .map(solve => solve.duration)
+        .map(solve => (solve.isDNF ? Infinity : solve.duration) + (solve.hasPenalty ? 2 : 0))
         .slice(0, 5)
         .sort((a, b) => a - b)
         .slice(1, 4)
@@ -76,6 +77,7 @@ export function solves(state = initialSolveState, action) {
           [action.solve.recordedAt]: action.solve
         }
       };
+    // TODO: refactor duplicate logic for updating field of solve
     case TOGGLE_SOLVE_SELECTED:
       return {
         ...state,
@@ -84,6 +86,28 @@ export function solves(state = initialSolveState, action) {
           [action.recordedAt]: {
             ...state.byRecordedAt[action.recordedAt],
             selected: !state.byRecordedAt[action.recordedAt].selected
+          }
+        }
+      };
+    case TOGGLE_SOLVE_DNF:
+      return {
+        ...state,
+        byRecordedAt: {
+          ...state.byRecordedAt,
+          [action.recordedAt]: {
+            ...state.byRecordedAt[action.recordedAt],
+            isDNF: !state.byRecordedAt[action.recordedAt].isDNF
+          }
+        }
+      };
+    case TOGGLE_SOLVE_PENALTY:
+      return {
+        ...state,
+        byRecordedAt: {
+          ...state.byRecordedAt,
+          [action.recordedAt]: {
+            ...state.byRecordedAt[action.recordedAt],
+            hasPenalty: !state.byRecordedAt[action.recordedAt].hasPenalty
           }
         }
       };

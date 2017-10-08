@@ -15,10 +15,10 @@ One Timer is a mobile-first, fully offline-capable Rubik's cube timer for the we
 - [X] "Add to Homescreen" from Chrome so you can use it just like a mobile app
 - [X] Persist solves to local storage
 - [X] Deleting solves
+- [X] +2s
+- [X] DNFs
 - [ ] Sync solves to your own server
 - [ ] Full offline support
-- [ ] +2s
-- [ ] DNFs
 - [ ] Graphs and visualizations to see solve trends
 - [ ] Scramble generation for all cubic puzzles
 - [ ] Export solves to JSON/CSV

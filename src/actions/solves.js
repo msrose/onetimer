@@ -1,6 +1,9 @@
 import {
-  getLastDeletedSolves, getSelectedActivePuzzleSolves, getLastActivePuzzleSolve
+  getLastDeletedSolves,
+  getSelectedActivePuzzleSolves,
+  getLastActivePuzzleSolve
 } from '../reducers';
+
 import { toggleDeleteSolveMessage } from '../actions';
 
 export const ADD_SOLVE = 'ADD_SOLVE';
@@ -11,7 +14,9 @@ export const addSolve = (recordedAt, duration, puzzle) => ({
     recordedAt,
     duration,
     puzzle,
-    selected: false
+    selected: false,
+    isDNF: false,
+    hasPenalty: false
   }
 });
 
@@ -57,4 +62,28 @@ export const deleteSelectedSolves = () => {
     dispatch(deleteSolves(selectedSolves.map(solve => solve.recordedAt)));
     dispatch(toggleDeleteSolveMessage());
   };
+};
+
+export const TOGGLE_SOLVE_DNF = 'TOGGLE_LAST_SOLVE_DNF';
+
+export const toggleSolveDNF = recordedAt => ({
+  type: TOGGLE_SOLVE_DNF,
+  recordedAt
+});
+
+export const TOGGLE_SOLVE_PENALTY = 'TOGGLE_LAST_SOLVE_PENALTY';
+
+export const toggleSolvePenalty = recordedAt => ({
+  type: TOGGLE_SOLVE_PENALTY,
+  recordedAt
+});
+
+export const toggleLastSolveDNF = () => (dispatch, getState) => {
+  const { recordedAt } = getLastActivePuzzleSolve(getState());
+  dispatch(toggleSolveDNF(recordedAt));
+};
+
+export const toggleLastSolvePenalty = () => (dispatch, getState) => {
+  const { recordedAt } = getLastActivePuzzleSolve(getState());
+  dispatch(toggleSolvePenalty(recordedAt));
 };

@@ -12,7 +12,7 @@ const Solves = ({ solves, onSolveClick, showCheckboxes, activePuzzle }) => (
     {solves.length > 0 ?
       <AppBarMargin>
         <List>
-          {solves.map(({ duration, recordedAt, selected }) => (
+          {solves.map(({ duration, recordedAt, selected, isDNF, hasPenalty }) => (
             <Solve
               key={recordedAt}
               recordedAt={recordedAt}
@@ -20,6 +20,8 @@ const Solves = ({ solves, onSolveClick, showCheckboxes, activePuzzle }) => (
               selected={selected}
               onClick={onSolveClick}
               showCheckbox={showCheckboxes}
+              isDNF={isDNF}
+              hasPenalty={hasPenalty}
             />
           ))}
         </List>

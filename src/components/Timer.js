@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { enterTimer, leaveTimer } from '../actions';
 import { formatTime } from './helpers';
 import {
-  getLastActivePuzzleSolveDuration,
+  getLastActivePuzzleSolve,
   getIsPreparing, getIsReady, getIsTiming,
   getActiveSolveSummary
 } from '../reducers';
@@ -28,9 +28,10 @@ export class Timer extends PureComponent {
   render() {
     const {
       onTimerEnter, onTimerLeave, isPreparing,
-      isReady, isTiming, lastSolveDuration, displayCounter,
-      solveSummaryTime
+      isReady, isTiming, displayCounter,
+      solveSummaryTime, lastSolve
     } = this.props;
+    const lastSolveDuration = lastSolve ? lastSolve.duration : 0;
     return (
       <div
         className="Timer"
@@ -42,10 +43,12 @@ export class Timer extends PureComponent {
         <div className={'Timer-display' + (isPreparing ? ' Timer-display-preparing' : '')}>
           {!isReady && !isTiming &&
             <div>
-              <div>{formatTime(lastSolveDuration)}</div>
+              <div className={'Timer-solve-duration' + (lastSolve && lastSolve.isDNF ? ' Timer-solve-dnf' : '')}>
+                {formatTime(lastSolveDuration)} {lastSolve && lastSolve.hasPenalty && <span className="Timer-solve-penalty">+2</span>}
+              </div>
               {solveSummaryTime > 0 &&
                 <div className="Timer-solve-summary">
-                  Avg. of 5: {formatTime(solveSummaryTime)}
+                  Avg. of 5: {isFinite(solveSummaryTime) ? formatTime(solveSummaryTime) : 'DNF'}
                 </div>
               }
             </div>
@@ -67,7 +70,7 @@ const mapStateToProps = state => {
     isPreparing: getIsPreparing(state),
     isReady: getIsReady(state),
     isTiming: getIsTiming(state),
-    lastSolveDuration: getLastActivePuzzleSolveDuration(state),
+    lastSolve: getLastActivePuzzleSolve(state),
     displayCounter: state.timer.displayCounter,
     solveSummaryTime: getActiveSolveSummary(state)
   };
