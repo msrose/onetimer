@@ -1,13 +1,26 @@
 import configureStore from '../configure-store';
 import {
-  addSolve, deleteSolves, undoLastSolveDelete, toggleSolveSelected, deleteSelectedSolves, deleteLastSolve
+  addSolve,
+  deleteSolves,
+  undoLastSolveDelete,
+  toggleSolveSelected,
+  deleteSelectedSolves,
+  deleteLastSolve,
+  toggleSolvePenalty,
+  toggleSolveDNF
 } from '../actions';
 import {
-  getActivePuzzleSolves, getActivePuzzle, getSolvesByRecordedAt, getSelectedActivePuzzleSolves, getLastActivePuzzleSolve
+  getActivePuzzleSolves,
+  getActivePuzzle,
+  getSolvesByRecordedAt,
+  getSelectedActivePuzzleSolves,
+  getLastActivePuzzleSolve,
+  getActiveSolveSummary
 } from '../reducers';
 
 describe('Solves reducer', () => {
-  let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt, selectedActivePuzzleSolves, lastActivePuzzleSolve;
+  let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt,
+    selectedActivePuzzleSolves, lastActivePuzzleSolve, activeSolveSummary;
 
   beforeEach(() => {
     store = configureStore();
@@ -16,6 +29,7 @@ describe('Solves reducer', () => {
     solvesByRecordedAt = () => getSolvesByRecordedAt(store.getState());
     selectedActivePuzzleSolves = () => getSelectedActivePuzzleSolves(store.getState());
     lastActivePuzzleSolve = () => getLastActivePuzzleSolve(store.getState());
+    activeSolveSummary = () => getActiveSolveSummary(store.getState());
   });
 
   it('adds a solve when addSolve is dispatched', () => {
@@ -84,5 +98,53 @@ describe('Solves reducer', () => {
     expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: 2 }));
     store.dispatch(deleteLastSolve());
     expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: 1 }));
+  });
+
+  it('displays the correct solve summary when there are less than five solves', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(addSolve(2, 1500, activePuzzle()));
+    store.dispatch(addSolve(3, 2000, activePuzzle()));
+    store.dispatch(addSolve(4, 2500, activePuzzle()));
+    expect(activeSolveSummary()).toBe(0);
+  });
+
+  it('displays the correct solve summary when five solves are added', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(addSolve(2, 1500, activePuzzle()));
+    store.dispatch(addSolve(3, 2000, activePuzzle()));
+    store.dispatch(addSolve(4, 2500, activePuzzle()));
+    store.dispatch(addSolve(5, 1250, activePuzzle()));
+    expect(activeSolveSummary()).toBe(1583);
+  });
+
+  it('calculates the correct solve summary when a solve has a penalty', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(addSolve(2, 1500, activePuzzle()));
+    store.dispatch(addSolve(3, 2000, activePuzzle()));
+    store.dispatch(addSolve(4, 2500, activePuzzle()));
+    store.dispatch(addSolve(5, 1250, activePuzzle()));
+    store.dispatch(toggleSolvePenalty(2));
+    expect(activeSolveSummary()).toBe(1917);
+  });
+
+  it('calculates the correct solve summary when a solve is a DNF', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(addSolve(2, 1500, activePuzzle()));
+    store.dispatch(addSolve(3, 2000, activePuzzle()));
+    store.dispatch(addSolve(4, 2500, activePuzzle()));
+    store.dispatch(addSolve(5, 1250, activePuzzle()));
+    store.dispatch(toggleSolveDNF(2));
+    expect(activeSolveSummary()).toBe(1917);
+  });
+
+  it('calculates the correct solve summary when more than one solve is a DNF', () => {
+    store.dispatch(addSolve(1, 1000, activePuzzle()));
+    store.dispatch(addSolve(2, 1500, activePuzzle()));
+    store.dispatch(addSolve(3, 2000, activePuzzle()));
+    store.dispatch(addSolve(4, 2500, activePuzzle()));
+    store.dispatch(addSolve(5, 1250, activePuzzle()));
+    store.dispatch(toggleSolveDNF(2));
+    store.dispatch(toggleSolveDNF(3));
+    expect(activeSolveSummary()).toBe(Infinity);
   });
 });

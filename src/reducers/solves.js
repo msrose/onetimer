@@ -53,12 +53,14 @@ export const getActiveSolveSummary = state => {
     0 :
     Math.round(
       activePuzzleSolves
-        .map(solve => (solve.isDNF ? Infinity : solve.duration) + (solve.hasPenalty ? 2 : 0))
+        .map(solve => (solve.isDNF ? Infinity : solve.duration) + (solve.hasPenalty ? 2000 : 0))
         .slice(0, 5)
         .sort((a, b) => a - b)
         .slice(1, 4)
         .reduce((sum, value) => sum + value) / 3
     );
+  // Returning Infinity means DNF average of five.
+  // Maybe a bit hacky, but it works fine so just deal with it.
   return val;
 };
 
