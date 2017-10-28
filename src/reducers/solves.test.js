@@ -7,7 +7,8 @@ import {
   deleteSelectedSolves,
   deleteLastSolve,
   toggleSolvePenalty,
-  toggleSolveDNF
+  toggleSolveDNF,
+  setActivePuzzle
 } from '../actions';
 import {
   getActivePuzzleSolves,
@@ -15,12 +16,14 @@ import {
   getSolvesByRecordedAt,
   getSelectedActivePuzzleSolves,
   getLastActivePuzzleSolve,
-  getActiveSolveSummary
+  getActiveSolveSummary,
+  Puzzles
 } from '../reducers';
 
 describe('Solves reducer', () => {
   let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt,
-    selectedActivePuzzleSolves, lastActivePuzzleSolve, activeSolveSummary;
+    selectedActivePuzzleSolves, lastActivePuzzleSolve, activeSolveSummaryValue,
+    dispatchAddSolve, recordedAtCounter;
 
   beforeEach(() => {
     store = configureStore();
@@ -29,7 +32,9 @@ describe('Solves reducer', () => {
     solvesByRecordedAt = () => getSolvesByRecordedAt(store.getState());
     selectedActivePuzzleSolves = () => getSelectedActivePuzzleSolves(store.getState());
     lastActivePuzzleSolve = () => getLastActivePuzzleSolve(store.getState());
-    activeSolveSummary = () => getActiveSolveSummary(store.getState());
+    activeSolveSummaryValue = () => getActiveSolveSummary(store.getState()).value;
+    recordedAtCounter = 0;
+    dispatchAddSolve = duration => store.dispatch(addSolve(++recordedAtCounter, duration, activePuzzle()));
   });
 
   it('adds a solve when addSolve is dispatched', () => {
@@ -105,7 +110,7 @@ describe('Solves reducer', () => {
     store.dispatch(addSolve(2, 1500, activePuzzle()));
     store.dispatch(addSolve(3, 2000, activePuzzle()));
     store.dispatch(addSolve(4, 2500, activePuzzle()));
-    expect(activeSolveSummary()).toBe(0);
+    expect(activeSolveSummaryValue()).toBe(0);
   });
 
   it('displays the correct solve summary when five solves are added', () => {
@@ -114,7 +119,7 @@ describe('Solves reducer', () => {
     store.dispatch(addSolve(3, 2000, activePuzzle()));
     store.dispatch(addSolve(4, 2500, activePuzzle()));
     store.dispatch(addSolve(5, 1250, activePuzzle()));
-    expect(activeSolveSummary()).toBe(1583);
+    expect(activeSolveSummaryValue()).toBe(1583);
   });
 
   it('calculates the correct solve summary when a solve has a penalty', () => {
@@ -124,7 +129,7 @@ describe('Solves reducer', () => {
     store.dispatch(addSolve(4, 2500, activePuzzle()));
     store.dispatch(addSolve(5, 1250, activePuzzle()));
     store.dispatch(toggleSolvePenalty(2));
-    expect(activeSolveSummary()).toBe(1917);
+    expect(activeSolveSummaryValue()).toBe(1917);
   });
 
   it('calculates the correct solve summary when a solve is a DNF', () => {
@@ -134,7 +139,7 @@ describe('Solves reducer', () => {
     store.dispatch(addSolve(4, 2500, activePuzzle()));
     store.dispatch(addSolve(5, 1250, activePuzzle()));
     store.dispatch(toggleSolveDNF(2));
-    expect(activeSolveSummary()).toBe(1917);
+    expect(activeSolveSummaryValue()).toBe(1917);
   });
 
   it('calculates the correct solve summary when more than one solve is a DNF', () => {
@@ -145,6 +150,44 @@ describe('Solves reducer', () => {
     store.dispatch(addSolve(5, 1250, activePuzzle()));
     store.dispatch(toggleSolveDNF(2));
     store.dispatch(toggleSolveDNF(3));
-    expect(activeSolveSummary()).toBe(Infinity);
+    expect(activeSolveSummaryValue()).toBe(Infinity);
+  });
+
+  it('calculates the correct solve summary for 6x6x6', () => {
+    store.dispatch(setActivePuzzle(Puzzles.SIX_BY_SIX));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(2003);
+    dispatchAddSolve(3000);
+    expect(activeSolveSummaryValue()).toBe(2001);
+  });
+
+  it('calculates the correct solve summary for 7x7x7', () => {
+    store.dispatch(setActivePuzzle(Puzzles.SEVEN_BY_SEVEN));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(2003);
+    dispatchAddSolve(3000);
+    expect(activeSolveSummaryValue()).toBe(2001);
+  });
+
+  it('calculates the correct solve summary for 3x3x3 Blindfolded', () => {
+    store.dispatch(setActivePuzzle(Puzzles.THREE_BLD));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(2003);
+    dispatchAddSolve(3000);
+    expect(activeSolveSummaryValue()).toBe(1000);
+  });
+
+  it('calculates the correct solve summary for 4x4x4 Blindfolded', () => {
+    store.dispatch(setActivePuzzle(Puzzles.FOUR_BLD));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(2003);
+    expect(activeSolveSummaryValue()).toBe(1000);
+  });
+
+  it('calculates the correct solve summary for 5x5x5 Blindfolded', () => {
+    store.dispatch(setActivePuzzle(Puzzles.FIVE_BLD));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(2003);
+    expect(activeSolveSummaryValue()).toBe(1000);
   });
 });

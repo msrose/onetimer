@@ -2,12 +2,27 @@ import {
   SET_ACTIVE_PUZZLE, TOGGLE_PUZZLE_VISIBLE, START_PUZZLE_REORDER, CHOOSE_NEW_PUZZLE_ORDER
 } from '../actions';
 
-const puzzleNames = [
-  '3x3x3', '2x2x2', '4x4x4', '5x5x5', '6x6x6', '7x7x7',
-  '3x3x3 Blindfolded', '3x3x3 One-Handed', '3x3x3 With Feet',
-  'Megaminx', 'Pyraminx', 'Clock', 'Skewb', 'Square-1',
-  '4x4x4 Blindfolded', '5x5x5 Blindfolded', '3x3x3 Multi-Blind'
-];
+export const Puzzles = {
+  TWO_BY_TWO: '2x2x2',
+  THREE_BY_THREE: '3x3x3',
+  FOUR_BY_FOUR: '4x4x4',
+  FIVE_BY_FIVE: '5x5x5',
+  SIX_BY_SIX: '6x6x6',
+  SEVEN_BY_SEVEN: '7x7x7',
+  THREE_BLD: '3x3x3 Blindfolded',
+  THREE_OH: '3x3x3 One-Handed',
+  THREE_FEET: '3x3x3 With Feet',
+  MEGAMINX: 'Megaminx',
+  PYRAMINX: 'Pyraminx',
+  CLOCK: 'Clock',
+  SKEWB: 'Skewb',
+  SQUARE_1: 'Square-1',
+  FOUR_BLD: '4x4x4 Blindfolded',
+  FIVE_BLD: '4x4x4 Blindfolded',
+  THREE_MULTI_BLD: '3x3x3 Multi-Blind'
+};
+
+const puzzleNames = Object.values(Puzzles);
 
 export const getPuzzleNames = state => {
   return state.entities.puzzlesByName;

@@ -5,6 +5,8 @@ import {
   TOGGLE_SOLVE_DNF,
   TOGGLE_SOLVE_PENALTY
 } from '../actions';
+import { getActivePuzzle } from '../reducers';
+import { getSummaryDescriptor } from './solve-summary';
 
 export const getSolvesByRecordedAt = state => {
   return state.entities.solves.byRecordedAt;
@@ -49,19 +51,10 @@ export const getSolveCounts = state => {
 
 export const getActiveSolveSummary = state => {
   const activePuzzleSolves = getActivePuzzleSolves(state);
-  const val = activePuzzleSolves.length < 5 ?
-    0 :
-    Math.round(
-      activePuzzleSolves
-        .map(solve => (solve.isDNF ? Infinity : solve.duration) + (solve.hasPenalty ? 2000 : 0))
-        .slice(0, 5)
-        .sort((a, b) => a - b)
-        .slice(1, 4)
-        .reduce((sum, value) => sum + value) / 3
-    );
-  // Returning Infinity means DNF average of five.
-  // Maybe a bit hacky, but it works fine so just deal with it.
-  return val;
+  const activePuzzle = getActivePuzzle(state);
+  const { valueCalculator, description } = getSummaryDescriptor(activePuzzle);
+  const value = valueCalculator(activePuzzleSolves);
+  return { value, description };
 };
 
 const initialSolveState = {

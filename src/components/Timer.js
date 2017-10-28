@@ -29,7 +29,7 @@ export class Timer extends PureComponent {
     const {
       onTimerEnter, onTimerLeave, isPreparing,
       isReady, isTiming, displayCounter,
-      solveSummaryTime, lastSolve
+      solveSummaryTime, lastSolve, solveSummaryDescription
     } = this.props;
     const lastSolveDuration = lastSolve ? lastSolve.duration : 0;
     return (
@@ -48,7 +48,7 @@ export class Timer extends PureComponent {
               </div>
               {solveSummaryTime > 0 &&
                 <div className="Timer-solve-summary">
-                  Avg. of 5: {isFinite(solveSummaryTime) ? formatTime(solveSummaryTime) : 'DNF'}
+                  {solveSummaryDescription}: {isFinite(solveSummaryTime) ? formatTime(solveSummaryTime) : 'DNF'}
                 </div>
               }
             </div>
@@ -66,13 +66,15 @@ export class Timer extends PureComponent {
 }
 
 const mapStateToProps = state => {
+  const solveSummary = getActiveSolveSummary(state);
   return {
     isPreparing: getIsPreparing(state),
     isReady: getIsReady(state),
     isTiming: getIsTiming(state),
     lastSolve: getLastActivePuzzleSolve(state),
     displayCounter: state.timer.displayCounter,
-    solveSummaryTime: getActiveSolveSummary(state)
+    solveSummaryTime: solveSummary.value,
+    solveSummaryDescription: solveSummary.description
   };
 };
 
