@@ -1,16 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppBarMargin from './AppBarMargin';
-import { getActivePuzzleSolves, getHasActiveSelectedSolves, getActivePuzzle } from '../reducers';
+import {
+  getActivePuzzleSolves,
+  getHasActiveSelectedSolves,
+  getActivePuzzle
+} from '../reducers';
 import List from 'material-ui/List';
 import { toggleSolveSelected } from '../actions';
 import Solve from './Solve';
 import './Solves.css';
+import SolvesHeader from './SolvesHeader';
 
 const Solves = ({ solves, onSolveClick, showCheckboxes, activePuzzle }) => (
   <div className="Solves">
     {solves.length > 0 ?
       <AppBarMargin>
+        <SolvesHeader />
         <List>
           {solves.map(({ duration, recordedAt, selected, isDNF, hasPenalty }) => (
             <Solve

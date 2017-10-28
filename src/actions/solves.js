@@ -1,7 +1,8 @@
 import {
   getLastDeletedSolves,
   getSelectedActivePuzzleSolves,
-  getLastActivePuzzleSolve
+  getLastActivePuzzleSolve,
+  getActivePuzzleSolves
 } from '../reducers';
 
 import { toggleDeleteSolveMessage } from '../actions';
@@ -86,4 +87,20 @@ export const toggleLastSolveDNF = () => (dispatch, getState) => {
 export const toggleLastSolvePenalty = () => (dispatch, getState) => {
   const { recordedAt } = getLastActivePuzzleSolve(getState());
   dispatch(toggleSolvePenalty(recordedAt));
+};
+
+export const deselectActivePuzzleSolves = () => (dispatch, getState) => {
+  const selectedSolves = getSelectedActivePuzzleSolves(getState());
+  // TODO: bulk deselect
+  selectedSolves.forEach(({ recordedAt }) => dispatch(toggleSolveSelected(recordedAt)));
+};
+
+export const selectAllActivePuzzleSolves = () => (dispatch, getState) => {
+  const activePuzzleSolves = getActivePuzzleSolves(getState());
+  activePuzzleSolves.forEach(solve => {
+    if(!solve.selected) {
+      // TODO: bulk select
+      dispatch(toggleSolveSelected(solve.recordedAt));
+    }
+  });
 };
