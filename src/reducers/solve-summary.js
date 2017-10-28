@@ -39,8 +39,7 @@ const getBestOfN = (solves, n) => {
 };
 
 export const getSummaryDescriptor = puzzle => {
-  let valueCalculator = getAverageOfFive;
-  let description = 'Avg. of 5';
+  let valueCalculator, description;
   switch(puzzle) {
     case Puzzles.SIX_BY_SIX:
     case Puzzles.SEVEN_BY_SEVEN:
@@ -55,6 +54,10 @@ export const getSummaryDescriptor = puzzle => {
     case Puzzles.FIVE_BLD:
       valueCalculator = solves => getBestOfN(solves, 2);
       description = 'Best of 2';
+      break;
+    default:
+      valueCalculator = getAverageOfFive;
+      description = 'Avg. of 5';
       break;
   }
   return {
