@@ -18,7 +18,7 @@ export const Puzzles = {
   SKEWB: 'Skewb',
   SQUARE_1: 'Square-1',
   FOUR_BLD: '4x4x4 Blindfolded',
-  FIVE_BLD: '4x4x4 Blindfolded',
+  FIVE_BLD: '5x5x5 Blindfolded',
   THREE_MULTI_BLD: '3x3x3 Multi-Blind'
 };
 
