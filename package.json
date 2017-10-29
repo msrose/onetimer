@@ -10,9 +10,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "predeploy": "CI=true npm test && npm run lint && npm run build",
+    "predeploy": "CI=true npm test && npm run lint && npm run build && if ! git describe --exact-match HEAD; then while [[ ! $versionIncrement =~ ^major|minor|patch$ ]]; do echo -n 'Enter version increment (major|minor|patch): ' && read versionIncrement; done && npm version $versionIncrement; fi",
     "deploy": "gh-pages -d build -b master",
-    "postdeploy": "echo -n 'Enter version increment: ' && read versionIncrement && npm version $versionIncrement && git push origin develop --tags"
+    "postdeploy": "git push origin develop --tags"
   },
   "dependencies": {
     "lodash": "^4.17.4",
