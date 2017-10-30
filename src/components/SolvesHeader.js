@@ -7,16 +7,18 @@ import { getSelectedActivePuzzleSolves } from '../reducers';
 import { deselectActivePuzzleSolves, selectAllActivePuzzleSolves } from '../actions';
 
 const SolvesHeader = ({ selectedSolveCount, onDeselectSolves, onSelectAllSolves }) => (
-  selectedSolveCount > 0 ?
+  selectedSolveCount > 0 &&
     <div className="SolvesHeader">
-      <Chip
-        onRequestDelete={onDeselectSolves}
-        onClick={onDeselectSolves}
-        label={`${selectedSolveCount} selected`}
-      />
-      <Button color="primary" onClick={onSelectAllSolves}>Select All</Button>
-    </div> :
-    null
+      <div className="SolvesHeader-fixed">
+        <Chip
+          onRequestDelete={onDeselectSolves}
+          onClick={onDeselectSolves}
+          label={`${selectedSolveCount} selected`}
+        />
+        <Button color="primary" onClick={onSelectAllSolves}>Select All</Button>
+      </div>
+      <div className="SolvesHeader-spacer" />
+    </div>
 );
 
 const mapStateToProps = state => ({

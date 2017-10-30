@@ -1,8 +1,17 @@
-.SolvesHeader {
+.SolvesHeader-fixed {
+  position: fixed;
+  left: 0;
+  right: 0;
   padding-top: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding-right: 5px;
   padding-left: 5px;
+  background-color: white;
+  z-index: 5;
+}
+
+.SolvesHeader-spacer {
+  height: 46px;
 }
