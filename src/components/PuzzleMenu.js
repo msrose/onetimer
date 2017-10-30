@@ -25,10 +25,16 @@ class PuzzleMenuItem extends Component {
 }
 
 const PuzzleMenu = ({ open, onRequestClose, activePuzzle, onChange, puzzles, solveCounts }) => (
-  <Drawer open={open} anchor="bottom" onRequestClose={onRequestClose}>
+  <Drawer open={open} anchor="top" onRequestClose={onRequestClose}>
     <MenuList className="PuzzleMenu-menu-list">
       {puzzles.map(name => (
-        <PuzzleMenuItem onClick={onChange} name={name} selected={name === activePuzzle} key={name} count={solveCounts[name]} />
+        <PuzzleMenuItem
+          onClick={onChange}
+          name={name}
+          selected={name === activePuzzle}
+          key={name}
+          count={solveCounts[name]}
+        />
       ))}
     </MenuList>
   </Drawer>

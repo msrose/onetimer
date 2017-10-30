@@ -8,14 +8,13 @@ import Typography from 'material-ui/Typography';
 import './AppHeader.css';
 import { toggleDrawer } from '../actions';
 import { Route, Switch } from 'react-router-dom';
-import {
-  getHasActiveSelectedSolves, getActivePuzzle, getLastActivePuzzleSolve
-} from '../reducers';
+import { getHasActiveSelectedSolves, getLastActivePuzzleSolve } from '../reducers';
 import { DeleteSelectedSolvesButton, DeleteLastSolveButton } from './DeleteSolvesButton';
 import { withRouter } from 'react-router-dom';
 import LastSolveOptionsMenu from './LastSolveOptionsMenu';
+import PuzzleTitle from './PuzzleTitle';
 
-const AppHeader = ({ onMenuClick, puzzle, showSolveControls, hasActiveLastSolve }) => (
+const AppHeader = ({ onMenuClick, showSolveControls, hasActiveLastSolve }) => (
   <div className="AppHeader">
     <AppBar position="fixed" color="default">
       <Toolbar>
@@ -24,7 +23,7 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls, hasActiveLastSolve 
           <Switch>
             {/* eslint-disable react/jsx-no-bind */}
             <Route path="/settings" render={() => <span>Settings</span>} />
-            <Route render={() => <span>{puzzle}</span>} />
+            <Route component={PuzzleTitle} />
             {/* eslint-enable react/jsx-no-bind */}
           </Switch>
         </Typography>
@@ -41,7 +40,6 @@ const AppHeader = ({ onMenuClick, puzzle, showSolveControls, hasActiveLastSolve 
 );
 
 const mapStateToProps = state => ({
-  puzzle: getActivePuzzle(state),
   showSolveControls: getHasActiveSelectedSolves(state),
   hasActiveLastSolve: !!getLastActivePuzzleSolve(state)
 });

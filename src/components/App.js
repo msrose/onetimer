@@ -2,10 +2,9 @@ import React from 'react';
 import MainDrawer from './MainDrawer';
 import AppHeader from './AppHeader';
 import AppContent from './AppContent';
-import { withRouter, Switch, Route } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PuzzleMenu from './PuzzleMenu';
-import SwitchPuzzleButton from './SwitchPuzzleButton';
 import { getIsTiming, getIsReady } from '../reducers';
 
 const App = ({ showGlobalControls }) => (
@@ -13,12 +12,6 @@ const App = ({ showGlobalControls }) => (
     {showGlobalControls && <AppHeader />}
     <AppContent />
     <MainDrawer />
-    {showGlobalControls &&
-      <Switch>
-        <Route path="/settings" component={null} />
-        <Route component={SwitchPuzzleButton} />
-      </Switch>
-    }
     <PuzzleMenu />
   </div>
 );
