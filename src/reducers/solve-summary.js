@@ -43,6 +43,7 @@ export const getSummaryDescriptor = puzzle => {
   switch(puzzle) {
     case Puzzles.SIX_BY_SIX:
     case Puzzles.SEVEN_BY_SEVEN:
+    case Puzzles.THREE_FEET:
       valueCalculator = getMeanOfThree;
       description = 'Mean of 3';
       break;
