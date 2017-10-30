@@ -15,7 +15,7 @@ One Timer is a mobile-first, fully offline-capable Rubik's cube timer for the we
 ## Features
 
 - [X] No sign-up required
-- [X] Support for all WCA puzzles
+- [X] Support for all timed WCA events
 - [X] Hide puzzles that you don't practice
 - [X] Reorder puzzle names in list
 - [X] "Add to Homescreen" from Chrome so you can use it just like a mobile app
