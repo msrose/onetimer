@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import {
   ADD_SOLVES,
   TOGGLE_SOLVE_SELECTED,
@@ -57,78 +58,76 @@ export const getActiveSolveSummary = state => {
   return { value, description };
 };
 
-const initialSolveState = {
-  byRecordedAt: {},
-  lastDeleted: []
-};
+const initalByRecordedAtState = {};
 
-export function solves(state = initialSolveState, action) {
+function byRecordedAt(state = initalByRecordedAtState, action) {
   switch(action.type) {
     case ADD_SOLVES:
       return {
         ...state,
-        byRecordedAt: {
-          ...state.byRecordedAt,
-          ...action.solves.reduce(
-            (recordedAtMap, solve) => ({
-              ...recordedAtMap,
-              [solve.recordedAt]: solve
-            }),
-            {}
-          )
-        }
+        ...action.solves.reduce(
+          (recordedAtMap, solve) => ({
+            ...recordedAtMap,
+            [solve.recordedAt]: solve
+          }),
+          {}
+        )
       };
     // TODO: refactor duplicate logic for updating field of solve
     case TOGGLE_SOLVE_SELECTED:
       return {
         ...state,
-        byRecordedAt: {
-          ...state.byRecordedAt,
-          [action.recordedAt]: {
-            ...state.byRecordedAt[action.recordedAt],
-            selected: !state.byRecordedAt[action.recordedAt].selected
-          }
+        [action.recordedAt]: {
+          ...state[action.recordedAt],
+          selected: !state[action.recordedAt].selected
         }
       };
     case TOGGLE_SOLVE_DNF:
       return {
         ...state,
-        byRecordedAt: {
-          ...state.byRecordedAt,
-          [action.recordedAt]: {
-            ...state.byRecordedAt[action.recordedAt],
-            isDNF: !state.byRecordedAt[action.recordedAt].isDNF
-          }
+        [action.recordedAt]: {
+          ...state[action.recordedAt],
+          isDNF: !state[action.recordedAt].isDNF
         }
       };
     case TOGGLE_SOLVE_PENALTY:
       return {
         ...state,
-        byRecordedAt: {
-          ...state.byRecordedAt,
-          [action.recordedAt]: {
-            ...state.byRecordedAt[action.recordedAt],
-            hasPenalty: !state.byRecordedAt[action.recordedAt].hasPenalty
-          }
+        [action.recordedAt]: {
+          ...state[action.recordedAt],
+          hasPenalty: !state[action.recordedAt].hasPenalty
         }
       };
     case DELETE_SOLVES:
-      return {
-        ...state,
-        byRecordedAt: Object.values(state.byRecordedAt).filter(solve => {
-          return !action.recordedAtMap[solve.recordedAt];
-        }).reduce((solves, solve) => {
-          solves[solve.recordedAt] = solve;
-          return solves;
-        }, {}),
-        lastDeleted: Object.values(state.byRecordedAt).filter(solve => {
-          return action.recordedAtMap[solve.recordedAt];
-        })
-      };
+      return Object.values(state).filter(
+        solve => !action.recordedAtMap[solve.recordedAt]
+      ).reduce(
+        (solves, solve) => ({
+          ...solves,
+          [solve.recordedAt]: solve
+        }),
+        {}
+      );
     default:
       return state;
   }
 }
+
+const initalLastDeletedState = [];
+
+function lastDeleted(state = initalLastDeletedState, action) {
+  switch(action.type) {
+    case DELETE_SOLVES:
+      return Object.values(action.recordedAtMap);
+    default:
+      return state;
+  }
+}
+
+export const solves = combineReducers({
+  byRecordedAt,
+  lastDeleted
+});
 
 const initialRecordedAtValuesState = [];
 
