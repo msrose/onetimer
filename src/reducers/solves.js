@@ -1,5 +1,4 @@
 import {
-  ADD_SOLVE,
   ADD_SOLVES,
   TOGGLE_SOLVE_SELECTED,
   DELETE_SOLVES,
@@ -65,14 +64,6 @@ const initialSolveState = {
 
 export function solves(state = initialSolveState, action) {
   switch(action.type) {
-    case ADD_SOLVE:
-      return {
-        ...state,
-        byRecordedAt: {
-          ...state.byRecordedAt,
-          [action.solve.recordedAt]: action.solve
-        }
-      };
     case ADD_SOLVES:
       return {
         ...state,
@@ -143,17 +134,6 @@ const initialRecordedAtValuesState = [];
 
 export function recordedAtValues(state = initialRecordedAtValuesState, action) {
   switch(action.type) {
-    case ADD_SOLVE: {
-      const insertionIndex = state.findIndex(recordedAt => action.solve.recordedAt > recordedAt);
-      if(insertionIndex >= 0) {
-        return [
-          ...state.slice(0, insertionIndex),
-          action.solve.recordedAt,
-          ...state.slice(insertionIndex)
-        ];
-      }
-      return state.concat(action.solve.recordedAt);
-    }
     case ADD_SOLVES: {
       const nextState = state.slice();
       action.solves.forEach(solve => {
