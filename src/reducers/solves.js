@@ -8,7 +8,7 @@ import {
 } from '../actions';
 import { getActivePuzzle } from '../reducers';
 import { getSummaryDescriptor } from './solve-summary';
-import { updateObjectProperty } from './helpers';
+import { toggleObjectProperty } from './helpers';
 
 export const getSolvesByRecordedAt = state => {
   return state.entities.solves.byRecordedAt;
@@ -78,28 +78,25 @@ function byRecordedAt(state = initalByRecordedAtState, action) {
     case TOGGLE_SOLVE_SELECTED:
       return {
         ...state,
-        [action.recordedAt]: updateObjectProperty(
+        [action.recordedAt]: toggleObjectProperty(
           state[action.recordedAt],
-          'selected',
-          selected => !selected
+          'selected'
         )
       };
     case TOGGLE_SOLVE_DNF:
       return {
         ...state,
-        [action.recordedAt]: updateObjectProperty(
+        [action.recordedAt]: toggleObjectProperty(
           state[action.recordedAt],
-          'isDNF',
-          isDNF => !isDNF
+          'isDNF'
         )
       };
     case TOGGLE_SOLVE_PENALTY:
       return {
         ...state,
-        [action.recordedAt]: updateObjectProperty(
+        [action.recordedAt]: toggleObjectProperty(
           state[action.recordedAt],
-          'hasPenalty',
-          hasPenalty => !hasPenalty
+          'hasPenalty'
         )
       };
     case DELETE_SOLVES:
