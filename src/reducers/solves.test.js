@@ -1,6 +1,5 @@
 import configureStore from '../configure-store';
 import {
-  addSolve,
   addSolves,
   deleteSolves,
   undoLastSolveDelete,
@@ -24,7 +23,7 @@ import {
 describe('Solves reducer', () => {
   let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt,
     selectedActivePuzzleSolves, lastActivePuzzleSolve, activeSolveSummaryValue,
-    dispatchAddSolve, recordedAtCounter;
+    dispatchAddSolve, recordedAtCounter, addSolve;
 
   beforeEach(() => {
     store = configureStore();
@@ -35,6 +34,7 @@ describe('Solves reducer', () => {
     lastActivePuzzleSolve = () => getLastActivePuzzleSolve(store.getState());
     activeSolveSummaryValue = () => getActiveSolveSummary(store.getState()).value;
     recordedAtCounter = 0;
+    addSolve = (recordedAt, duration, puzzle) => addSolves([{ recordedAt, duration, puzzle }]);
     dispatchAddSolve = duration => store.dispatch(addSolve(++recordedAtCounter, duration, activePuzzle()));
   });
 

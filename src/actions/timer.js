@@ -1,4 +1,4 @@
-import { addSolve } from './index';
+import { addSolves } from './index';
 
 export const SET_TIMER_PREPARING = 'SET_TIMER_PREPARING';
 
@@ -46,7 +46,15 @@ export const enterTimer = () => {
       const endTime = Date.now();
       clearInterval(displayCounterIntervalId);
       dispatch(setTimerTiming(null, null));
-      dispatch(addSolve(endTime, endTime - startTime, activePuzzle));
+      dispatch(
+        addSolves(
+          [{
+            recordedAt: endTime,
+            duration: endTime - startTime,
+            puzzle: activePuzzle
+          }]
+        )
+      );
     }
   };
 };

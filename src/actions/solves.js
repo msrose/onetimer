@@ -7,15 +7,18 @@ import {
 
 import { toggleDeleteSolveMessage } from '../actions';
 
-export const addSolve = (recordedAt, duration, puzzle) => dispatch => {
-  dispatch(addSolves([{ recordedAt, duration, puzzle }]));
-};
-
 export const ADD_SOLVES = 'ADD_SOLVES';
 
 export const addSolves = solves => ({
   type: ADD_SOLVES,
-  solves: solves.map(({ recordedAt, duration, puzzle, selected = false, isDNF = false, hasPenalty = false }) => ({
+  solves: solves.map(({
+    recordedAt,
+    duration,
+    puzzle,
+    selected = false,
+    isDNF = false,
+    hasPenalty = false
+  }) => ({
     recordedAt,
     duration,
     puzzle,
