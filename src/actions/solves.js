@@ -21,6 +21,20 @@ export const addSolve = (recordedAt, duration, puzzle) => ({
   }
 });
 
+export const ADD_SOLVES = 'ADD_SOLVES';
+
+export const addSolves = solves => ({
+  type: ADD_SOLVES,
+  solves: solves.map(({ recordedAt, duration, puzzle, selected = false, isDNF = false, hasPenalty = false }) => ({
+    recordedAt,
+    duration,
+    puzzle,
+    selected,
+    isDNF,
+    hasPenalty
+  }))
+});
+
 export const TOGGLE_SOLVE_SELECTED = 'TOGGLE_SOLVE_SELECTED';
 
 export const toggleSolveSelected = recordedAt => ({
@@ -48,11 +62,8 @@ export const deleteLastSolve = () => (dispatch, getState) => {
 
 export const undoLastSolveDelete = () => {
   return (dispatch, getState) => {
-    const lastDeleted = getLastDeletedSolves(getState());
-    // TODO: bulk add?
-    lastDeleted.forEach(solve =>
-      dispatch(addSolve(solve.recordedAt, solve.duration, solve.puzzle))
-    );
+    const lastDeletedSolves = getLastDeletedSolves(getState());
+    dispatch(addSolves(lastDeletedSolves));
     dispatch(toggleDeleteSolveMessage());
   };
 };

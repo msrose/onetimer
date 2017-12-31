@@ -1,5 +1,6 @@
 import {
   ADD_SOLVE,
+  ADD_SOLVES,
   TOGGLE_SOLVE_SELECTED,
   DELETE_SOLVES,
   TOGGLE_SOLVE_DNF,
@@ -72,6 +73,20 @@ export function solves(state = initialSolveState, action) {
           [action.solve.recordedAt]: action.solve
         }
       };
+    case ADD_SOLVES:
+      return {
+        ...state,
+        byRecordedAt: {
+          ...state.byRecordedAt,
+          ...action.solves.reduce(
+            (recordedAtMap, solve) => ({
+              ...recordedAtMap,
+              [solve.recordedAt]: solve
+            }),
+            {}
+          )
+        }
+      };
     // TODO: refactor duplicate logic for updating field of solve
     case TOGGLE_SOLVE_SELECTED:
       return {
@@ -138,6 +153,18 @@ export function recordedAtValues(state = initialRecordedAtValuesState, action) {
         ];
       }
       return state.concat(action.solve.recordedAt);
+    }
+    case ADD_SOLVES: {
+      const nextState = state.slice();
+      action.solves.forEach(solve => {
+        const insertionIndex = nextState.findIndex(recordedAt => solve.recordedAt > recordedAt);
+        if(insertionIndex >= 0) {
+          nextState.splice(insertionIndex, 0, solve.recordedAt);
+        } else {
+          nextState.push(solve.recordedAt);
+        }
+      });
+      return nextState;
     }
     case DELETE_SOLVES:
       return state.filter(recordedAt => !action.recordedAtMap[recordedAt]);

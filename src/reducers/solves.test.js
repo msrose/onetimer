@@ -1,6 +1,7 @@
 import configureStore from '../configure-store';
 import {
   addSolve,
+  addSolves,
   deleteSolves,
   undoLastSolveDelete,
   toggleSolveSelected,
@@ -189,5 +190,19 @@ describe('Solves reducer', () => {
     dispatchAddSolve(1000);
     dispatchAddSolve(2003);
     expect(activeSolveSummaryValue()).toBe(1000);
+  });
+
+  it('adds multiple solves when addSolves is dispatched', () => {
+    const solves = [{
+      recordedAt: 1,
+      duration: 1000,
+      puzzle: activePuzzle()
+    }, {
+      recordedAt: 2,
+      duration: 2000,
+      puzzle: activePuzzle()
+    }];
+    store.dispatch(addSolves(solves));
+    expect(activePuzzleSolves().length).toBe(solves.length);
   });
 });
