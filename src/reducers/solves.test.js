@@ -34,8 +34,12 @@ describe('Solves reducer', () => {
     lastActivePuzzleSolve = () => getLastActivePuzzleSolve(store.getState());
     activeSolveSummaryValue = () => getActiveSolveSummary(store.getState()).value;
     recordedAtCounter = 0;
-    addSolve = (recordedAt, duration, puzzle) => addSolves([{ recordedAt, duration, puzzle }]);
-    dispatchAddSolve = duration => store.dispatch(addSolve(++recordedAtCounter, duration, activePuzzle()));
+    addSolve = (recordedAt, duration, puzzle) =>
+      addSolves([{ recordedAt, duration, puzzle }]);
+    dispatchAddSolve = (duration = 1000) => {
+      store.dispatch(addSolve(++recordedAtCounter, duration, activePuzzle()));
+      return recordedAtCounter;
+    };
   });
 
   it('adds a solve when addSolve is dispatched', () => {
@@ -56,101 +60,103 @@ describe('Solves reducer', () => {
   });
 
   it('removes a solve when deleteSolves is dispatched with one solve', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(deleteSolves([1]));
+    const recordedAt = dispatchAddSolve();
+    store.dispatch(deleteSolves([recordedAt]));
     expect(solvesByRecordedAt()).toEqual({});
     expect(activePuzzleSolves()).toEqual([]);
   });
 
   it('removes a solve when deleteSolves is dispatch with many solves', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1000, activePuzzle()));
-    store.dispatch(addSolve(3, 1000, activePuzzle()));
-    store.dispatch(deleteSolves([1, 3]));
+    const recordedAt1 = dispatchAddSolve();
+    const recordedAt2 = dispatchAddSolve();
+    const recordedAt3 = dispatchAddSolve();
+    store.dispatch(deleteSolves([recordedAt1, recordedAt3]));
     expect(activePuzzleSolves()).toEqual([
       expect.objectContaining({
-        recordedAt: 2
+        recordedAt: recordedAt2
       })
     ]);
   });
 
   it('puts back deleted solves when undoLastSolveDelete is dispatched', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1000, activePuzzle()));
-    store.dispatch(addSolve(3, 1000, activePuzzle()));
-    store.dispatch(deleteSolves([1, 3]));
+    const recordedAt1 = dispatchAddSolve();
+    const recordedAt2 = dispatchAddSolve();
+    const recordedAt3 = dispatchAddSolve();
+    store.dispatch(deleteSolves([recordedAt1, recordedAt3]));
     store.dispatch(undoLastSolveDelete());
-    expect(activePuzzleSolves().map(solve => solve.recordedAt)).toEqual([3, 2, 1]);
+    expect(activePuzzleSolves().map(solve => solve.recordedAt)).toEqual(
+      [recordedAt3, recordedAt2, recordedAt1]
+    );
   });
 
   it('toggles the selected state of a solve when toggleSolveSelected is dispatched', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(toggleSolveSelected(1));
+    const recordedAt = dispatchAddSolve();
+    store.dispatch(toggleSolveSelected(recordedAt));
     expect(selectedActivePuzzleSolves()).toEqual([
-      expect.objectContaining({ recordedAt: 1 })
+      expect.objectContaining({ recordedAt })
     ]);
   });
 
   it('deletes the selected puzzles when deleteSelectedSolves is dispatched', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(toggleSolveSelected(1));
+    const recordedAt = dispatchAddSolve();
+    store.dispatch(toggleSolveSelected(recordedAt));
     store.dispatch(deleteSelectedSolves());
     expect(selectedActivePuzzleSolves()).toEqual([]);
   });
 
   it('deletes the last solve when deleteLastSolve is dispatched', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1000, activePuzzle()));
-    expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: 2 }));
+    const recordedAt1 = dispatchAddSolve();
+    const recordedAt2 = dispatchAddSolve();
+    expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: recordedAt2 }));
     store.dispatch(deleteLastSolve());
-    expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: 1 }));
+    expect(lastActivePuzzleSolve()).toEqual(expect.objectContaining({ recordedAt: recordedAt1 }));
   });
 
   it('displays the correct solve summary when there are less than five solves', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1500, activePuzzle()));
-    store.dispatch(addSolve(3, 2000, activePuzzle()));
-    store.dispatch(addSolve(4, 2500, activePuzzle()));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(1500);
+    dispatchAddSolve(2000);
+    dispatchAddSolve(2500);
     expect(activeSolveSummaryValue()).toBe(0);
   });
 
   it('displays the correct solve summary when five solves are added', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1500, activePuzzle()));
-    store.dispatch(addSolve(3, 2000, activePuzzle()));
-    store.dispatch(addSolve(4, 2500, activePuzzle()));
-    store.dispatch(addSolve(5, 1250, activePuzzle()));
+    dispatchAddSolve(1000);
+    dispatchAddSolve(1500);
+    dispatchAddSolve(2000);
+    dispatchAddSolve(2500);
+    dispatchAddSolve(1250);
     expect(activeSolveSummaryValue()).toBe(1583);
   });
 
   it('calculates the correct solve summary when a solve has a penalty', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1500, activePuzzle()));
-    store.dispatch(addSolve(3, 2000, activePuzzle()));
-    store.dispatch(addSolve(4, 2500, activePuzzle()));
-    store.dispatch(addSolve(5, 1250, activePuzzle()));
-    store.dispatch(toggleSolvePenalty(2));
+    dispatchAddSolve(1000);
+    const recordedAt = dispatchAddSolve(1500);
+    dispatchAddSolve(2000);
+    dispatchAddSolve(2500);
+    dispatchAddSolve(1250);
+    store.dispatch(toggleSolvePenalty(recordedAt));
     expect(activeSolveSummaryValue()).toBe(1917);
   });
 
   it('calculates the correct solve summary when a solve is a DNF', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1500, activePuzzle()));
-    store.dispatch(addSolve(3, 2000, activePuzzle()));
-    store.dispatch(addSolve(4, 2500, activePuzzle()));
-    store.dispatch(addSolve(5, 1250, activePuzzle()));
-    store.dispatch(toggleSolveDNF(2));
+    dispatchAddSolve(1000);
+    const recordedAt = dispatchAddSolve(1500);
+    dispatchAddSolve(2000);
+    dispatchAddSolve(2500);
+    dispatchAddSolve(1250);
+    store.dispatch(toggleSolveDNF(recordedAt));
     expect(activeSolveSummaryValue()).toBe(1917);
   });
 
   it('calculates the correct solve summary when more than one solve is a DNF', () => {
-    store.dispatch(addSolve(1, 1000, activePuzzle()));
-    store.dispatch(addSolve(2, 1500, activePuzzle()));
-    store.dispatch(addSolve(3, 2000, activePuzzle()));
-    store.dispatch(addSolve(4, 2500, activePuzzle()));
-    store.dispatch(addSolve(5, 1250, activePuzzle()));
-    store.dispatch(toggleSolveDNF(2));
-    store.dispatch(toggleSolveDNF(3));
+    dispatchAddSolve(1000);
+    const recordedAt1 = dispatchAddSolve(1500);
+    const recordedAt2 = dispatchAddSolve(2000);
+    dispatchAddSolve(2500);
+    dispatchAddSolve(1250);
+    store.dispatch(toggleSolveDNF(recordedAt1));
+    store.dispatch(toggleSolveDNF(recordedAt2));
     expect(activeSolveSummaryValue()).toBe(Infinity);
   });
 
