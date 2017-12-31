@@ -16,14 +16,13 @@ export const addSolves = solves => ({
     recordedAt,
     duration,
     puzzle,
-    selected = false,
     isDNF = false,
     hasPenalty = false
   }) => ({
     recordedAt,
     duration,
     puzzle,
-    selected,
+    selected: false,
     isDNF,
     hasPenalty
   }))
