@@ -8,7 +8,7 @@ import {
 } from '../actions';
 import { getActivePuzzle } from '../reducers';
 import { getSummaryDescriptor } from './solve-summary';
-import { toggleObjectProperty } from './helpers';
+import { updateObjectProperty, toggleObjectProperty } from './helpers';
 
 export const getSolvesByRecordedAt = state => {
   return state.entities.solves.byRecordedAt;
@@ -61,6 +61,13 @@ export const getActiveSolveSummary = state => {
 
 const initalByRecordedAtState = {};
 
+const toggleSolveProperty = (state, recordedAt, property) =>
+  updateObjectProperty(
+    state,
+    recordedAt,
+    solve => toggleObjectProperty(solve, property)
+  );
+
 function byRecordedAt(state = initalByRecordedAtState, action) {
   switch(action.type) {
     case ADD_SOLVES:
@@ -74,31 +81,12 @@ function byRecordedAt(state = initalByRecordedAtState, action) {
           {}
         )
       };
-    // TODO: refactor duplicate logic for updating field of solve
     case TOGGLE_SOLVE_SELECTED:
-      return {
-        ...state,
-        [action.recordedAt]: toggleObjectProperty(
-          state[action.recordedAt],
-          'selected'
-        )
-      };
+      return toggleSolveProperty(state, action.recordedAt, 'selected');
     case TOGGLE_SOLVE_DNF:
-      return {
-        ...state,
-        [action.recordedAt]: toggleObjectProperty(
-          state[action.recordedAt],
-          'isDNF'
-        )
-      };
+      return toggleSolveProperty(state, action.recordedAt, 'isDNF');
     case TOGGLE_SOLVE_PENALTY:
-      return {
-        ...state,
-        [action.recordedAt]: toggleObjectProperty(
-          state[action.recordedAt],
-          'hasPenalty'
-        )
-      };
+      return toggleSolveProperty(state, action.recordedAt, 'hasPenalty');
     case DELETE_SOLVES:
       return Object.values(state).filter(
         solve => !action.recordedAtMap[solve.recordedAt]
