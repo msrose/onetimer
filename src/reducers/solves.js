@@ -1,17 +1,27 @@
 import { combineReducers } from 'redux';
 import {
   ADD_SOLVES,
-  TOGGLE_SOLVE_SELECTED,
   DELETE_SOLVES,
   TOGGLE_SOLVE_DNF,
   TOGGLE_SOLVE_PENALTY
 } from '../actions';
-import { getActivePuzzle } from '../reducers';
+import { getActivePuzzle, getSolveSelected } from '../reducers';
 import { getSummaryDescriptor } from './solve-summary';
 import { updateObjectProperty, toggleObjectProperty } from './helpers';
 
 export const getSolvesByRecordedAt = state => {
-  return state.entities.solves.byRecordedAt;
+  return Object
+    .entries(state.entities.solves.byRecordedAt)
+    .reduce(
+      (solvesByRecordedAt, [recordedAt, solve]) => ({
+        ...solvesByRecordedAt,
+        [recordedAt]: {
+          ...solve,
+          selected: getSolveSelected(state, recordedAt)
+        }
+      }),
+      {}
+    );
 };
 
 export const getLastDeletedSolves = state => {
@@ -81,8 +91,6 @@ function byRecordedAt(state = initalByRecordedAtState, action) {
           {}
         )
       };
-    case TOGGLE_SOLVE_SELECTED:
-      return toggleSolveProperty(state, action.recordedAt, 'selected');
     case TOGGLE_SOLVE_DNF:
       return toggleSolveProperty(state, action.recordedAt, 'isDNF');
     case TOGGLE_SOLVE_PENALTY:

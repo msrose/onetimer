@@ -22,7 +22,6 @@ export const addSolves = solves => ({
     recordedAt,
     duration,
     puzzle,
-    selected: false,
     isDNF,
     hasPenalty
   }))
