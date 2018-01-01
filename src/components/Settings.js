@@ -5,7 +5,7 @@ import List, {
 import Switch from 'material-ui/Switch';
 import { connect } from 'react-redux';
 import { getPuzzles, getPuzzleToReorder } from '../reducers';
-import { togglePuzzleVisible, startPuzzleReorder, chooseNewPuzleOrder } from '../actions';
+import { togglePuzzleVisible, startPuzzleReorder, chooseNewPuzzleOrder } from '../actions';
 import AppBarMargin from './AppBarMargin';
 import IconButton from 'material-ui/IconButton';
 import ReorderIcon from 'material-ui-icons/Reorder';
@@ -81,7 +81,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   onTogglePuzzleVisible: togglePuzzleVisible,
   onStartPuzzleReorder: startPuzzleReorder,
-  onChooseNewPuzzleOrder: chooseNewPuzleOrder
+  onChooseNewPuzzleOrder: chooseNewPuzzleOrder
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

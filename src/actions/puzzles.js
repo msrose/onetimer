@@ -21,7 +21,7 @@ export const startPuzzleReorder = name => ({
 
 export const CHOOSE_NEW_PUZZLE_ORDER = 'CHOOSE_NEW_PUZZLE_ORDER';
 
-export const chooseNewPuzleOrder = (reorderPuzzle, insertBeforePuzzle) => ({
+export const chooseNewPuzzleOrder = (reorderPuzzle, insertBeforePuzzle) => ({
   type: CHOOSE_NEW_PUZZLE_ORDER,
   reorderPuzzle,
   insertBeforePuzzle
