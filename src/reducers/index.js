@@ -11,6 +11,8 @@ export * from './ui';
 export * from './timer';
 export * from './entities';
 export * from './selected-solves';
+export * from './puzzles';
+export * from './solves';
 
 export default combineReducers({
   ui,
