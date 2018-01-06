@@ -14,6 +14,14 @@ export default function configureStore() {
 
   const storedEntities = localStorage.getItem('entities');
   const entities = storedEntities && JSON.parse(storedEntities);
+  // TODO: find a better way to migrate localstorage?
+  if(entities && entities.recordedAtValues) {
+    entities.solves = entities.solves || {};
+    entities.solves.recordedAtValues = entities.recordedAtValues;
+    delete entities.recordedAtValues;
+    delete entities.solves.lastDeleted;
+    Object.values(entities.solves).forEach(solve => delete solve.selected);
+  }
 
   const storedActivePuzzle = localStorage.getItem('activePuzzle');
   const activePuzzle = storedActivePuzzle && JSON.parse(storedActivePuzzle);

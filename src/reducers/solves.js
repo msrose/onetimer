@@ -9,6 +9,10 @@ import { getActivePuzzle, getSolveSelected } from '../reducers';
 import { getSummaryDescriptor } from './solve-summary';
 import { updateObjectProperty, toggleObjectProperty } from './helpers';
 
+export const getRecordedAtValues = state => {
+  return state.entities.solves.recordedAtValues;
+};
+
 export const getSolvesByRecordedAt = state => {
   return Object
     .entries(state.entities.solves.byRecordedAt)
@@ -25,14 +29,13 @@ export const getSolvesByRecordedAt = state => {
 };
 
 export const getLastDeletedSolves = state => {
-  return state.entities.solves.lastDeleted;
+  return state.lastDeletedSolves;
 };
 
 export const getActivePuzzleSolves = state => {
-  const { recordedAtValues } = state.entities;
   const activePuzzle = getActivePuzzle(state);
   const solves = getSolvesByRecordedAt(state);
-  return recordedAtValues
+  return getRecordedAtValues(state)
     .map(recordedAt => solves[recordedAt])
     .filter(solve => solve.puzzle === activePuzzle);
 };
@@ -51,7 +54,7 @@ export const getHasActiveSelectedSolves = state => {
 
 export const getSolveCounts = state => {
   const solvesByRecordedAt = getSolvesByRecordedAt(state);
-  return state.entities.recordedAtValues
+  return getRecordedAtValues(state)
     .map(recordedAt => solvesByRecordedAt[recordedAt])
     .reduce((countMap, solve) => {
       if(!countMap[solve.puzzle]) {
@@ -70,7 +73,7 @@ export const getActiveSolveSummary = state => {
   return { value, description };
 };
 
-const initalByRecordedAtState = {};
+const initialByRecordedAtState = {};
 
 const toggleSolveProperty = (state, recordedAt, property) =>
   updateObjectProperty(
@@ -79,7 +82,7 @@ const toggleSolveProperty = (state, recordedAt, property) =>
     solve => toggleObjectProperty(solve, property)
   );
 
-function byRecordedAt(state = initalByRecordedAtState, action) {
+function byRecordedAt(state = initialByRecordedAtState, action) {
   switch(action.type) {
     case ADD_SOLVES:
       return {
@@ -111,9 +114,9 @@ function byRecordedAt(state = initalByRecordedAtState, action) {
   }
 }
 
-const initalLastDeletedState = [];
+const initialLastDeletedState = [];
 
-function lastDeleted(state = initalLastDeletedState, action) {
+export function lastDeletedSolves(state = initialLastDeletedState, action) {
   switch(action.type) {
     case DELETE_SOLVES:
       return Object.values(action.recordedAtMap);
@@ -121,11 +124,6 @@ function lastDeleted(state = initalLastDeletedState, action) {
       return state;
   }
 }
-
-export const solves = combineReducers({
-  byRecordedAt,
-  lastDeleted
-});
 
 const initialRecordedAtValuesState = [];
 
@@ -149,3 +147,8 @@ export function recordedAtValues(state = initialRecordedAtValuesState, action) {
       return state;
   }
 }
+
+export default combineReducers({
+  byRecordedAt,
+  recordedAtValues
+});

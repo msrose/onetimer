@@ -5,6 +5,7 @@ import timer from './timer';
 import entities from './entities';
 import selectedSolves from './selected-solves';
 import { activePuzzle, puzzleToReorder } from './puzzles';
+import { lastDeletedSolves } from './solves';
 
 // Export any selectors to make import paths simple
 export * from './ui';
@@ -20,5 +21,6 @@ export default combineReducers({
   entities,
   selectedSolves,
   activePuzzle,
-  puzzleToReorder
+  puzzleToReorder,
+  lastDeletedSolves
 });
