@@ -37,14 +37,14 @@ export const getVisiblePuzzleNames = state => {
 };
 
 export const getActivePuzzle = state => {
-  return state.entities.activePuzzle;
+  return state.activePuzzle;
 };
 
 export const getPuzzleToReorder = state => {
-  return state.entities.puzzleToReorder;
+  return state.puzzleToReorder;
 };
 
-export function activePuzzle(state = puzzleNames[0], action) {
+export function activePuzzle(state = Puzzles.THREE_BY_THREE, action) {
   switch(action.type) {
     case SET_ACTIVE_PUZZLE:
       return action.puzzle;

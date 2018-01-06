@@ -4,6 +4,7 @@ import ui from './ui';
 import timer from './timer';
 import entities from './entities';
 import selectedSolves from './selected-solves';
+import { activePuzzle, puzzleToReorder } from './puzzles';
 
 // Export any selectors to make import paths simple
 export * from './ui';
@@ -15,5 +16,7 @@ export default combineReducers({
   ui,
   timer,
   entities,
-  selectedSolves
+  selectedSolves,
+  activePuzzle,
+  puzzleToReorder
 });

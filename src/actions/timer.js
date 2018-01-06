@@ -1,4 +1,5 @@
 import { addSolves } from './index';
+import { getActivePuzzle } from '../reducers';
 
 export const SET_TIMER_PREPARING = 'SET_TIMER_PREPARING';
 
@@ -32,10 +33,9 @@ export const MS_TO_READY = 500;
 
 export const enterTimer = () => {
   return (dispatch, getState) => {
-    const {
-      timer: { startTime, displayCounterIntervalId },
-      entities: { activePuzzle }
-    } = getState();
+    const state = getState();
+    const { timer: { startTime, displayCounterIntervalId } } = state;
+    const activePuzzle = getActivePuzzle(state);
     if(!startTime) {
       const readyTimeout = setTimeout(() => {
         dispatch(setTimerPreparing(null));

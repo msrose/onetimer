@@ -29,7 +29,8 @@ export const getLastDeletedSolves = state => {
 };
 
 export const getActivePuzzleSolves = state => {
-  const { recordedAtValues, activePuzzle } = state.entities;
+  const { recordedAtValues } = state.entities;
+  const activePuzzle = getActivePuzzle(state);
   const solves = getSolvesByRecordedAt(state);
   return recordedAtValues
     .map(recordedAt => solves[recordedAt])

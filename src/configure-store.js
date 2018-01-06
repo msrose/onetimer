@@ -13,9 +13,15 @@ export default function configureStore() {
   }
 
   const storedEntities = localStorage.getItem('entities');
-  const entities = storedEntities ? JSON.parse(storedEntities) : {};
+  const entities = storedEntities && JSON.parse(storedEntities);
 
-  const preloadedState = { entities };
+  const storedActivePuzzle = localStorage.getItem('activePuzzle');
+  const activePuzzle = storedActivePuzzle && JSON.parse(storedActivePuzzle);
+
+  const preloadedState = {};
+
+  if(entities) preloadedState.entities = entities;
+  if(activePuzzle) preloadedState.activePuzzle = activePuzzle;
 
   const store = createStore(
     rootReducer,
@@ -24,8 +30,9 @@ export default function configureStore() {
   );
 
   store.subscribe(debounce(() => {
-    const { entities } = store.getState();
+    const { entities, activePuzzle } = store.getState();
     localStorage.setItem('entities', JSON.stringify(entities));
+    localStorage.setItem('activePuzzle', JSON.stringify(activePuzzle));
   }, 1100)); // debounce for longer than timer display counter interval
 
   return store;
