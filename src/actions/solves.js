@@ -88,6 +88,13 @@ export const toggleSolvePenalty = recordedAt => ({
   recordedAt
 });
 
+export const TOGGLE_SOLVES_SELECTED = 'TOGGLE_SOLVES_SELECTED';
+
+export const toggleSolvesSelected = recordedAtValues => ({
+  type: TOGGLE_SOLVES_SELECTED,
+  recordedAtValues
+});
+
 export const toggleLastSolveDNF = () => (dispatch, getState) => {
   const { recordedAt } = getLastActivePuzzleSolve(getState());
   dispatch(toggleSolveDNF(recordedAt));
@@ -100,16 +107,12 @@ export const toggleLastSolvePenalty = () => (dispatch, getState) => {
 
 export const deselectActivePuzzleSolves = () => (dispatch, getState) => {
   const selectedSolves = getSelectedActivePuzzleSolves(getState());
-  // TODO: bulk deselect
-  selectedSolves.forEach(({ recordedAt }) => dispatch(toggleSolveSelected(recordedAt)));
+  dispatch(toggleSolvesSelected(selectedSolves.map(solve => solve.recordedAt)));
 };
 
 export const selectAllActivePuzzleSolves = () => (dispatch, getState) => {
   const activePuzzleSolves = getActivePuzzleSolves(getState());
-  activePuzzleSolves.forEach(solve => {
-    if(!solve.selected) {
-      // TODO: bulk select
-      dispatch(toggleSolveSelected(solve.recordedAt));
-    }
-  });
+  const unselectedSolves = activePuzzleSolves
+    .filter(solve => !solve.selected);
+  dispatch(toggleSolvesSelected(unselectedSolves.map(solve => solve.recordedAt)));
 };

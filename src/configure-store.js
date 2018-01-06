@@ -35,7 +35,20 @@ export default function configureStore() {
 
   const preloadedState = {};
 
-  if(entities) preloadedState.entities = entities;
+  if(entities) {
+    preloadedState.entities = entities;
+    if(entities.solves) {
+      preloadedState.selectedSolves = Object
+        .keys(entities.solves.byRecordedAt)
+        .reduce(
+          (selectedSolves, recordedAt) => ({
+            ...selectedSolves,
+            [recordedAt]: false
+          }),
+          {}
+        );
+    }
+  }
   if(activePuzzle) preloadedState.activePuzzle = activePuzzle;
 
   const store = createStore(
