@@ -22,6 +22,13 @@ export default function configureStore() {
     delete entities.solves.lastDeleted;
     Object.values(entities.solves).forEach(solve => delete solve.selected);
   }
+  if(entities && entities.puzzlesByName) {
+    const puzzlesTemp = {};
+    puzzlesTemp.byName = entities.puzzles;
+    puzzlesTemp.allNames = entities.puzzlesByName;
+    entities.puzzles = puzzlesTemp;
+    delete entities.puzzlesByName;
+  }
 
   const storedActivePuzzle = localStorage.getItem('activePuzzle');
   const activePuzzle = storedActivePuzzle && JSON.parse(storedActivePuzzle);

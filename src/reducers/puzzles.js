@@ -1,35 +1,44 @@
+import { combineReducers } from 'redux';
 import {
   SET_ACTIVE_PUZZLE, TOGGLE_PUZZLE_VISIBLE, START_PUZZLE_REORDER, CHOOSE_NEW_PUZZLE_ORDER
 } from '../actions';
 
-export const Puzzles = {
-  TWO_BY_TWO: '2x2x2',
-  THREE_BY_THREE: '3x3x3',
-  FOUR_BY_FOUR: '4x4x4',
-  FIVE_BY_FIVE: '5x5x5',
-  SIX_BY_SIX: '6x6x6',
-  SEVEN_BY_SEVEN: '7x7x7',
-  THREE_BLD: '3x3x3 Blindfolded',
-  THREE_OH: '3x3x3 One-Handed',
-  THREE_FEET: '3x3x3 With Feet',
-  MEGAMINX: 'Megaminx',
-  PYRAMINX: 'Pyraminx',
-  CLOCK: 'Clock',
-  SKEWB: 'Skewb',
-  SQUARE_1: 'Square-1',
-  FOUR_BLD: '4x4x4 Blindfolded',
-  FIVE_BLD: '5x5x5 Blindfolded',
-  THREE_MULTI_BLD: '3x3x3 Multi-Blind'
-};
+const puzzleNamesPairs = [
+  ['TWO_BY_TWO', '2x2x2'],
+  ['THREE_BY_THREE', '3x3x3'],
+  ['FOUR_BY_FOUR', '4x4x4'],
+  ['FIVE_BY_FIVE', '5x5x5'],
+  ['SIX_BY_SIX', '6x6x6'],
+  ['SEVEN_BY_SEVEN', '7x7x7'],
+  ['THREE_BLD', '3x3x3 Blindfolded'],
+  ['THREE_OH', '3x3x3 One-Handed'],
+  ['THREE_FEET', '3x3x3 With Feet'],
+  ['MEGAMINX', 'Megaminx'],
+  ['PYRAMINX', 'Pyraminx'],
+  ['CLOCK', 'Clock'],
+  ['SKEWB', 'Skewb'],
+  ['SQUARE_1', 'Square-1'],
+  ['FOUR_BLD', '4x4x4 Blindfolded'],
+  ['FIVE_BLD', '5x5x5 Blindfolded'],
+  ['THREE_MULTI_BLD', '3x3x3 Multi-Blind']
+];
+
+export const Puzzles = puzzleNamesPairs.reduce(
+  (puzzleMap, [puzzle, displayName]) => ({
+    ...puzzleMap,
+    [puzzle]: displayName
+  }),
+  {}
+);
 
 const puzzleNames = Object.values(Puzzles);
 
 export const getPuzzleNames = state => {
-  return state.entities.puzzlesByName;
+  return state.entities.puzzles.allNames;
 };
 
 export const getPuzzles = state => {
-  return getPuzzleNames(state).map(name => state.entities.puzzles[name]);
+  return getPuzzleNames(state).map(name => state.entities.puzzles.byName[name]);
 };
 
 export const getVisiblePuzzleNames = state => {
@@ -64,12 +73,18 @@ export function puzzleToReorder(state = null, action) {
   }
 }
 
-const initialPuzzleState = puzzleNames.reduce((map, puzzle) => {
-  map[puzzle] = { name: puzzle, visible: true };
-  return map;
-}, {});
+const initialPuzzleState = puzzleNames.reduce(
+  (byNameMap, puzzleName) => ({
+    ...byNameMap,
+    [puzzleName]: {
+      name: puzzleName,
+      visible: true
+    }
+  }),
+  {}
+);
 
-export function puzzles(state = initialPuzzleState, action) {
+function byName(state = initialPuzzleState, action) {
   switch(action.type) {
     case TOGGLE_PUZZLE_VISIBLE:
       return {
@@ -84,7 +99,7 @@ export function puzzles(state = initialPuzzleState, action) {
   }
 }
 
-export function puzzlesByName(state = puzzleNames, action) {
+function allNames(state = puzzleNames, action) {
   switch(action.type) {
     case CHOOSE_NEW_PUZZLE_ORDER: {
       const nextOrder = state.filter(name => name !== action.reorderPuzzle);
@@ -96,3 +111,8 @@ export function puzzlesByName(state = puzzleNames, action) {
       return state;
   }
 }
+
+export default combineReducers({
+  byName,
+  allNames
+});
