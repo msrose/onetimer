@@ -1,7 +1,7 @@
 import { ADD_SOLVES, DELETE_SOLVES, TOGGLE_SOLVES_SELECTED } from '../actions';
 
-export function getSolveSelected(state, recordedAt) {
-  return state.selectedSolves[recordedAt];
+export function getSolvesSelected(state) {
+  return state.selectedSolves;
 }
 
 const initialSelectedSolvesState = {};

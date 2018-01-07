@@ -5,7 +5,7 @@ import {
   TOGGLE_SOLVE_DNF,
   TOGGLE_SOLVE_PENALTY
 } from '../actions';
-import { getActivePuzzle, getSolveSelected } from '../reducers';
+import { getActivePuzzle, getSolvesSelected } from '../reducers';
 import { getSummaryDescriptor } from './solve-summary';
 import { updateObjectProperty, toggleObjectProperty } from './helpers';
 
@@ -14,6 +14,7 @@ export const getRecordedAtValues = state => {
 };
 
 export const getSolvesByRecordedAt = state => {
+  const solvesSelected = getSolvesSelected(state);
   return Object
     .entries(state.entities.solves.byRecordedAt)
     .reduce(
@@ -21,7 +22,7 @@ export const getSolvesByRecordedAt = state => {
         ...solvesByRecordedAt,
         [recordedAt]: {
           ...solve,
-          selected: getSolveSelected(state, recordedAt)
+          selected: solvesSelected[recordedAt]
         }
       }),
       {}
