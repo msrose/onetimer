@@ -3,7 +3,7 @@ import {
   addSolves,
   deleteSolves,
   undoLastSolveDelete,
-  toggleSolveSelected,
+  toggleSolvesSelected,
   deleteSelectedSolves,
   deleteLastSolve,
   toggleSolvePenalty,
@@ -89,9 +89,9 @@ describe('Solves reducer', () => {
     );
   });
 
-  it('toggles the selected state of a solve when toggleSolveSelected is dispatched', () => {
+  it('toggles the selected state of a solve when toggleSolvesSelected is dispatched', () => {
     const recordedAt = dispatchAddSolve();
-    store.dispatch(toggleSolveSelected(recordedAt));
+    store.dispatch(toggleSolvesSelected([recordedAt]));
     expect(selectedActivePuzzleSolves()).toEqual([
       expect.objectContaining({ recordedAt })
     ]);
@@ -99,7 +99,7 @@ describe('Solves reducer', () => {
 
   it('deletes the selected puzzles when deleteSelectedSolves is dispatched', () => {
     const recordedAt = dispatchAddSolve();
-    store.dispatch(toggleSolveSelected(recordedAt));
+    store.dispatch(toggleSolvesSelected([recordedAt]));
     store.dispatch(deleteSelectedSolves());
     expect(selectedActivePuzzleSolves()).toEqual([]);
   });

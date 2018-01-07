@@ -7,7 +7,7 @@ import {
   getActivePuzzle
 } from '../reducers';
 import List from 'material-ui/List';
-import { toggleSolveSelected } from '../actions';
+import { toggleSolvesSelected } from '../actions';
 import Solve from './Solve';
 import './Solves.css';
 import SolvesHeader from './SolvesHeader';
@@ -44,7 +44,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  onSolveClick: toggleSolveSelected
+  onSolveClick: recordedAt => toggleSolvesSelected([recordedAt])
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Solves);

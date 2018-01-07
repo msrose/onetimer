@@ -27,13 +27,6 @@ export const addSolves = solves => ({
   }))
 });
 
-export const TOGGLE_SOLVE_SELECTED = 'TOGGLE_SOLVE_SELECTED';
-
-export const toggleSolveSelected = recordedAt => ({
-  type: TOGGLE_SOLVE_SELECTED,
-  recordedAt
-});
-
 export const DELETE_SOLVES = 'DELETE_SOLVES';
 
 export const deleteSolves = recordedAtValues => (dispatch, getState) => {
