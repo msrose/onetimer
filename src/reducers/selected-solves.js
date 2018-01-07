@@ -22,7 +22,9 @@ export default function(state = initialSelectedSolvesState, action) {
     case DELETE_SOLVES:
       return Object
         .keys(state)
-        .filter(recordedAt => !action.recordedAtMap[recordedAt])
+        .filter(
+          recordedAt => !action.solves.some(solve => solve.recordedAt === recordedAt)
+        )
         .reduce(
           (selectedSolves, recordedAt) => ({
             ...selectedSolves,

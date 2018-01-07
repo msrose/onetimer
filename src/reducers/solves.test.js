@@ -61,7 +61,7 @@ describe('Solves reducer', () => {
 
   it('removes a solve when deleteSolves is dispatched with one solve', () => {
     const recordedAt = dispatchAddSolve();
-    store.dispatch(deleteSolves([recordedAt]));
+    store.dispatch(deleteSolves([solvesByRecordedAt()[recordedAt]]));
     expect(solvesByRecordedAt()).toEqual({});
     expect(activePuzzleSolves()).toEqual([]);
   });
@@ -70,7 +70,8 @@ describe('Solves reducer', () => {
     const recordedAt1 = dispatchAddSolve();
     const recordedAt2 = dispatchAddSolve();
     const recordedAt3 = dispatchAddSolve();
-    store.dispatch(deleteSolves([recordedAt1, recordedAt3]));
+    const solves = solvesByRecordedAt();
+    store.dispatch(deleteSolves([solves[recordedAt1], solves[recordedAt3]]));
     expect(activePuzzleSolves()).toEqual([
       expect.objectContaining({
         recordedAt: recordedAt2
@@ -82,7 +83,8 @@ describe('Solves reducer', () => {
     const recordedAt1 = dispatchAddSolve();
     const recordedAt2 = dispatchAddSolve();
     const recordedAt3 = dispatchAddSolve();
-    store.dispatch(deleteSolves([recordedAt1, recordedAt3]));
+    const solves = solvesByRecordedAt();
+    store.dispatch(deleteSolves([solves[recordedAt1], solves[recordedAt3]]));
     store.dispatch(undoLastSolveDelete());
     expect(activePuzzleSolves().map(solve => solve.recordedAt)).toEqual(
       [recordedAt3, recordedAt2, recordedAt1]

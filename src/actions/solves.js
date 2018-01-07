@@ -2,8 +2,7 @@ import {
   getLastDeletedSolves,
   getSelectedActivePuzzleSolves,
   getLastActivePuzzleSolve,
-  getActivePuzzleSolves,
-  getSolvesByRecordedAt
+  getActivePuzzleSolves
 } from '../reducers';
 
 import { toggleDeleteSolveMessage } from '../actions';
@@ -29,25 +28,15 @@ export const addSolves = solves => ({
 
 export const DELETE_SOLVES = 'DELETE_SOLVES';
 
-export const deleteSolves = recordedAtValues => (dispatch, getState) => {
-  const solvesByRecordedAt = getSolvesByRecordedAt(getState());
-  dispatch({
-    type: DELETE_SOLVES,
-    // Create a map here since it saves a search in reducers
-    recordedAtMap: recordedAtValues.reduce(
-      (solveMap, recordedAt) => ({
-        ...solveMap,
-        [recordedAt]: solvesByRecordedAt[recordedAt]
-      }),
-      {}
-    )
-  });
-};
+export const deleteSolves = solves => ({
+  type: DELETE_SOLVES,
+  solves
+});
 
 export const DELETE_LAST_SOLVE = 'DELETE_LAST_SOLVE';
 
 export const deleteLastSolve = () => (dispatch, getState) => {
-  dispatch(deleteSolves([getLastActivePuzzleSolve(getState()).recordedAt]));
+  dispatch(deleteSolves([getLastActivePuzzleSolve(getState())]));
   dispatch(toggleDeleteSolveMessage());
 };
 
@@ -62,7 +51,7 @@ export const undoLastSolveDelete = () => {
 export const deleteSelectedSolves = () => {
   return (dispatch, getState) => {
     const selectedSolves = getSelectedActivePuzzleSolves(getState());
-    dispatch(deleteSolves(selectedSolves.map(solve => solve.recordedAt)));
+    dispatch(deleteSolves(selectedSolves));
     dispatch(toggleDeleteSolveMessage());
   };
 };

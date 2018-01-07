@@ -56,13 +56,16 @@ export const getSolveCounts = state => {
   const solvesByRecordedAt = getSolvesByRecordedAt(state);
   return getRecordedAtValues(state)
     .map(recordedAt => solvesByRecordedAt[recordedAt])
-    .reduce((countMap, solve) => {
-      if(!countMap[solve.puzzle]) {
-        countMap[solve.puzzle] = 0;
-      }
-      countMap[solve.puzzle]++;
-      return countMap;
-    }, {});
+    .reduce(
+      (countMap, solve) => {
+        if(!countMap[solve.puzzle]) {
+          countMap[solve.puzzle] = 0;
+        }
+        countMap[solve.puzzle]++;
+        return countMap;
+      },
+      {}
+    );
 };
 
 export const getActiveSolveSummary = state => {
@@ -100,15 +103,18 @@ function byRecordedAt(state = initialByRecordedAtState, action) {
     case TOGGLE_SOLVE_PENALTY:
       return toggleSolveProperty(state, action.recordedAt, 'hasPenalty');
     case DELETE_SOLVES:
-      return Object.values(state).filter(
-        solve => !action.recordedAtMap[solve.recordedAt]
-      ).reduce(
-        (solves, solve) => ({
-          ...solves,
-          [solve.recordedAt]: solve
-        }),
-        {}
-      );
+      return Object
+        .values(state)
+        .filter(
+          solve => !action.solves.some(({ recordedAt }) => solve.recordedAt === recordedAt)
+        )
+        .reduce(
+          (solves, solve) => ({
+            ...solves,
+            [solve.recordedAt]: solve
+          }),
+          {}
+        );
     default:
       return state;
   }
@@ -119,7 +125,7 @@ const initialLastDeletedState = [];
 export function lastDeletedSolves(state = initialLastDeletedState, action) {
   switch(action.type) {
     case DELETE_SOLVES:
-      return Object.values(action.recordedAtMap);
+      return action.solves;
     default:
       return state;
   }
@@ -142,7 +148,9 @@ export function recordedAtValues(state = initialRecordedAtValuesState, action) {
       return nextState;
     }
     case DELETE_SOLVES:
-      return state.filter(recordedAt => !action.recordedAtMap[recordedAt]);
+      return state.filter(
+        recordedAt => !action.solves.some(deletedSolve => deletedSolve.recordedAt === recordedAt)
+      );
     default:
       return state;
   }
