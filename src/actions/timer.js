@@ -1,26 +1,37 @@
 import { addSolves } from './index';
 import { getActivePuzzle } from '../reducers';
 
-export const SET_TIMER_PREPARING = 'SET_TIMER_PREPARING';
+export const ENTER_PREPARING_STATE = 'ENTER_PREPARING_STATE';
 
-export const setTimerPreparing = timeoutId => ({
-  type: SET_TIMER_PREPARING,
+export const enterPreparingState = timeoutId => ({
+  type: ENTER_PREPARING_STATE,
   id: timeoutId
 });
 
-export const SET_TIMER_READY = 'SET_TIMER_READY';
+export const LEAVE_PREPARING_STATE = 'LEAVE_PREPARING_STATE';
 
-export const setTimerReady = ready => ({
-  type: SET_TIMER_READY,
-  ready
+export const leavePreparingState = () => ({
+  type: LEAVE_PREPARING_STATE
 });
 
-export const SET_TIMER_TIMING = 'SET_TIMER_TIMING';
+export const ENTER_READY_STATE = 'ENTER_READY_STATE';
 
-export const setTimerTiming = (time, intervalId) => ({
-  type: SET_TIMER_TIMING,
-  time,
+export const enterReadyState = () => ({
+  type: ENTER_READY_STATE
+});
+
+export const START_TIMER = 'START_TIMER';
+
+export const startTimer = intervalId => ({
+  type: START_TIMER,
+  time: Date.now(),
   intervalId
+});
+
+export const STOP_TIMER = 'STOP_TIMER';
+
+export const stopTimer = () => ({
+  type: STOP_TIMER
 });
 
 export const INCREMENT_DISPLAY_COUNTER = 'INCREMENT_DISPLAY_COUNTER';
@@ -35,23 +46,21 @@ export const enterTimer = () => {
   return (dispatch, getState) => {
     const state = getState();
     const { timer: { startTime, displayCounterIntervalId } } = state;
-    const activePuzzle = getActivePuzzle(state);
     if(!startTime) {
       const readyTimeout = setTimeout(() => {
-        dispatch(setTimerPreparing(null));
-        dispatch(setTimerReady(true));
+        dispatch(enterReadyState());
       }, MS_TO_READY);
-      dispatch(setTimerPreparing(readyTimeout));
+      dispatch(enterPreparingState(readyTimeout));
     } else {
       const endTime = Date.now();
       clearInterval(displayCounterIntervalId);
-      dispatch(setTimerTiming(null, null));
+      dispatch(stopTimer());
       dispatch(
         addSolves(
           [{
             recordedAt: endTime,
             duration: endTime - startTime,
-            puzzle: activePuzzle
+            puzzle: getActivePuzzle(state)
           }]
         )
       );
@@ -63,15 +72,14 @@ export const leaveTimer = () => {
   return (dispatch, getState) => {
     const { isReady, preparationTimeoutId } = getState().timer;
     if(isReady) {
-      dispatch(setTimerReady(false));
       const intervalId = setInterval(() => {
         dispatch(incrementDisplayCounter());
       }, 1000);
-      dispatch(setTimerTiming(Date.now(), intervalId));
+      dispatch(startTimer(intervalId));
     }
     if(preparationTimeoutId) {
       clearTimeout(preparationTimeoutId);
-      dispatch(setTimerPreparing(null));
+      dispatch(leavePreparingState());
     }
   };
 };
