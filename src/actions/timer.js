@@ -1,11 +1,17 @@
 import { addSolves } from './index';
-import { getActivePuzzle } from '../reducers';
+import {
+  getActivePuzzle,
+  getIsInitial,
+  getIsReady,
+  getIsPreparing,
+  getIsTiming
+} from '../reducers';
 
 export const ENTER_PREPARING_STATE = 'ENTER_PREPARING_STATE';
 
 export const enterPreparingState = timeoutId => ({
   type: ENTER_PREPARING_STATE,
-  id: timeoutId
+  timeoutId
 });
 
 export const LEAVE_PREPARING_STATE = 'LEAVE_PREPARING_STATE';
@@ -42,44 +48,42 @@ export const incrementDisplayCounter = () => ({
 
 export const MS_TO_READY = 500;
 
-export const enterTimer = () => {
-  return (dispatch, getState) => {
-    const state = getState();
-    const { timer: { startTime, displayCounterIntervalId } } = state;
-    if(!startTime) {
-      const readyTimeout = setTimeout(() => {
-        dispatch(enterReadyState());
-      }, MS_TO_READY);
-      dispatch(enterPreparingState(readyTimeout));
-    } else {
-      const endTime = Date.now();
-      clearInterval(displayCounterIntervalId);
-      dispatch(stopTimer());
-      dispatch(
-        addSolves(
-          [{
-            recordedAt: endTime,
-            duration: endTime - startTime,
-            puzzle: getActivePuzzle(state)
-          }]
-        )
-      );
-    }
-  };
+export const enterTimer = () => (dispatch, getState) => {
+  const state = getState();
+  const { timer: { startTime, displayCounterIntervalId } } = state;
+
+  if(getIsInitial(state)) {
+    const readyTimeout = setTimeout(() => {
+      dispatch(enterReadyState());
+    }, MS_TO_READY);
+    dispatch(enterPreparingState(readyTimeout));
+  } else if(getIsTiming(state)) {
+    const endTime = Date.now();
+    clearInterval(displayCounterIntervalId);
+    dispatch(stopTimer());
+    dispatch(
+      addSolves(
+        [{
+          recordedAt: endTime,
+          duration: endTime - startTime,
+          puzzle: getActivePuzzle(state)
+        }]
+      )
+    );
+  }
 };
 
-export const leaveTimer = () => {
-  return (dispatch, getState) => {
-    const { isReady, preparationTimeoutId } = getState().timer;
-    if(isReady) {
-      const intervalId = setInterval(() => {
-        dispatch(incrementDisplayCounter());
-      }, 1000);
-      dispatch(startTimer(intervalId));
-    }
-    if(preparationTimeoutId) {
-      clearTimeout(preparationTimeoutId);
-      dispatch(leavePreparingState());
-    }
-  };
+export const leaveTimer = () => (dispatch, getState) => {
+  const state = getState();
+  const { preparationTimeoutId } = state.timer;
+
+  if(getIsPreparing(state)) {
+    clearTimeout(preparationTimeoutId);
+    dispatch(leavePreparingState());
+  } else if(getIsReady(state)) {
+    const intervalId = setInterval(() => {
+      dispatch(incrementDisplayCounter());
+    }, 1000);
+    dispatch(startTimer(intervalId));
+  }
 };

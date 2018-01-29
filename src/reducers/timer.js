@@ -15,6 +15,9 @@ const initialTimerState = {
   displayCounterIntervalId: null
 };
 
+export const getIsInitial = state =>
+  !getIsPreparing(state) && !getIsReady(state) && !getIsTiming(state);
+
 export const getIsPreparing = state => !!state.timer.preparationTimeoutId;
 
 export const getIsReady = state => state.timer.isReady;
@@ -24,7 +27,7 @@ export const getIsTiming = state => !!state.timer.startTime;
 function timer(state = initialTimerState, action) {
   switch(action.type) {
     case ENTER_PREPARING_STATE:
-      return { ...state, preparationTimeoutId: action.id };
+      return { ...state, preparationTimeoutId: action.timeoutId };
     case LEAVE_PREPARING_STATE:
       return { ...state, preparationTimeoutId: null };
     case ENTER_READY_STATE:
