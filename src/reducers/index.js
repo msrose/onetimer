@@ -12,6 +12,7 @@ export * from './timer';
 export * from './selected-solves';
 export * from './puzzles';
 export * from './solves';
+export * from './solve-summary';
 
 const entities = combineReducers({
   solves,

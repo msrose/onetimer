@@ -6,7 +6,7 @@ import {
   TOGGLE_SOLVE_PENALTY
 } from '../actions';
 import { getActivePuzzle, getSolvesSelected } from '../reducers';
-import { getSummaryDescriptor } from './solve-summary';
+import { getSummaryDescriptor, getMaxBatchSize } from './solve-summary';
 import { updateObjectProperty, toggleObjectProperty } from './helpers';
 
 export const getRecordedAtValues = state => {
@@ -47,6 +47,13 @@ export const getSelectedActivePuzzleSolves = state => {
 
 export const getLastActivePuzzleSolve = state => {
   return getActivePuzzleSolves(state)[0] || null;
+};
+
+export const getActivePuzzleLatestBatch = state => {
+  const activePuzzleSolves = getActivePuzzleSolves(state);
+  const maxBatchSize = getMaxBatchSize(getActivePuzzle(state));
+  const latestBatchSize = activePuzzleSolves.length % maxBatchSize || maxBatchSize;
+  return activePuzzleSolves.slice(0, latestBatchSize).reverse();
 };
 
 export const getHasActiveSelectedSolves = state => {

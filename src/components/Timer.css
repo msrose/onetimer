@@ -30,3 +30,27 @@
 .Timer-solve-penalty {
   color: red;
 }
+
+.Timer-batch-tracker {
+  height: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 17px;
+}
+
+.Timer-batch-tracker-dot {
+  width: 5px;
+  height: 100%;
+  background-color: lightgray;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.Timer-batch-tracker-best {
+  background-color: green;
+}
+
+.Timer-batch-tracker-worst {
+  background-color: red;
+}

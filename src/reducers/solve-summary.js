@@ -1,7 +1,7 @@
 import { Puzzles } from '../reducers';
 
 const getSolveValue = solve => {
-  // Returning Infinity for DNF so avgeage calculation works out
+  // Returning Infinity for DNF so average calculation works out
   // Maybe a bit hacky, but it works fine so just deal with it.
   return (solve.isDNF ? Infinity : solve.duration) + (solve.hasPenalty ? 2000 : 0);
 };
@@ -64,4 +64,19 @@ export const getSummaryDescriptor = puzzle => {
     valueCalculator,
     description
   };
+};
+
+export const getMaxBatchSize = puzzle => {
+  switch(puzzle) {
+    case Puzzles.SIX_BY_SIX:
+    case Puzzles.SEVEN_BY_SEVEN:
+      return 3;
+    case Puzzles.THREE_BLD:
+      return 3;
+    case Puzzles.FOUR_BLD:
+    case Puzzles.FIVE_BLD:
+      return 2;
+    default:
+      return 5;
+  }
 };
