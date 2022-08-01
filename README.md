@@ -1,6 +1,6 @@
 # One Timer
 
-[![Build Status](https://travis-ci.org/msrose/onetimer.svg?branch=develop)](https://travis-ci.org/msrose/onetimer) [![codecov](https://codecov.io/gh/msrose/onetimer/branch/develop/graph/badge.svg)](https://codecov.io/gh/msrose/onetimer)
+[![ci](https://github.com/msrose/onetimer/actions/workflows/ci.yml/badge.svg)](https://github.com/msrose/onetimer/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/msrose/onetimer/branch/develop/graph/badge.svg)](https://codecov.io/gh/msrose/onetimer)
 
 (Work in progress)
 
