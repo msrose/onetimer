@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: .nvmrc
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run lint
+    - run: npm test -- --coverage
+    - run: npm run build
