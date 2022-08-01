@@ -12,13 +12,12 @@ import {
 } from '../actions';
 import {
   getActivePuzzleSolves,
-  getActivePuzzle,
   getSolvesByRecordedAt,
   getSelectedActivePuzzleSolves,
   getLastActivePuzzleSolve,
-  getActiveSolveSummary,
-  Puzzles
-} from '../reducers';
+  getActiveSolveSummary
+} from '../reducers/solves';
+import { getActivePuzzle, Puzzles } from '../reducers/puzzles';
 
 describe('Solves reducer', () => {
   let store, activePuzzle, activePuzzleSolves, solvesByRecordedAt,

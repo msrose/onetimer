@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { formatDate, formatTime } from './helpers';
 import Checkbox from 'material-ui/Checkbox';
 import { ListItem, ListItemText } from 'material-ui/List';
 
-class Solve extends Component {
+class Solve extends PureComponent {
   handleClick = () => {
     this.props.onClick(this.props.recordedAt);
   };

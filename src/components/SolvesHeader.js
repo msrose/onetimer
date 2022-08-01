@@ -3,7 +3,7 @@ import Chip from 'material-ui/Chip';
 import Button from 'material-ui/Button';
 import './SolvesHeader.css';
 import { connect } from 'react-redux';
-import { getSelectedActivePuzzleSolves } from '../reducers';
+import { getSelectedActivePuzzleSolves } from '../reducers/solves';
 import { deselectActivePuzzleSolves, selectAllActivePuzzleSolves } from '../actions';
 
 const SolvesHeader = ({ selectedSolveCount, onDeselectSolves, onSelectAllSolves }) => (

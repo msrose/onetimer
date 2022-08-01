@@ -3,11 +3,8 @@ import './Timer.css';
 import { connect } from 'react-redux';
 import { enterTimer, leaveTimer } from '../actions';
 import { formatTime } from './helpers';
-import {
-  getLastActivePuzzleSolve,
-  getIsPreparing, getIsReady, getIsTiming,
-  getActiveSolveSummary
-} from '../reducers';
+import { getLastActivePuzzleSolve, getActiveSolveSummary } from '../reducers/solves';
+import { getIsPreparing, getIsReady, getIsTiming } from '../reducers/timer';
 import NoSleep from '../no-sleep';
 import BatchTracker from './BatchTracker';
 

@@ -8,7 +8,7 @@ import Typography from 'material-ui/Typography';
 import './AppHeader.css';
 import { toggleDrawer } from '../actions';
 import { Route, Switch } from 'react-router-dom';
-import { getHasActiveSelectedSolves, getLastActivePuzzleSolve } from '../reducers';
+import { getHasActiveSelectedSolves, getLastActivePuzzleSolve } from '../reducers/solves';
 import { DeleteSelectedSolvesButton, DeleteLastSolveButton } from './DeleteSolvesButton';
 import { withRouter } from 'react-router-dom';
 import LastSolveOptionsMenu from './LastSolveOptionsMenu';

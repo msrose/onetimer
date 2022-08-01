@@ -1,11 +1,6 @@
 import { addSolves } from './index';
-import {
-  getActivePuzzle,
-  getIsInitial,
-  getIsReady,
-  getIsPreparing,
-  getIsTiming
-} from '../reducers';
+import { getIsInitial, getIsReady, getIsPreparing, getIsTiming } from '../reducers/timer';
+import { getActivePuzzle } from '../reducers/puzzles';
 
 export const ENTER_PREPARING_STATE = 'ENTER_PREPARING_STATE';
 

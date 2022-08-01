@@ -2,10 +2,10 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import {
   getActivePuzzleLatestBatch,
-  getSolveValue,
   getActivePuzzleRunningBatchSize,
   getActivePuzzleMaxBatchSize
-} from '../reducers';
+} from '../reducers/solves';
+import { getSolveValue } from '../reducers/solve-summary';
 import { classname } from './helpers';
 import './BatchTracker.css';
 

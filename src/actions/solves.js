@@ -3,7 +3,7 @@ import {
   getSelectedActivePuzzleSolves,
   getLastActivePuzzleSolve,
   getActivePuzzleSolves
-} from '../reducers';
+} from '../reducers/solves';
 
 import { toggleDeleteSolveMessage } from '../actions';
 

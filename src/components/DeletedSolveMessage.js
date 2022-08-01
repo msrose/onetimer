@@ -3,7 +3,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
-import { getLastDeletedSolves } from '../reducers';
+import { getLastDeletedSolves } from '../reducers/solves';
 import { toggleDeleteSolveMessage, undoLastSolveDelete } from '../actions';
 import { connect } from 'react-redux';
 

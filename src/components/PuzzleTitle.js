@@ -1,5 +1,5 @@
 import React from 'react';
-import { getActivePuzzle } from '../reducers';
+import { getActivePuzzle } from '../reducers/puzzles';
 import { connect } from 'react-redux';
 import ArrowDropDownIcon from 'material-ui-icons/ArrowDropDown';
 import { toggleSwitchPuzzle } from '../actions';

@@ -1,5 +1,5 @@
 import configureStore from '../configure-store';
-import { getIsPreparing, getIsReady, getIsTiming } from '../reducers';
+import { getIsPreparing, getIsReady, getIsTiming } from '../reducers/timer';
 import { enterTimer, leaveTimer, MS_TO_READY } from '../actions';
 
 jest.useFakeTimers();

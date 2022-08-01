@@ -5,7 +5,7 @@ import AppContent from './AppContent';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PuzzleMenu from './PuzzleMenu';
-import { getIsTiming, getIsReady } from '../reducers';
+import { getIsTiming, getIsReady } from '../reducers/timer';
 
 const App = ({ showGlobalControls }) => (
   <div className="App">

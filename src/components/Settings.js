@@ -4,7 +4,7 @@ import List, {
 } from 'material-ui/List';
 import Switch from 'material-ui/Switch';
 import { connect } from 'react-redux';
-import { getPuzzles, getPuzzleToReorder } from '../reducers';
+import { getPuzzles, getPuzzleToReorder } from '../reducers/puzzles';
 import { togglePuzzleVisible, startPuzzleReorder, chooseNewPuzzleOrder } from '../actions';
 import AppBarMargin from './AppBarMargin';
 import IconButton from 'material-ui/IconButton';

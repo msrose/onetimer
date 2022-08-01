@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
+import { createSelector } from 'reselect';
 import {
   ADD_SOLVES,
   DELETE_SOLVES,
   TOGGLE_SOLVE_DNF,
   TOGGLE_SOLVE_PENALTY
 } from '../actions';
-import { getActivePuzzle, getSolvesSelected } from '../reducers';
+import { getActivePuzzle } from '../reducers/puzzles';
+import { getSolvesSelected } from '../reducers/selected-solves';
 import { getSummaryDescriptor, getMaxBatchSize } from './solve-summary';
 import { updateObjectProperty, toggleObjectProperty } from './helpers';
 
@@ -13,33 +15,39 @@ export const getRecordedAtValues = state => {
   return state.entities.solves.recordedAtValues;
 };
 
-export const getSolvesByRecordedAt = state => {
-  const solvesSelected = getSolvesSelected(state);
-  return Object
-    .entries(state.entities.solves.byRecordedAt)
-    .reduce(
-      (solvesByRecordedAt, [recordedAt, solve]) => ({
-        ...solvesByRecordedAt,
-        [recordedAt]: {
-          ...solve,
-          selected: solvesSelected[recordedAt]
-        }
-      }),
-      {}
-    );
-};
+export const getSolvesByRecordedAt = createSelector(
+  getSolvesSelected,
+  state => state.entities.solves.byRecordedAt,
+  (solvesSelected, solves) => {
+    return Object
+      .entries(solves)
+      .reduce(
+        (solvesByRecordedAt, [recordedAt, solve]) => ({
+          ...solvesByRecordedAt,
+          [recordedAt]: {
+            ...solve,
+            selected: solvesSelected[recordedAt]
+          }
+        }),
+        {}
+      );
+  }
+);
 
 export const getLastDeletedSolves = state => {
   return state.lastDeletedSolves;
 };
 
-export const getActivePuzzleSolves = state => {
-  const activePuzzle = getActivePuzzle(state);
-  const solves = getSolvesByRecordedAt(state);
-  return getRecordedAtValues(state)
-    .map(recordedAt => solves[recordedAt])
-    .filter(solve => solve.puzzle === activePuzzle);
-};
+export const getActivePuzzleSolves = createSelector(
+  getActivePuzzle,
+  getSolvesByRecordedAt,
+  getRecordedAtValues,
+  (activePuzzle, solves, recordedAtValues) => {
+    return recordedAtValues
+      .map(recordedAt => solves[recordedAt])
+      .filter(solve => solve.puzzle === activePuzzle);
+  }
+);
 
 export const getSelectedActivePuzzleSolves = state => {
   return getActivePuzzleSolves(state).filter(solve => solve.selected);
@@ -53,11 +61,13 @@ export const getActivePuzzleMaxBatchSize = state => {
   return getMaxBatchSize(getActivePuzzle(state));
 };
 
-export const getActivePuzzleLatestBatch = state => {
-  const activePuzzleSolves = getActivePuzzleSolves(state);
-  const maxBatchSize = getActivePuzzleMaxBatchSize(state);
-  return activePuzzleSolves.slice(0, maxBatchSize).reverse();
-};
+export const getActivePuzzleLatestBatch = createSelector(
+  getActivePuzzleSolves,
+  getActivePuzzleMaxBatchSize,
+  (activePuzzleSolves, maxBatchSize) => {
+    return activePuzzleSolves.slice(0, maxBatchSize).reverse();
+  }
+);
 
 export const getActivePuzzleRunningBatchSize = state => {
   const activePuzzleSolves = getActivePuzzleSolves(state);
@@ -85,13 +95,15 @@ export const getSolveCounts = state => {
     );
 };
 
-export const getActiveSolveSummary = state => {
-  const activePuzzleSolves = getActivePuzzleSolves(state);
-  const activePuzzle = getActivePuzzle(state);
-  const { valueCalculator, description } = getSummaryDescriptor(activePuzzle);
-  const value = valueCalculator(activePuzzleSolves);
-  return { value, description };
-};
+export const getActiveSolveSummary = createSelector(
+  getActivePuzzleSolves,
+  getActivePuzzle,
+  (activePuzzleSolves, activePuzzle) => {
+    const { valueCalculator, description } = getSummaryDescriptor(activePuzzle);
+    const value = valueCalculator(activePuzzleSolves);
+    return { value, description };
+  }
+);
 
 const initialByRecordedAtState = {};
 

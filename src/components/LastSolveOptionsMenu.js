@@ -3,7 +3,7 @@ import MoreVertIcon from 'material-ui-icons/MoreVert';
 import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import { toggleLastSolveOptionsMenu, toggleLastSolveDNF, toggleLastSolvePenalty } from '../actions';
-import { getLastActivePuzzleSolve } from '../reducers';
+import { getLastActivePuzzleSolve } from '../reducers/solves';
 import Popover from 'material-ui/Popover';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';

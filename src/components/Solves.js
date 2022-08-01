@@ -1,11 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AppBarMargin from './AppBarMargin';
-import {
-  getActivePuzzleSolves,
-  getHasActiveSelectedSolves,
-  getActivePuzzle
-} from '../reducers';
+import { getActivePuzzleSolves, getHasActiveSelectedSolves } from '../reducers/solves';
+import { getActivePuzzle } from '../reducers/puzzles';
 import List from 'material-ui/List';
 import { toggleSolvesSelected } from '../actions';
 import Solve from './Solve';

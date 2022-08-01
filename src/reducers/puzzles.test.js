@@ -6,7 +6,7 @@ import {
   getVisiblePuzzleNames,
   getPuzzleToReorder,
   getPuzzleNames
-} from '../reducers';
+} from '../reducers/puzzles';
 import {
   setActivePuzzle,
   togglePuzzleVisible,

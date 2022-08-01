@@ -3,7 +3,8 @@ import { MenuItem, MenuList } from 'material-ui/Menu';
 import Drawer from 'material-ui/Drawer';
 import { connect } from 'react-redux';
 import './PuzzleMenu.css';
-import { getVisiblePuzzleNames, getActivePuzzle, getSolveCounts } from '../reducers';
+import { getVisiblePuzzleNames, getActivePuzzle } from '../reducers/puzzles';
+import { getSolveCounts } from '../reducers/solves';
 import { toggleSwitchPuzzle, setActivePuzzle } from '../actions';
 
 class PuzzleMenuItem extends Component {

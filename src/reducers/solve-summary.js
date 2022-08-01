@@ -1,4 +1,4 @@
-import { Puzzles } from '../reducers';
+import { Puzzles } from '../reducers/puzzles';
 
 export const getSolveValue = solve => {
   // Returning Infinity for DNF so average calculation works out
