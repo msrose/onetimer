@@ -1,4 +1,4 @@
-import { formatTime } from './helpers';
+import { formatTime, classname } from './helpers';
 
 describe('formatTime helper', () => {
   describe('showing sub-second precision', () => {
@@ -81,5 +81,13 @@ describe('formatTime helper', () => {
     it('formats a time greater than 100 hours', () => {
       expect(formatTimeNoSubSecond(360061589)).toBe('100:01:01');
     });
+  });
+});
+
+describe('classnames helper', () => {
+  it('generates the correct classname', () => {
+    expect(classname({ red: true, blue: false, green: true })).toBe('red green');
+    expect(classname({ red: false, blue: false, green: false })).toBe('');
+    expect(classname({ red: true, blue: true, green: true })).toBe('red blue green');
   });
 });

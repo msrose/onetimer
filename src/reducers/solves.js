@@ -49,11 +49,20 @@ export const getLastActivePuzzleSolve = state => {
   return getActivePuzzleSolves(state)[0] || null;
 };
 
+export const getActivePuzzleMaxBatchSize = state => {
+  return getMaxBatchSize(getActivePuzzle(state));
+};
+
 export const getActivePuzzleLatestBatch = state => {
   const activePuzzleSolves = getActivePuzzleSolves(state);
-  const maxBatchSize = getMaxBatchSize(getActivePuzzle(state));
-  const latestBatchSize = activePuzzleSolves.length % maxBatchSize || maxBatchSize;
-  return activePuzzleSolves.slice(0, latestBatchSize).reverse();
+  const maxBatchSize = getActivePuzzleMaxBatchSize(state);
+  return activePuzzleSolves.slice(0, maxBatchSize).reverse();
+};
+
+export const getActivePuzzleRunningBatchSize = state => {
+  const activePuzzleSolves = getActivePuzzleSolves(state);
+  const maxBatchSize = getActivePuzzleMaxBatchSize(state);
+  return activePuzzleSolves.length % maxBatchSize || maxBatchSize;
 };
 
 export const getHasActiveSelectedSolves = state => {

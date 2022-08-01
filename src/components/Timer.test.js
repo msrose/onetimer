@@ -2,7 +2,6 @@ import React from 'react';
 import { Timer } from './Timer';
 import { mount } from 'enzyme';
 import NoSleep from '../no-sleep';
-import Puzzles from '../reducers';
 
 jest.mock('../no-sleep');
 
@@ -19,8 +18,6 @@ describe('Timer component', () => {
         isPreparing={false}
         lastSolveDuration={0}
         displayCounter={0}
-        latestBatch={[]}
-        activePuzzle={Puzzles.THREE_BY_THREE}
       />
     );
     NoSleep.prototype.enable.mockReset();

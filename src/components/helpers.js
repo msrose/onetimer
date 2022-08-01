@@ -19,3 +19,9 @@ export const formatTime = (value, { showSubSecond = true } = {}) => {
   return (hours > 0 ? `${hours}:` : '') +
     (min > 0 || hours > 0 ? `${min}:` : '') + sec + (showSubSecond ? `.${ms}` : '');
 };
+
+export const classname = classnameObject => {
+  return Object.entries(classnameObject).reduce((finalClassName, [className, test]) => {
+    return finalClassName + (test ? ' ' + className : '');
+  }, '').trim();
+};

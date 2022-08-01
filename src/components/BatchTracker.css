@@ -1,0 +1,32 @@
+.BatchTracker {
+  height: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 17px;
+}
+
+.BatchTracker-dot {
+  width: 5px;
+  height: 100%;
+  background-color: lightgray;
+  margin-right: 2px;
+  margin-left: 2px;
+}
+
+.BatchTracker-worst {
+  background-color: red;
+}
+
+.BatchTracker-best {
+  background-color: green;
+}
+
+.BatchTracker-separator {
+  background-color: gray;
+  width: 1px;
+  height: 100%;
+  margin-right: 2px;
+  margin-left: 2px;
+}

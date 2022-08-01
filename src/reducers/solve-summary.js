@@ -1,6 +1,6 @@
 import { Puzzles } from '../reducers';
 
-const getSolveValue = solve => {
+export const getSolveValue = solve => {
   // Returning Infinity for DNF so average calculation works out
   // Maybe a bit hacky, but it works fine so just deal with it.
   return (solve.isDNF ? Infinity : solve.duration) + (solve.hasPenalty ? 2000 : 0);
