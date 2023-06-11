@@ -20,7 +20,9 @@ export const getAllSolvesByRecordedAt = state => {
 };
 
 export const getMostRecentSolvesByRecordedAt = state => {
-  return state.entities.solves.byRecordedAt.mostRecentSolves;
+  // Didn't work as expected so disabling mostRecentSolves for now.
+  // return state.entities.solves.byRecordedAt.mostRecentSolves;
+  return getAllSolvesByRecordedAt(state);
 };
 
 export const getSolvesByRecordedAt = createSelector(
@@ -168,48 +170,49 @@ const initialAllSolvesState = {};
 
 const allSolves = makeByRecordedAtReducer(initialAllSolvesState);
 
-const initialMostRecentSolvesState = {};
+// const initialMostRecentSolvesState = {};
 
-const MOST_RECENT_LIMIT = 5;
+// const MOST_RECENT_LIMIT = 5;
 
-function limitSolves(byRecordedAt) {
-  return Object
-    .keys(byRecordedAt)
-    .sort()
-    .reverse()
-    .slice(0, MOST_RECENT_LIMIT)
-    .reduce((solvesByRecordedAt, recordedAt) => {
-      return {
-        ...solvesByRecordedAt,
-        [recordedAt]: byRecordedAt[recordedAt]
-      };
-    }, {});
-}
+// function limitSolves(byRecordedAt) {
+//   return Object
+//     .keys(byRecordedAt)
+//     .sort()
+//     .reverse()
+//     .slice(0, MOST_RECENT_LIMIT)
+//     .reduce((solvesByRecordedAt, recordedAt) => {
+//       return {
+//         ...solvesByRecordedAt,
+//         [recordedAt]: byRecordedAt[recordedAt]
+//       };
+//     }, {});
+// }
 
-function mostRecentSolves(state = initialMostRecentSolvesState, action) {
-  const updatedMostRecentSolves = makeByRecordedAtReducer(initialMostRecentSolvesState)(state, action);
-  return limitSolves(updatedMostRecentSolves);
-}
+// function mostRecentSolves(state = initialMostRecentSolvesState, action) {
+//   const updatedMostRecentSolves = makeByRecordedAtReducer(initialMostRecentSolvesState)(state, action);
+//   return limitSolves(updatedMostRecentSolves);
+// }
 
 const initialByRecordedAtState = {
-  allSolves: initialAllSolvesState,
-  mostRecentSolves: initialMostRecentSolvesState
+  allSolves: initialAllSolvesState
+  // mostRecentSolves: initialMostRecentSolvesState
 };
 
 function byRecordedAt(state = initialByRecordedAtState, action) {
   const updatedAllSolves = allSolves(state.allSolves, action);
-  let updatedMostRecentSolves = mostRecentSolves(state.mostRecentSolves, action);
+  // Didn't work as expected so disabling mostRecentSolves for now.
+  // let updatedMostRecentSolves = mostRecentSolves(state.mostRecentSolves, action);
 
-  const updatedMostRecentRecordedAtTimes = Object.keys(updatedMostRecentSolves);
-  const mostRecentCount = updatedMostRecentRecordedAtTimes.length;
+  // const updatedMostRecentRecordedAtTimes = Object.keys(updatedMostRecentSolves);
+  // const mostRecentCount = updatedMostRecentRecordedAtTimes.length;
 
-  if(mostRecentCount < MOST_RECENT_LIMIT && mostRecentCount < Object.keys(updatedAllSolves).length) {
-    updatedMostRecentSolves = limitSolves(updatedAllSolves);
-  }
+  // if(mostRecentCount < MOST_RECENT_LIMIT && mostRecentCount < Object.keys(updatedAllSolves).length) {
+  //   updatedMostRecentSolves = limitSolves(updatedAllSolves);
+  // }
 
   return {
-    allSolves: updatedAllSolves,
-    mostRecentSolves: updatedMostRecentSolves
+    allSolves: updatedAllSolves
+    // mostRecentSolves: updatedMostRecentSolves
   };
 }
 
