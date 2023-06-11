@@ -34,7 +34,9 @@ export const getSolvesByRecordedAt = createSelector(
           ...solvesByRecordedAt,
           [recordedAt]: {
             ...solve,
-            selected: solvesSelected[recordedAt]
+            selected: typeof solvesSelected[recordedAt] === 'undefined' ?
+              false :
+              solvesSelected[recordedAt]
           }
         }),
         {}
