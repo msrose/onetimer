@@ -34,10 +34,6 @@ export const getSolvesByRecordedAt = createSelector(
   }
 );
 
-export const getMostRecentSolvesByRecordedAt = state => {
-  return state.entities.solves.mostRecentSolves;
-};
-
 export const getLastDeletedSolves = state => {
   return state.lastDeletedSolves;
 };
@@ -58,28 +54,15 @@ export const getSelectedActivePuzzleSolves = state => {
 };
 
 export const getLastActivePuzzleSolve = state => {
-  return getMostRecentActivePuzzleSolves(state)[0] || null;
+  return getActivePuzzleSolves(state)[0] || null;
 };
-
-export const getMostRecentActivePuzzleSolves = createSelector(
-  getActivePuzzle,
-  getMostRecentSolvesByRecordedAt,
-  (activePuzzle, solves) => {
-    return Object
-      .keys(solves)
-      .sort()
-      .reverse()
-      .map(recordedAt => solves[recordedAt])
-      .filter(solve => solve.puzzle === activePuzzle);
-  }
-);
 
 export const getActivePuzzleMaxBatchSize = state => {
   return getMaxBatchSize(getActivePuzzle(state));
 };
 
 export const getActivePuzzleLatestBatch = createSelector(
-  getMostRecentActivePuzzleSolves,
+  getActivePuzzleSolves,
   getActivePuzzleMaxBatchSize,
   (activePuzzleSolves, maxBatchSize) => {
     return activePuzzleSolves.slice(0, maxBatchSize).reverse();
@@ -113,7 +96,7 @@ export const getSolveCounts = state => {
 };
 
 export const getActiveSolveSummary = createSelector(
-  getMostRecentActivePuzzleSolves,
+  getActivePuzzleSolves,
   getActivePuzzle,
   (activePuzzleSolves, activePuzzle) => {
     const { valueCalculator, description } = getSummaryDescriptor(activePuzzle);
@@ -122,6 +105,8 @@ export const getActiveSolveSummary = createSelector(
   }
 );
 
+const initialByRecordedAtState = {};
+
 const toggleSolveProperty = (state, recordedAt, property) =>
   updateObjectProperty(
     state,
@@ -129,57 +114,39 @@ const toggleSolveProperty = (state, recordedAt, property) =>
     solve => toggleObjectProperty(solve, property)
   );
 
-function makeByRecordedAtReducer(initialState) {
-  return function(state = initialState, action) {
-    switch(action.type) {
-      case ADD_SOLVES:
-        return {
-          ...state,
-          ...action.solves.reduce(
-            (recordedAtMap, solve) => ({
-              ...recordedAtMap,
-              [solve.recordedAt]: solve
-            }),
-            {}
-          )
-        };
-      case TOGGLE_SOLVE_DNF:
-        return toggleSolveProperty(state, action.recordedAt, 'isDNF');
-      case TOGGLE_SOLVE_PENALTY:
-        return toggleSolveProperty(state, action.recordedAt, 'hasPenalty');
-      case DELETE_SOLVES:
-        return Object
-          .values(state)
-          .filter(
-            solve => !action.solves.some(({ recordedAt }) => solve.recordedAt === recordedAt)
-          )
-          .reduce(
-            (solves, solve) => ({
-              ...solves,
-              [solve.recordedAt]: solve
-            }),
-            {}
-          );
-      default:
-        return state;
-    }
-  };
-}
-
-const initialByRecordedAtState = {};
-
-const byRecordedAt = makeByRecordedAtReducer(initialByRecordedAtState);
-
-const initialMostRecentSolvesState = {};
-
-function mostRecentSolves(state = initialMostRecentSolvesState, action) {
-  const updatedState = makeByRecordedAtReducer(initialMostRecentSolvesState)(state, action);
-  return Object.keys(updatedState).sort().reverse().slice(0, 5).reduce((solvesByRecordedAt, recordedAt) => {
-    return {
-      ...solvesByRecordedAt,
-      [recordedAt]: updatedState[recordedAt]
-    };
-  }, {});
+function byRecordedAt(state = initialByRecordedAtState, action) {
+  switch(action.type) {
+    case ADD_SOLVES:
+      return {
+        ...state,
+        ...action.solves.reduce(
+          (recordedAtMap, solve) => ({
+            ...recordedAtMap,
+            [solve.recordedAt]: solve
+          }),
+          {}
+        )
+      };
+    case TOGGLE_SOLVE_DNF:
+      return toggleSolveProperty(state, action.recordedAt, 'isDNF');
+    case TOGGLE_SOLVE_PENALTY:
+      return toggleSolveProperty(state, action.recordedAt, 'hasPenalty');
+    case DELETE_SOLVES:
+      return Object
+        .values(state)
+        .filter(
+          solve => !action.solves.some(({ recordedAt }) => solve.recordedAt === recordedAt)
+        )
+        .reduce(
+          (solves, solve) => ({
+            ...solves,
+            [solve.recordedAt]: solve
+          }),
+          {}
+        );
+    default:
+      return state;
+  }
 }
 
 const initialLastDeletedState = [];
@@ -220,6 +187,5 @@ export function recordedAtValues(state = initialRecordedAtValuesState, action) {
 
 export default combineReducers({
   byRecordedAt,
-  recordedAtValues,
-  mostRecentSolves
+  recordedAtValues
 });
