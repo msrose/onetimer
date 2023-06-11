@@ -15,17 +15,9 @@ export const getRecordedAtValues = state => {
   return state.entities.solves.recordedAtValues;
 };
 
-export const getAllSolvesByRecordedAt = state => {
-  return state.entities.solves.byRecordedAt.allSolves;
-};
-
-export const getMostRecentSolvesByRecordedAt = state => {
-  return state.entities.solves.byRecordedAt.mostRecentSolves;
-};
-
 export const getSolvesByRecordedAt = createSelector(
   getSolvesSelected,
-  getAllSolvesByRecordedAt,
+  state => state.entities.solves.byRecordedAt,
   (solvesSelected, solves) => {
     return Object
       .entries(solves)
@@ -41,6 +33,10 @@ export const getSolvesByRecordedAt = createSelector(
       );
   }
 );
+
+export const getMostRecentSolvesByRecordedAt = state => {
+  return state.entities.solves.mostRecentSolves;
+};
 
 export const getLastDeletedSolves = state => {
   return state.lastDeletedSolves;
@@ -154,61 +150,36 @@ function makeByRecordedAtReducer(initialState) {
       case DELETE_SOLVES:
         return Object
           .values(state)
-          .filter(solve => !action.solves.some(({ recordedAt }) => solve.recordedAt === recordedAt))
-          .reduce((solves, solve) => ({ ...solves, [solve.recordedAt]: solve }), {});
+          .filter(
+            solve => !action.solves.some(({ recordedAt }) => solve.recordedAt === recordedAt)
+          )
+          .reduce(
+            (solves, solve) => ({
+              ...solves,
+              [solve.recordedAt]: solve
+            }),
+            {}
+          );
       default:
         return state;
     }
   };
 }
 
-const initialAllSolvesState = {};
+const initialByRecordedAtState = {};
 
-const allSolves = makeByRecordedAtReducer(initialAllSolvesState);
+const byRecordedAt = makeByRecordedAtReducer(initialByRecordedAtState);
 
 const initialMostRecentSolvesState = {};
 
-const MOST_RECENT_LIMIT = 5;
-
-function limitSolves(byRecordedAt) {
-  return Object
-    .keys(byRecordedAt)
-    .sort()
-    .reverse()
-    .slice(0, MOST_RECENT_LIMIT)
-    .reduce((solvesByRecordedAt, recordedAt) => {
-      return {
-        ...solvesByRecordedAt,
-        [recordedAt]: byRecordedAt[recordedAt]
-      };
-    }, {});
-}
-
 function mostRecentSolves(state = initialMostRecentSolvesState, action) {
-  const updatedMostRecentSolves = makeByRecordedAtReducer(initialMostRecentSolvesState)(state, action);
-  return limitSolves(updatedMostRecentSolves);
-}
-
-const initialByRecordedAtState = {
-  allSolves: initialAllSolvesState,
-  mostRecentSolves: initialMostRecentSolvesState
-};
-
-function byRecordedAt(state = initialByRecordedAtState, action) {
-  const updatedAllSolves = allSolves(state.allSolves, action);
-  let updatedMostRecentSolves = mostRecentSolves(state.mostRecentSolves, action);
-
-  const updatedMostRecentRecordedAtTimes = Object.keys(updatedMostRecentSolves);
-  const mostRecentCount = updatedMostRecentRecordedAtTimes.length;
-
-  if(mostRecentCount < MOST_RECENT_LIMIT && mostRecentCount < Object.keys(updatedAllSolves).length) {
-    updatedMostRecentSolves = limitSolves(updatedAllSolves);
-  }
-
-  return {
-    allSolves: updatedAllSolves,
-    mostRecentSolves: updatedMostRecentSolves
-  };
+  const updatedState = makeByRecordedAtReducer(initialMostRecentSolvesState)(state, action);
+  return Object.keys(updatedState).sort().reverse().slice(0, 5).reduce((solvesByRecordedAt, recordedAt) => {
+    return {
+      ...solvesByRecordedAt,
+      [recordedAt]: updatedState[recordedAt]
+    };
+  }, {});
 }
 
 const initialLastDeletedState = [];
@@ -249,5 +220,6 @@ export function recordedAtValues(state = initialRecordedAtValuesState, action) {
 
 export default combineReducers({
   byRecordedAt,
-  recordedAtValues
+  recordedAtValues,
+  mostRecentSolves
 });
